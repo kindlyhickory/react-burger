@@ -12,5 +12,5 @@
 - Сборка проекта: Webpack
 
 ## Запуск:
-npm i
+npm i  
 npm run build
