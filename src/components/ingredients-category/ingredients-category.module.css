@@ -1,0 +1,10 @@
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 32px;
+  column-gap: 24px;
+}
+
+.title {
+  text-align: left;
+}

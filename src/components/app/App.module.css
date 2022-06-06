@@ -1,5 +1,11 @@
 .App {
-  /* text-align: center; */
+  position: relative;
+  z-index: 1;
+}
+
+.modal {
+  position: fixed;
+  display: flex;
 }
 
 .main {
