@@ -5,9 +5,15 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 
-const Modal = ({ closeAllModals, handleEscClose, children, title }) => {
+const Modal = ({ closeAllModals, children, title }) => {
 
   useEffect(() => {
+    const handleEscClose = (e) => {
+      if (e.key === "Escape") {
+        closeAllModals();
+      }
+    }
+
     document.addEventListener('keydown', handleEscClose);
     return () => {
       document.removeEventListener('keydown', handleEscClose)
@@ -43,7 +49,6 @@ const Modal = ({ closeAllModals, handleEscClose, children, title }) => {
 
 Modal.propTypes = {
   closeAllModals: PropTypes.func.isRequired,
-  handleEscClose: PropTypes.func.isRequired,
   children: PropTypes.element,
   title: PropTypes.string,
 }

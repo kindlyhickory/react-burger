@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import burgerIngredientStyles from "./burger-ingredient.module.css"
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types'
+import { ingredientType } from "../../utils.js/types";
 
 const BurgerIngredient = ({ onClick, ingredient }) => {
   const [count, setCount] = useState(1);
@@ -24,22 +25,7 @@ const BurgerIngredient = ({ onClick, ingredient }) => {
 }
 BurgerIngredient.propTypes = {
   onClick: PropTypes.func.isRequired,
-  ingredient: PropTypes.shape(
-    {
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-
-    }
-  ).isRequired,
+  ingredient: ingredientType.isRequired,
 }
 
 export default BurgerIngredient

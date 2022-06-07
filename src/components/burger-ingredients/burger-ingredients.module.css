@@ -2,8 +2,8 @@
   max-width: 600px;
 }
 
-.burgerCards {
-  /* height: 662px; */
+.tabs {
+  display: flex;
 }
 
 .ingredientsCategory {

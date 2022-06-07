@@ -2,6 +2,7 @@ import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-de
 import React from "react";
 import PropTypes from 'prop-types';
 import burgerConstructorStyles from "./burger-constructor.module.css";
+import { ingredientType } from "../../utils.js/types";
 
 
 const BurgerConstructor = ({ setIsOrderDetailsOpened, data }) => {
@@ -63,22 +64,7 @@ const BurgerConstructor = ({ setIsOrderDetailsOpened, data }) => {
 }
 BurgerConstructor.propTypes = {
   setIsOrderDetailsOpened: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape(
-    {
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-
-    }
-  )).isRequired,
+  data: PropTypes.arrayOf(ingredientType).isRequired,
 }
 
 export default BurgerConstructor;

@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div className={appStyles.App}>
-      <AppHeader></AppHeader>
+      <AppHeader />
       <main className={appStyles.main}>
         {data.data.length ?
           <>
@@ -57,15 +57,13 @@ function App() {
       </main>
       {isOrderDetailsOpened &&
         <Modal
-          closeAllModals={closeAllModals}
-          handleEscClose={handleEscClose}>
+          closeAllModals={closeAllModals}>
           <OrderDetails></OrderDetails>
         </Modal>
       }
       {isIngredientDetailOpened.isOpened &&
         <Modal
           closeAllModals={closeAllModals}
-          handleEscClose={handleEscClose}
           title="Детали ингредиента">
           <IngredientDetails isIngredientDetailOpened={isIngredientDetailOpened}></IngredientDetails>
         </Modal>
