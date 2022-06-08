@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from "../../images/logo.svg";
-import appStyles from './App.module.css';
+import appStyles from './app.module.css';
 import AppHeader from "../app-header/app-header"
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -40,7 +40,7 @@ function App() {
   }, [])
 
   return (
-    <div className={appStyles.App}>
+    <div className={appStyles.app}>
       <AppHeader />
       <main className={appStyles.main}>
         {data.data.length ?
