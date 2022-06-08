@@ -24,10 +24,9 @@ const BurgerConstructor = ({ setIsOrderDetailsOpened, data }) => {
           data.map((element, index) => (
             element.type !== 'bun'
             &&
-            <div className={`${burgerConstructorStyles.element}`}>
-              <DragIcon key={index} type="primary" />
+            <div key={index} className={`${burgerConstructorStyles.element}`}>
+              <DragIcon type="primary" />
               <ConstructorElement
-                key={element._id}
                 text={element.name}
                 price={element.price}
                 thumbnail={element.image}
