@@ -6,13 +6,13 @@
 
 .list {
   display: flex;
-  width: 552px;
+  width: 584px;
   max-height: 464px;
   flex-direction: column;
   row-gap: 16px;
   list-style-type: none;
   margin: 0;
-  padding: 16px 0 16px 32px;
+  padding: 16px 0 16px 0;
   overflow-y: auto;
 }
 
@@ -40,4 +40,12 @@
   flex-direction: row;
   align-items: center;
   column-gap: 8px;
+}
+
+.element {
+  width: 568px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }

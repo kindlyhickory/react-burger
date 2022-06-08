@@ -23,22 +23,16 @@ const Modal = ({ closeAllModals, children, title }) => {
   return ReactDOM.createPortal(
     <>
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
-        {title ?
-          <div className={`${styles.closeContainer_type_titled}`}>
+        <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
+          {title &&
             <h3 className="text text_type_main-large">
               {title}
             </h3>
-            <div className={styles.close}>
-              <CloseIcon type="primary" onClick={closeAllModals} />
-            </div>
+          }
+          <div className={styles.close}>
+            <CloseIcon type="primary" onClick={closeAllModals} />
           </div>
-          :
-          <div className={`${styles.closeContainer_type_untitled}`}>
-            <div className={styles.close}>
-              <CloseIcon type="primary" onClick={closeAllModals} />
-            </div>
-          </div>
-        }
+        </div>
         {children}
       </div>
       <ModalOverlay onClick={closeAllModals}></ModalOverlay>

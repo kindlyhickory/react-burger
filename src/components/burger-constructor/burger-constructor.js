@@ -1,4 +1,4 @@
-import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import PropTypes from 'prop-types';
 import burgerConstructorStyles from "./burger-constructor.module.css";
@@ -22,12 +22,17 @@ const BurgerConstructor = ({ setIsOrderDetailsOpened, data }) => {
       <div className={`${burgerConstructorStyles.list}`}>
         {
           data.map((element, index) => (
-            <ConstructorElement
-              key={index}
-              text={element.name}
-              price={element.price}
-              thumbnail={element.image}
-            />
+            element.type !== 'bun'
+            &&
+            <div className={`${burgerConstructorStyles.element}`}>
+              <DragIcon key={index} type="primary" />
+              <ConstructorElement
+                key={element._id}
+                text={element.name}
+                price={element.price}
+                thumbnail={element.image}
+              />
+            </div>
           ))
         }
       </div>
@@ -46,7 +51,7 @@ const BurgerConstructor = ({ setIsOrderDetailsOpened, data }) => {
         <div className={burgerConstructorStyles.price}>
           <p className="text text_type_digits-medium">{
             data.reduce((acc, ingredient) => {
-              const newAcc = acc + ingredient.price;
+              const newAcc = acc + (ingredient.type !== 'bun' ? ingredient.price : 0);
               return newAcc;
             }, 0)
           }</p>
