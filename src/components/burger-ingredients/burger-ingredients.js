@@ -4,7 +4,7 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import PropTypes from 'prop-types'
 
-const BurgerIngredients = ({ setIsIngredientDetailOpened, data }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState('bun');
 
   const scroll = (string) => {
@@ -32,32 +32,31 @@ const BurgerIngredients = ({ setIsIngredientDetailOpened, data }) => {
         </Tab>
       </div>
       <div className={`${burgerIngredientsStyles.ingredientsCategory}`}>
-        <IngredientsCategory setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Булки'} titleId={'bun'} ingredients={data.filter(element => element.type === "bun")}></IngredientsCategory>
-        <IngredientsCategory setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Соусы'} titleId={'sauce'} ingredients={data.filter(element => element.type === "sauce")}></IngredientsCategory>
-        <IngredientsCategory setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Начинки'} titleId={'main'} ingredients={data.filter(element => element.type === "main")}></IngredientsCategory>
+        <IngredientsCategory title={'Булки'} titleId={'bun'}></IngredientsCategory>
+        <IngredientsCategory title={'Соусы'} titleId={'sauce'}></IngredientsCategory>
+        <IngredientsCategory title={'Начинки'} titleId={'main'}></IngredientsCategory>
       </div>
     </section>
   )
 }
 
-BurgerIngredients.propTypes = {
-  setIsIngredientDetailOpened: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape(
-    {
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
+// BurgerIngredients.propTypes = {
+//   data: PropTypes.arrayOf(PropTypes.shape(
+//     {
+//       _id: PropTypes.string,
+//       name: PropTypes.string,
+//       type: PropTypes.string,
+//       proteins: PropTypes.number,
+//       fat: PropTypes.number,
+//       carbohydrates: PropTypes.number,
+//       calories: PropTypes.number,
+//       price: PropTypes.number,
+//       image: PropTypes.string,
+//       image_mobile: PropTypes.string,
+//       image_large: PropTypes.string,
 
-    }
-  )).isRequired,
-}
+//     }
+//   )).isRequired,
+// }
 
 export default BurgerIngredients;

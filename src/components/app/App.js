@@ -9,65 +9,48 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const [data, setData] = useState({ data: [] })
-  const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
-  const [isIngredientDetailOpened, setIsIngredientDetailOpened] = useState({ ingredient: '', isOpened: false });
+  const modalOrderIsOpened = useSelector(store => store.order.modalOrderIsOpened);
+  const currentViewedIngredient = useSelector(store => store.ingredients.currentViewedIngredient);
 
-  const closeAllModals = () => {
-    setIsOrderDetailsOpened(false);
-    setIsIngredientDetailOpened({ ingredient: '', isOpened: false })
-  }
+  const dispatch = useDispatch();
+  const data = useSelector(store => store.ingredients.ingredients);
 
-  const handleEscClose = (e) => {
-    if (e.key === "Escape") {
-      closeAllModals();
-    }
-  }
 
 
   useEffect(() => {
-    fetch(config.baseUrl)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}`)
-      })
-      .then((res) => setData({ data: res.data }))
-      .catch((error) => console.log(error))
-  }, [])
+    dispatch(getIngredients());
+  }, [dispatch])
 
   return (
     <div className={appStyles.App}>
       <AppHeader></AppHeader>
       <main className={appStyles.main}>
-        {data.data.length ?
-          <>
-            <BurgerIngredients
-              setIsIngredientDetailOpened={setIsIngredientDetailOpened}
-              data={data.data} />
-            <BurgerConstructor
-              setIsOrderDetailsOpened={setIsOrderDetailsOpened}
-              data={data.data} />
-          </>
-          :
-          null}
+        {
+          data.length ?
+            <DndProvider backend={HTML5Backend}>
+              <>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </>
+            </DndProvider>
+            :
+            null}
       </main>
-      {isOrderDetailsOpened &&
-        <Modal
-          closeAllModals={closeAllModals}
-          handleEscClose={handleEscClose}>
+      {modalOrderIsOpened &&
+        <Modal>
           <OrderDetails></OrderDetails>
         </Modal>
       }
-      {isIngredientDetailOpened.isOpened &&
+      {currentViewedIngredient &&
         <Modal
-          closeAllModals={closeAllModals}
-          handleEscClose={handleEscClose}
           title="Детали ингредиента">
-          <IngredientDetails isIngredientDetailOpened={isIngredientDetailOpened}></IngredientDetails>
+          <IngredientDetails></IngredientDetails>
         </Modal>
       }
     </div>

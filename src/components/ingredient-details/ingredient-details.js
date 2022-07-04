@@ -1,14 +1,18 @@
 import React from "react";
 import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
 
-const IngredientDetails = ({ isIngredientDetailOpened }) => {
+const IngredientDetails = () => {
+
+  const ingredient = useSelector(store => store.ingredients.currentViewedIngredient);
+  const dispatch = useDispatch();
 
   return (
     <div className={`${styles.ingredient}`}>
-      <img className='mb-4' src={isIngredientDetailOpened.ingredient.image_large}></img>
+      <img className='mb-4' src={ingredient.image_large}></img>
       <p className="text text_type_main-medium mb-8">
-        {isIngredientDetailOpened.ingredient.name}
+        {ingredient.name}
       </p>
       <div className={`${styles.calories}`}>
         <div>
@@ -16,7 +20,7 @@ const IngredientDetails = ({ isIngredientDetailOpened }) => {
             Калории, ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {isIngredientDetailOpened.ingredient.calories}
+            {ingredient.calories}
           </p>
         </div>
         <div>
@@ -24,7 +28,7 @@ const IngredientDetails = ({ isIngredientDetailOpened }) => {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {isIngredientDetailOpened.ingredient.proteins}
+            {ingredient.proteins}
           </p>
         </div>
         <div>
@@ -32,7 +36,7 @@ const IngredientDetails = ({ isIngredientDetailOpened }) => {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {isIngredientDetailOpened.ingredient.fat}
+            {ingredient.fat}
           </p>
         </div>
         <div>
@@ -40,7 +44,7 @@ const IngredientDetails = ({ isIngredientDetailOpened }) => {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {isIngredientDetailOpened.ingredient.carbohydrates}
+            {ingredient.carbohydrates}
           </p>
         </div>
 
