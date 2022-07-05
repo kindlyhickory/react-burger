@@ -9,7 +9,6 @@ import { HIDE_MODAL_INGREDIENT } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/index";
 const Modal = ({ children, title }) => {
 
-<<<<<<< HEAD
   const dispatch = useDispatch();
 
   function handleEsc(e) {
@@ -26,18 +25,6 @@ const Modal = ({ children, title }) => {
 
   useEffect(() => {
     document.addEventListener('keydown', handleEsc);
-=======
-const Modal = ({ closeAllModals, children, title }) => {
-
-  useEffect(() => {
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        closeAllModals();
-      }
-    }
-
-    document.addEventListener('keydown', handleEscClose);
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
     return () => {
       document.removeEventListener('keydown', handleEsc)
     }
@@ -47,27 +34,25 @@ const Modal = ({ closeAllModals, children, title }) => {
     <>
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
-          {title &&
-            <h3 className="text text_type_main-large">
-              {title}
-            </h3>
-<<<<<<< HEAD
-            <div className={styles.close}>
-              <CloseIcon type="primary" onClick={closeModal} />
+          {title ?
+            <div>
+              <h3 className="text text_type_main-large">
+                {title}
+              </h3>
+              <div className={styles.close}>
+                <CloseIcon type="primary" onClick={closeModal} />
+              </div>
             </div>
-          </div>
-          :
-          <div className={`${styles.closeContainer_type_untitled}`}>
-            <div className={styles.close}>
-              <CloseIcon type="primary" onClick={closeModal} />
+            :
+            <div className={`${styles.closeContainer_type_untitled}`}>
+              <div className={styles.close}>
+                <CloseIcon type="primary" onClick={closeModal} />
+              </div>
             </div>
-=======
           }
-          <div className={styles.close}>
-            <CloseIcon type="primary" onClick={closeAllModals} />
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
-          </div>
         </div>
+
+
         {children}
       </div>
       <ModalOverlay onClick={closeModal}></ModalOverlay>
@@ -77,10 +62,6 @@ const Modal = ({ closeAllModals, children, title }) => {
 }
 
 Modal.propTypes = {
-<<<<<<< HEAD
-=======
-  closeAllModals: PropTypes.func.isRequired,
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
   children: PropTypes.element,
   title: PropTypes.string,
 }

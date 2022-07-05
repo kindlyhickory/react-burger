@@ -16,13 +16,10 @@
     "react-intersection-observer": "^8.32.5",
     "react-redux": "^8.0.2",
     "react-scripts": "4.0.3",
-<<<<<<< HEAD
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "sortablejs": "^1.15.0",
-=======
     "shebang-regex": "^4.0.0",
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {

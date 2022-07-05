@@ -3,7 +3,6 @@ import burgerIngredientStyles from "./burger-ingredient.module.css"
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { SHOW_MODAL_INGREDIENT } from "../../services/actions/ingredients";
 import PropTypes from 'prop-types'
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { nanoid } from "nanoid";
@@ -25,9 +24,6 @@ const BurgerIngredient = ({ ingredient }) => {
       isDrag: monitor.isDragging()
     })
   })
-=======
-import { ingredientType } from "../../utils.js/types";
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 
   return (
     !isDrag &&
@@ -55,7 +51,6 @@ import { ingredientType } from "../../utils.js/types";
   )
 }
 BurgerIngredient.propTypes = {
-<<<<<<< HEAD
   ingredient: PropTypes.shape(
     {
       _id: PropTypes.string,
@@ -72,10 +67,6 @@ BurgerIngredient.propTypes = {
 
     }
   ).isRequired,
-=======
-  onClick: PropTypes.func.isRequired,
-  ingredient: ingredientType.isRequired,
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 }
 
 export default BurgerIngredient

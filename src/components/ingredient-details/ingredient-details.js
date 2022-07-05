@@ -1,11 +1,8 @@
 import React from "react";
 import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
-=======
 import { ingredientType } from "../../utils.js/types";
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 
 const IngredientDetails = () => {
 
@@ -57,8 +54,6 @@ const IngredientDetails = () => {
   )
 }
 
-<<<<<<< HEAD
-=======
 IngredientDetails.propTypes = {
   isIngredientDetailOpened: PropTypes.shape({
     ingredient: ingredientType.isRequired,
@@ -66,5 +61,4 @@ IngredientDetails.propTypes = {
   }),
 }
 
->>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 export default IngredientDetails;

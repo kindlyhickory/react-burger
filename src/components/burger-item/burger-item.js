@@ -1,9 +1,12 @@
 import React, { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
-import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-item.module.css"
+import { useDispatch } from "react-redux";
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions/ingredients";
 
 const BurgerItem = ({ item, index, moveItem }) => {
+  const dispatch = useDispatch()
   const id = item._id;
   const ref = useRef(null);
   const [, drop] = useDrop({
@@ -60,6 +63,7 @@ const BurgerItem = ({ item, index, moveItem }) => {
 
   return (
     <div ref={ref} className={`${styles.item}`} style={{ opacity }}>
+      <DragIcon type="primary" />
       <ConstructorElement
         text={item.name}
         price={item.price}
