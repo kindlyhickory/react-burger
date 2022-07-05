@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 
 import { useDrag } from "react-dnd";
 
-const IngredientsCategory = ({ title, titleId }) => {
+const IngredientsCategory = React.forwardRef(({ title, titleId }, ref) => {
   const ingredients = useSelector(store => store.ingredients.ingredients.filter(ingredient => ingredient.type === titleId));
   return (
-    <div className={`pt-10`}>
+    <div ref={ref} className={`pt-10`}>
       <h2 id={titleId} className={`text text_type_main-medium ${ingredientsCategoryStyles.title}`}>
         {title}
       </h2>
@@ -19,7 +19,7 @@ const IngredientsCategory = ({ title, titleId }) => {
       </div>
     </div>
   )
-}
+})
 
 IngredientsCategory.propTypes = {
   title: PropTypes.string.isRequired,

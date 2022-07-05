@@ -1,11 +1,14 @@
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
+import Sortable from 'sortablejs';
 import PropTypes from 'prop-types';
+import { update } from "immutability-helper";
 import burgerConstructorStyles from "./burger-constructor.module.css";
-import { SHOW_ORDER_MODAL } from "../../services/actions/index";
+import { makeOrder, SHOW_ORDER_MODAL } from "../../services/actions/index";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop } from "react-dnd";
-import { ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_BUN_FROM_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions/ingredients";
+import { useDrop, useDrag } from "react-dnd";
+import { ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR_LIST, REMOVE_BUN_FROM_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, UPDATE_CONSTRUCTOR_LIST } from "../../services/actions/ingredients";
+import BurgerItem from "../burger-item/burger-item";
 
 
 const BurgerConstructor = () => {
@@ -34,8 +37,17 @@ const BurgerConstructor = () => {
     })
   })
 
+  const moveItem = useCallback((dragIndex, hoverIndex) => {
+    dispatch({
+      type: UPDATE_CONSTRUCTOR_LIST,
+      toIndex: hoverIndex,
+      fromIndex: dragIndex,
+    });
+  }, [dispatch])
+
+
   return (
-    <div className={`${burgerConstructorStyles.burgerConstructor} ${isHover ? burgerConstructorStyles.listHover : ''} mt-25 pl-4 pr-4`}>
+    <div className={`${burgerConstructorStyles.burgerConstructor} mt-25 pl-4 pr-4`}>
       <div ref={dropTarget} className={`${isHover ? burgerConstructorStyles.listHover : ''} ${burgerConstructorStyles.ingredientsContainer}`}>
         {bun &&
           <div className="pl-8">
@@ -57,17 +69,11 @@ const BurgerConstructor = () => {
           <div className={`${burgerConstructorStyles.list}`}>
             {
               ingredientsInConstructor.map((element, index) => (
-                <ConstructorElement
+                <BurgerItem
                   key={index}
-                  text={element.name}
-                  price={element.price}
-                  thumbnail={element.image}
-                  handleClose={() => {
-                    dispatch({
-                      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-                      ingredient: element,
-                    })
-                  }}
+                  item={element}
+                  index={index}
+                  moveItem={moveItem}
                 />
               ))
             }
@@ -100,7 +106,9 @@ const BurgerConstructor = () => {
           }</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button disabled={bun ? false : true} type="primary" size="large" onClick={() => dispatch({ type: SHOW_ORDER_MODAL })}>
+        <Button disabled={bun ? false : true} type="primary" size="large" onClick={() => {
+          dispatch(makeOrder(ingredientsInConstructor.map(ingredient => ingredient._id)))
+        }}>
           {bun ? 'Нажми на меня' : "Добавьте булку для заказа"}
         </Button>
       </div>

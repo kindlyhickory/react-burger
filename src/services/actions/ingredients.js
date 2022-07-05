@@ -12,6 +12,10 @@ export const HIDE_MODAL_INGREDIENT = 'HIDE_MODAL_INGREDIENT';
 export const ADD_BUN_TO_CONSTRUCTOR = 'ADD_BUN_TO_CONSTRUCTOR';
 export const REMOVE_BUN_FROM_CONSTRUCTOR = 'REMOVE_BUN_FROM_CONSTRUCTOR';
 
+export const UPDATE_CONSTRUCTOR_LIST = "UPDATE_CONSTRUCTOR_LIST";
+
+export const CLEAR_CONSTRUCTOR_LIST = "CLEAR_CONSTRUCTOR_LIST";
+
 export function getIngredients() {
   return function (dispatch) {
     dispatch({

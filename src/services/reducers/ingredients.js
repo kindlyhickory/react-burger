@@ -7,8 +7,10 @@ import {
   ADD_INGREDIENT_TO_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
   ADD_BUN_TO_CONSTRUCTOR,
-  REMOVE_BUN_FROM_CONSTRUCTOR
-} from "../actions/ingredients"
+  REMOVE_BUN_FROM_CONSTRUCTOR,
+  UPDATE_CONSTRUCTOR_LIST,
+  CLEAR_CONSTRUCTOR_LIST
+} from "../actions/ingredients";
 
 const initialState = {
   ingredients: [],
@@ -78,6 +80,17 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         bunInConstructor: null,
+      }
+    }
+    case UPDATE_CONSTRUCTOR_LIST: {
+      const ingredientsInConstructor = [...state.ingredientsInConstructor];
+      ingredientsInConstructor.splice(
+        action.toIndex,
+        0,
+        ingredientsInConstructor.splice(action.fromIndex, 1)[0]);
+      return {
+        ...state,
+        ingredientsInConstructor: [...ingredientsInConstructor],
       }
     }
     default:
