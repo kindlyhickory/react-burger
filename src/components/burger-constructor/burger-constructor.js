@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useRef, useCallback } from "react";
 import Sortable from 'sortablejs';
+=======
+import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import React from "react";
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 import PropTypes from 'prop-types';
 import { update } from "immutability-helper";
 import burgerConstructorStyles from "./burger-constructor.module.css";
+<<<<<<< HEAD
 import { makeOrder, SHOW_ORDER_MODAL } from "../../services/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
@@ -44,10 +50,14 @@ const BurgerConstructor = () => {
       fromIndex: dragIndex,
     });
   }, [dispatch])
+=======
+import { ingredientType } from "../../utils.js/types";
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 
 
   return (
     <div className={`${burgerConstructorStyles.burgerConstructor} mt-25 pl-4 pr-4`}>
+<<<<<<< HEAD
       <div ref={dropTarget} className={`${isHover ? burgerConstructorStyles.listHover : ''} ${burgerConstructorStyles.ingredientsContainer}`}>
         {bun &&
           <div className="pl-8">
@@ -94,13 +104,45 @@ const BurgerConstructor = () => {
               }}
             />
           </div>
+=======
+      <div className="pl-8">
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={data.find(el => {
+            return el._id === "60d3b41abdacab0026a733c6"
+          }).image}
+        />
+      </div>
+      <div className={`${burgerConstructorStyles.list}`}>
+        {
+          data.map((element, index) => (
+            element.type !== 'bun'
+            &&
+            <div key={index} className={`${burgerConstructorStyles.element}`}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={element.name}
+                price={element.price}
+                thumbnail={element.image}
+              />
+            </div>
+          ))
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
         }
       </div>
       <div className={burgerConstructorStyles.order}>
         <div className={burgerConstructorStyles.price}>
           <p className="text text_type_digits-medium">{
+<<<<<<< HEAD
             ingredientsInConstructor.reduce((acc, ingredient) => {
               const newAcc = acc + ingredient.price;
+=======
+            data.reduce((acc, ingredient) => {
+              const newAcc = acc + (ingredient.type !== 'bun' ? ingredient.price : 0);
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
               return newAcc;
             }, bun ? bun.price * 2 : 0)
           }</p>
@@ -118,6 +160,7 @@ const BurgerConstructor = () => {
   )
 
 }
+<<<<<<< HEAD
 // BurgerConstructor.propTypes = {
 //   data: PropTypes.arrayOf(PropTypes.shape(
 //     {
@@ -136,5 +179,11 @@ const BurgerConstructor = () => {
 //     }
 //   )).isRequired,
 // }
+=======
+BurgerConstructor.propTypes = {
+  setIsOrderDetailsOpened: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(ingredientType).isRequired,
+}
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5
 
 export default BurgerConstructor;

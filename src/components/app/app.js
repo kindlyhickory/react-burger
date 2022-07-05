@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from "../../images/logo.svg";
-import appStyles from './App.module.css';
+import appStyles from './app.module.css';
 import AppHeader from "../app-header/app-header"
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -28,8 +28,8 @@ function App() {
   }, [dispatch])
 
   return (
-    <div className={appStyles.App}>
-      <AppHeader></AppHeader>
+    <div className={appStyles.app}>
+      <AppHeader />
       <main className={appStyles.main}>
         {
           data.length ?
@@ -42,13 +42,23 @@ function App() {
             :
             null}
       </main>
+<<<<<<< HEAD:src/components/app/App.js
       {modalOrderIsOpened &&
         <Modal>
+=======
+      {isOrderDetailsOpened &&
+        <Modal
+          closeAllModals={closeAllModals}>
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5:src/components/app/app.js
           <OrderDetails></OrderDetails>
         </Modal>
       }
       {currentViewedIngredient &&
         <Modal
+<<<<<<< HEAD:src/components/app/App.js
+=======
+          closeAllModals={closeAllModals}
+>>>>>>> 634b4f7a1918e89bf4b01e247a7066ecde835ff5:src/components/app/app.js
           title="Детали ингредиента">
           <IngredientDetails></IngredientDetails>
         </Modal>
