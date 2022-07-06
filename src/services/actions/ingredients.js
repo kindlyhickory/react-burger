@@ -1,4 +1,5 @@
-import { config } from "../../utils.js/data";
+import { config } from "../../utils/data";
+import { checkResponse } from "../../utils/utils";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -21,13 +22,8 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     })
-    fetch(config.baseUrl)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}`)
-      })
+    fetch(`${config.baseUrl}/ingredients`)
+      .then(checkResponse)
       .then((res) => dispatch({
         type: GET_INGREDIENTS_SUCCESS,
         ingredients: res.data,

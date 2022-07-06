@@ -4,8 +4,11 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import styles from "./burger-item.module.css"
 import { useDispatch } from "react-redux";
 import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions/ingredients";
+import PropTypes from 'prop-types';
+import { ingredientType } from "../../utils/types";
 
 const BurgerItem = ({ item, index, moveItem }) => {
+
   const dispatch = useDispatch()
   const id = item._id;
   const ref = useRef(null);
@@ -77,6 +80,12 @@ const BurgerItem = ({ item, index, moveItem }) => {
       />
     </div>
   )
+}
+
+BurgerItem.propTypes = {
+  item: ingredientType.isRequired,
+  index: PropTypes.number.isRequired,
+  moveItem: PropTypes.func.isRequired
 }
 
 export default BurgerItem;

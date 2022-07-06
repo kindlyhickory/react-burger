@@ -7,20 +7,16 @@ import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { HIDE_MODAL_INGREDIENT } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/index";
-const Modal = ({ children, title }) => {
+
+
+const Modal = ({ children, title, onClose }) => {
 
   const dispatch = useDispatch();
 
   function handleEsc(e) {
     if (e.key === "Escape") {
-      dispatch({ type: HIDE_MODAL_INGREDIENT })
-      dispatch({ type: HIDE_ORDER_MODAL });
+      onClose();
     }
-  }
-
-  function closeModal() {
-    dispatch({ type: HIDE_MODAL_INGREDIENT });
-    dispatch({ type: HIDE_ORDER_MODAL });
   }
 
   useEffect(() => {
@@ -34,28 +30,22 @@ const Modal = ({ children, title }) => {
     <>
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
-          {title ?
-            <div>
-              <h3 className="text text_type_main-large">
-                {title}
-              </h3>
-              <div className={styles.close}>
-                <CloseIcon type="primary" onClick={closeModal} />
-              </div>
-            </div>
-            :
-            <div className={`${styles.closeContainer_type_untitled}`}>
-              <div className={styles.close}>
-                <CloseIcon type="primary" onClick={closeModal} />
-              </div>
-            </div>
+          {title &&
+            <h3 className="text text_type_main-large">
+              {title}
+            </h3>
           }
+          <div className={`${styles.closeContainer_type_untitled}`}>
+            <div className={styles.close}>
+              <CloseIcon type="primary" onClick={onClose} />
+            </div>
+          </div>
         </div>
 
 
         {children}
       </div>
-      <ModalOverlay onClick={closeModal}></ModalOverlay>
+      <ModalOverlay onClick={onClose}></ModalOverlay>
     </>
     ,
     document.getElementById('modals'))
@@ -64,6 +54,7 @@ const Modal = ({ children, title }) => {
 Modal.propTypes = {
   children: PropTypes.element,
   title: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default Modal;

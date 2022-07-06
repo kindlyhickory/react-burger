@@ -1,4 +1,6 @@
-import { config } from "../../utils.js/data";
+import { config } from "../../utils/data";
+import { checkResponse } from "../../utils/utils";
+import { CLEAR_CONSTRUCTOR_LIST } from "./ingredients";
 
 export const MAKE_ORDER_REQUEST = "MAKE_ORDER_REQUEST";
 export const MAKE_ORDER_SUCCESS = "MAKE_ORDER_SUCCESS";
@@ -14,19 +16,14 @@ export function makeOrder(ingredients) {
     dispatch({
       type: MAKE_ORDER_REQUEST,
     })
-    fetch(config.orderUrl, {
+    fetch(`${config.baseUrl}/orders`, {
       method: "POST",
       headers: config.headers,
       body: JSON.stringify({
         ingredients: [...ingredients]
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}`)
-      })
+      .then(checkResponse)
       .then((res) => {
         dispatch({
           type: MAKE_ORDER_SUCCESS,
@@ -35,6 +32,7 @@ export function makeOrder(ingredients) {
         dispatch({
           type: SHOW_ORDER_MODAL,
         })
+        dispatch({ type: CLEAR_CONSTRUCTOR_LIST })
       })
       .catch((error) => {
         dispatch({

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { nanoid } from "nanoid";
+import { ingredientType } from "../../utils/types";
 
 const BurgerIngredient = ({ ingredient }) => {
   const dispatch = useDispatch();
@@ -51,22 +52,7 @@ const BurgerIngredient = ({ ingredient }) => {
   )
 }
 BurgerIngredient.propTypes = {
-  ingredient: PropTypes.shape(
-    {
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-
-    }
-  ).isRequired,
+  ingredient: ingredientType.isRequired,
 }
 
 export default BurgerIngredient

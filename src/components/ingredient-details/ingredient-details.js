@@ -2,12 +2,11 @@ import React from "react";
 import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
-import { ingredientType } from "../../utils.js/types";
+import { ingredientType } from "../../utils/types";
 
 const IngredientDetails = () => {
 
   const ingredient = useSelector(store => store.ingredients.currentViewedIngredient);
-  const dispatch = useDispatch();
 
   return (
     <div className={`${styles.ingredient}`}>
@@ -52,13 +51,6 @@ const IngredientDetails = () => {
       </div>
     </div>
   )
-}
-
-IngredientDetails.propTypes = {
-  isIngredientDetailOpened: PropTypes.shape({
-    ingredient: ingredientType.isRequired,
-    isOpened: PropTypes.bool,
-  }),
 }
 
 export default IngredientDetails;

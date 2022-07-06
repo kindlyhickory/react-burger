@@ -82,6 +82,13 @@ export const ingredientsReducer = (state = initialState, action) => {
         bunInConstructor: null,
       }
     }
+    case CLEAR_CONSTRUCTOR_LIST: {
+      return {
+        ...state,
+        bunInConstructor: null,
+        ingredientsInConstructor: [],
+      }
+    }
     case UPDATE_CONSTRUCTOR_LIST: {
       const ingredientsInConstructor = [...state.ingredientsInConstructor];
       ingredientsInConstructor.splice(

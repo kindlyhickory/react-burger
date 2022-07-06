@@ -58,8 +58,8 @@ const BurgerConstructor = () => {
                   type: REMOVE_BUN_FROM_CONSTRUCTOR,
                 })
               }}
-              isLocked={false}
-              text={bun.name}
+              isLocked={true}
+              text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
             />
@@ -70,7 +70,7 @@ const BurgerConstructor = () => {
             {
               ingredientsInConstructor.map((element, index) => (
                 <BurgerItem
-                  key={index}
+                  key={element.id}
                   item={element}
                   index={index}
                   moveItem={moveItem}
@@ -83,8 +83,8 @@ const BurgerConstructor = () => {
           <div className="pl-8 mb-10">
             <ConstructorElement
               type="bottom"
-              isLocked={false}
-              text={bun.name}
+              isLocked={true}
+              text={`${bun.name} (низ)`}
               price={bun.price}
               thumbnail={bun.image}
               handleClose={() => {
@@ -118,23 +118,5 @@ const BurgerConstructor = () => {
   )
 
 }
-// BurgerConstructor.propTypes = {
-//   data: PropTypes.arrayOf(PropTypes.shape(
-//     {
-//       _id: PropTypes.string,
-//       name: PropTypes.string,
-//       type: PropTypes.string,
-//       proteins: PropTypes.number,
-//       fat: PropTypes.number,
-//       carbohydrates: PropTypes.number,
-//       calories: PropTypes.number,
-//       price: PropTypes.number,
-//       image: PropTypes.string,
-//       image_mobile: PropTypes.string,
-//       image_large: PropTypes.string,
-
-//     }
-//   )).isRequired,
-// }
 
 export default BurgerConstructor;
