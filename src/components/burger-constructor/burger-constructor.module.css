@@ -16,6 +16,14 @@
   overflow-y: auto;
 }
 
+.ingredientsContainer {
+  min-height: 200px;
+}
+
+.listHover {
+  outline: #4C4CFF 3px solid;
+}
+
 .list::-webkit-scrollbar {
   width: 8px;
 }

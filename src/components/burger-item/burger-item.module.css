@@ -1,0 +1,9 @@
+.item {
+  width: 568px;
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: move;
+  box-sizing: border-box;
+}

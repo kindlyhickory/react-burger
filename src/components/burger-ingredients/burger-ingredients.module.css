@@ -9,6 +9,7 @@
 .ingredientsCategory {
   max-height: 750px;
   overflow: auto;
+  position: relative;
 }
 
 .ingredientsCategory::-webkit-scrollbar {

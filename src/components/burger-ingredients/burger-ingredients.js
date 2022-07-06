@@ -1,20 +1,39 @@
-import React, { useEffect, useRef } from "react";
+import React, { createRef, useEffect, useRef, useCallback } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import PropTypes from 'prop-types'
-import { ingredientType } from "../../utils.js/types";
+import { ingredientType } from "../../utils/types";
 
-const BurgerIngredients = ({ setIsIngredientDetailOpened, data }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState('bun');
 
-  const bunRef = useRef(null)
-  const sauceRef = useRef(null)
-  const mainRef = useRef(null)
+  const tabRef = useRef(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
 
-  const scroll = (ref) => {
-    setCurrent(ref.id)
-    ref.scrollIntoView({
+
+  useEffect(() => {
+    tabRef.current.addEventListener('scroll', () => {
+
+      if ((tabRef.current.scrollTop > bunRef.current.offsetTop) && (tabRef.current.scrollTop < bunRef.current.offsetTop + bunRef.current.offsetHeight)) {
+        setCurrent('bun');
+      }
+      if ((tabRef.current.scrollTop > mainRef.current.offsetTop) && (tabRef.current.scrollTop < mainRef.current.offsetTop + mainRef.current.offsetHeight)) {
+        setCurrent('main');
+      }
+      if ((tabRef.current.scrollTop > sauceRef.current.offsetTop) && (tabRef.current.scrollTop < sauceRef.current.offsetTop + sauceRef.current.offsetHeight)) {
+        setCurrent('sauce');
+      }
+    })
+
+  }, [])
+
+
+  const scroll = (string) => {
+    setCurrent(string);
+    document.getElementById(string).scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     })
@@ -26,28 +45,23 @@ const BurgerIngredients = ({ setIsIngredientDetailOpened, data }) => {
         Соберите бургер
       </h2>
       <div className={burgerIngredientsStyles.tabs}>
-        <Tab value="bun" active={current === 'bun'} onClick={() => scroll(bunRef.current)}>
+        <Tab value="bun" active={current === 'bun'} onClick={scroll}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={() => scroll(sauceRef.current)}>
+        <Tab value="sauce" active={current === 'sauce'} onClick={scroll}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === 'main'} onClick={() => scroll(mainRef.current)}>
+        <Tab value="main" active={current === 'main'} onClick={scroll}>
           Начинки
         </Tab>
       </div>
-      <div className={`${burgerIngredientsStyles.ingredientsCategory}`}>
-        <IngredientsCategory titleRef={bunRef} setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Булки'} titleId={'bun'} ingredients={data.filter(element => element.type === "bun")}></IngredientsCategory>
-        <IngredientsCategory titleRef={sauceRef} setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Соусы'} titleId={'sauce'} ingredients={data.filter(element => element.type === "sauce")}></IngredientsCategory>
-        <IngredientsCategory titleRef={mainRef} setIsIngredientDetailOpened={setIsIngredientDetailOpened} title={'Начинки'} titleId={'main'} ingredients={data.filter(element => element.type === "main")}></IngredientsCategory>
+      <div ref={tabRef} className={`${burgerIngredientsStyles.ingredientsCategory}`}>
+        <IngredientsCategory ref={bunRef} title={'Булки'} titleId={'bun'}></IngredientsCategory>
+        <IngredientsCategory ref={sauceRef} title={'Соусы'} titleId={'sauce'}></IngredientsCategory>
+        <IngredientsCategory ref={mainRef} title={'Начинки'} titleId={'main'}></IngredientsCategory>
       </div>
     </section>
   )
-}
-
-BurgerIngredients.propTypes = {
-  setIsIngredientDetailOpened: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(ingredientType).isRequired,
 }
 
 export default BurgerIngredients;
