@@ -1,6 +1,11 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients";
 import { HIDE_ORDER_MODAL, MAKE_ORDER_FAILED, MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, SHOW_ORDER_MODAL, UPDATE_ORDER_LIST } from "../actions";
+import { userLoginReducer } from "./login";
+import { userRegistrationReducer } from "./registration";
+import { forgotPasswordReducer } from "./forgotPassword";
+import { resetPasswordReducer } from "./resetPassword";
+import { editUserReducer } from "./profileEdit";
 
 const initialState = {
   currentOrder: {},
@@ -49,4 +54,10 @@ const orderReducer = (state = initialState, action) => {
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   order: orderReducer,
+  login: userLoginReducer,
+  registration: userRegistrationReducer,
+  forgotPassword: forgotPasswordReducer,
+  resetPassword: resetPasswordReducer,
+  editProfile: editUserReducer
+
 })

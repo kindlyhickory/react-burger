@@ -35,6 +35,12 @@
 
 .list__link {
   cursor: pointer;
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.list__link_active {
+  color: #fff;
 }
 
 .list__link_inactive {

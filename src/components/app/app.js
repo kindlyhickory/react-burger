@@ -12,54 +12,41 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { HIDE_ORDER_MODAL } from '../../services/actions';
 
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import HomePage from '../../pages/home';
+import LoginPage from '../../pages/login';
+import RegistrationPage from '../../pages/registration';
+import ForgotPasswordPage from '../../pages/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password';
+import ProfilePage from '../../pages/profile';
+
 function App() {
-  const modalOrderIsOpened = useSelector(store => store.order.modalOrderIsOpened);
-  const currentViewedIngredient = useSelector(store => store.ingredients.currentViewedIngredient);
-
-  const dispatch = useDispatch();
-  const data = useSelector(store => store.ingredients.ingredients);
-
-
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch])
-
   return (
     <div className={appStyles.app}>
-      <AppHeader />
-      <main className={appStyles.main}>
-        {
-          data.length ?
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-            :
-            null}
-      </main>
-      {modalOrderIsOpened &&
-        <Modal
-          onClose={() => {
-            dispatch({
-              type: HIDE_ORDER_MODAL,
-            })
-          }}>
-          <OrderDetails></OrderDetails>
-        </Modal>
-      }
-      {currentViewedIngredient &&
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => {
-            dispatch({
-              type: HIDE_MODAL_INGREDIENT,
-            })
-          }}>
-          <IngredientDetails></IngredientDetails>
-        </Modal>
-      }
-    </div>
+      <Router>
+        <AppHeader />
+        <Switch>
+          <Route path='/' exact={true}>
+            <HomePage />
+          </Route>
+          <Route path='/login' exact={true}>
+            <LoginPage />
+          </Route>
+          <Route path='/register' exact={true} >
+            <RegistrationPage />
+          </Route>
+          <Route path='/forgot-password' exact={true}>
+            <ForgotPasswordPage />
+          </Route>
+          <Route path='/reset-password' exact={true}>
+            <ResetPasswordPage />
+          </Route>
+          <Route path='/profile' exact={true}>
+            <ProfilePage />
+          </Route>
+        </Switch>
+      </Router>
+    </div >
   );
 }
 
