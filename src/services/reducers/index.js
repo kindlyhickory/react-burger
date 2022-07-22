@@ -6,6 +6,7 @@ import { userRegistrationReducer } from "./registration";
 import { forgotPasswordReducer } from "./forgotPassword";
 import { resetPasswordReducer } from "./resetPassword";
 import { editUserReducer } from "./profileEdit";
+import { userInformationReducer } from "./user";
 
 const initialState = {
   currentOrder: {},
@@ -58,6 +59,6 @@ export const rootReducer = combineReducers({
   registration: userRegistrationReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
-  editProfile: editUserReducer
-
+  editProfile: editUserReducer,
+  user: userInformationReducer,
 })

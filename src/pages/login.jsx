@@ -3,11 +3,14 @@ import styles from "./login.module.css";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLoginFormValue, signIn, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION } from "../services/actions/login";
+import { useHistory, Redirect } from 'react-router-dom';
 
 function LoginPage() {
   const dispatch = useDispatch();
   const { email, password } = useSelector(store => store.login.form);
   const { isPasswordHide } = useSelector(store => store.login);
+
+  const user = useSelector(store => store.user.user);
 
   const passwordRef = useRef(null);
 
@@ -28,6 +31,11 @@ function LoginPage() {
   const onFormChange = (e) => {
     dispatch(setUserLoginFormValue(e.target.name, e.target.value));
   }
+
+  // if (user.email !== '' && user.name !== '') {
+  //   return (<Redirect
+  //     to={{ pathname: '/' }} />)
+  // }
 
 
   return (

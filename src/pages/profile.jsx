@@ -2,15 +2,21 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserEditFormValue, USER_EDIT_FORM_CHANGE_PASSWORD_VISION } from '../services/actions/profileEdit';
-import styles from './profile.module.css'
+import { getCookie } from '../utils/utils';
+import styles from './profile.module.css';
+import { useHistory } from 'react-router-dom';
+import { signOut } from "../services/actions/login"
 
 
 function ProfilePage() {
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { name, email, password } = useSelector(store => store.editProfile.form);
   const { isPasswordHide } = useSelector(store => store.editProfile);
+
+  const currentUser = useSelector(store => store.user.user);
 
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
@@ -43,17 +49,20 @@ function ProfilePage() {
         <div className={`${styles.profile__menuContainer} mr-15`}>
           <ul className={`${styles.profile__menu} mb-20`}>
             <li className={styles.profile__link}>
-              <a className={`text text_type_main-medium text_color_active`}>
+              <a className={`${styles.profile__linkItem} text text_type_main-medium text_color_active`}>
                 Профиль
               </a>
             </li>
             <li className={styles.profile__link}>
-              <a className={`text text_type_main-medium text_color_inactive`}>
+              <a className={`${styles.profile__linkItem} text text_type_main-medium text_color_inactive`}>
                 История
               </a>
             </li>
             <li className={styles.profile__link}>
-              <a className={`text text_type_main-medium text_color_inactive`}>
+              <a onClick={() => {
+                dispatch(signOut(getCookie('refreshToken')));
+                history.replace({ pathname: '/login' });
+              }} className={`${styles.profile__linkItem} text text_type_main-medium text_color_inactive`}>
                 Выход
               </a>
             </li>
@@ -69,7 +78,7 @@ function ProfilePage() {
               <Input
                 type={'text'}
                 placeholder={'Имя'}
-                value={name}
+                value={currentUser.name}
                 name={'name'}
                 size={'default'}
                 onChange={(e) => { onFormChange(e) }}
@@ -83,7 +92,7 @@ function ProfilePage() {
               <Input
                 type={'email'}
                 placeholder={'E-mail'}
-                value={email}
+                value={currentUser.email}
                 name={'email'}
                 size={'default'}
                 ref={emailRef}

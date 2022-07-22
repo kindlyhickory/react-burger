@@ -12,6 +12,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { HIDE_ORDER_MODAL } from '../../services/actions';
 
+import ProtectedRoute from '../protected-route';
+
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import HomePage from '../../pages/home';
 import LoginPage from '../../pages/login';
@@ -19,8 +21,20 @@ import RegistrationPage from '../../pages/registration';
 import ForgotPasswordPage from '../../pages/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password';
 import ProfilePage from '../../pages/profile';
+import { getUser, updateToken } from '../../services/actions/user';
+import { getCookie } from '../../utils/utils';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (getCookie('refreshToken') && !getCookie('accessToken')) {
+      dispatch(updateToken(getCookie('refreshToken')))
+    }
+    dispatch(getUser())
+  }, []);
+
+
   return (
     <div className={appStyles.app}>
       <Router>
@@ -29,21 +43,21 @@ function App() {
           <Route path='/' exact={true}>
             <HomePage />
           </Route>
-          <Route path='/login' exact={true}>
+          <ProtectedRoute path='/login' exact={true}>
             <LoginPage />
-          </Route>
-          <Route path='/register' exact={true} >
+          </ProtectedRoute>
+          <ProtectedRoute path='/register' exact={true} >
             <RegistrationPage />
-          </Route>
-          <Route path='/forgot-password' exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path='/forgot-password' exact={true}>
             <ForgotPasswordPage />
-          </Route>
-          <Route path='/reset-password' exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path='/reset-password' exact={true}>
             <ResetPasswordPage />
-          </Route>
-          <Route path='/profile' exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path='/profile' exact={true}>
             <ProfilePage />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </Router>
     </div >

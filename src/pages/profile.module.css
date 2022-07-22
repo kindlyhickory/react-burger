@@ -34,3 +34,7 @@
 .profile__menuContainer {
   max-width: 320px;
 }
+
+.profile__linkItem {
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { USER_LOGIN_FORM_SET_VALUE, setUserLoginFormValue, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILED } from "../actions/login";
+import { USER_LOGIN_FORM_SET_VALUE, setUserLoginFormValue, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILED, USER_LOGOUT_SUCCESS, USER_LOGOUT_REQUEST, USER_LOGOUT_FAILED } from "../actions/login";
 
 const initialState = {
   form: {
@@ -8,6 +8,8 @@ const initialState = {
   isPasswordHide: true,
   loginRequest: false,
   loginFailed: false,
+  logoutRequest: false,
+  logoutFailed: false,
 }
 
 export const userLoginReducer = (state = initialState, action) => {
@@ -42,6 +44,24 @@ export const userLoginReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: true,
+      }
+    case USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        logoutFailed: false,
+        logoutRequest: false,
+      }
+    case USER_LOGOUT_REQUEST:
+      return {
+        ...state,
+        logoutRequest: true,
+        logoutFailed: false,
+      }
+    case USER_LOGOUT_FAILED:
+      return {
+        ...state,
+        logoutRequest: false,
+        logoutFailed: true,
       }
     default:
       return state;
