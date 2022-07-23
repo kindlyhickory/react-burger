@@ -3,7 +3,7 @@ import styles from "./login.module.css";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLoginFormValue, signIn, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION } from "../services/actions/login";
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect, Link } from 'react-router-dom';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -32,11 +32,11 @@ function LoginPage() {
     dispatch(setUserLoginFormValue(e.target.name, e.target.value));
   }
 
-  // if (user.email !== '' && user.name !== '') {
-  //   return (<Redirect
-  //     to={{ pathname: '/' }} />)
-  // }
-
+  if (user.email !== '' && user.name !== '') {
+    return (
+      <Redirect to={state?.from || '/'}></Redirect>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -77,13 +77,13 @@ function LoginPage() {
           <p className="text text_type_main-default text_color_inactive">
             Вы новый пользователь?
           </p>
-          <a className={styles.link} href="">Зарегистрироваться</a>
+          <Link to="/register" className={styles.link}>Зарегистрироваться</Link>
         </div>
         <div className={`${styles.linkItem}`}>
           <p className="text text_type_main-default text_color_inactive">
             Забыли пароль?
           </p>
-          <a className={styles.link} href="">Восстановить пароль</a>
+          <Link to="/forgot-password" className={styles.link}>Восстановить пароль</Link>
         </div>
       </form>
     </div>

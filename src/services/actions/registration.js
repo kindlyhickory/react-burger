@@ -32,7 +32,6 @@ export function makeRegistration(name, email, password) {
         dispatch({
           type: USER_REGISTRATION_SUCCESS
         })
-        console.log(res);
       })
       .catch((error) => {
         dispatch({

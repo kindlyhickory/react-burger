@@ -3,27 +3,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { CHANGE_USER_LOAD, getUser, updateToken } from '../services/actions/user';
 import { getCookie } from '../utils/utils';
+import { useHistory } from 'react-router-dom';
 
 
 function ProtectedRoute({ children, ...rest }) {
 
-  console.log(children)
-
-  const { isUserLoaded, getInfromationRequest } = useSelector(store => store.user.isUserLoaded);
+  const { isUserLoaded } = useSelector(store => store.user);
   const dispatch = useDispatch();
+  const { isForgotPasswordCodeSent, getInfromationFailed, getInfromationRequest } = useSelector(store => store.user);
 
-  useEffect(() => {
-    if (getCookie('refreshToken') && !getCookie('accessToken')) {
-      dispatch(updateToken(getCookie('refreshToken')))
-    }
-    dispatch(getUser())
-  }, []);
+  const history = useHistory();
+
+
+
+  // useEffect(() => {
+  //   if (getCookie('refreshToken') && !getCookie('accessToken')) {
+  //     dispatch(updateToken(getCookie('refreshToken')))
+  //   }
+  //   dispatch(getUser())
+  // }, []);
+
 
   const { name, email } = useSelector(store => store.user.user);
 
-  if (getInfromationRequest) {
-    return <p>loading</p>
-  }
+
 
   if (window.location.pathname === '/login' || window.location.pathname === '/register') {
     return (
@@ -31,14 +34,14 @@ function ProtectedRoute({ children, ...rest }) {
         {...rest}
         render={({ location }) =>
           email !== '' && name !== '' ?
-            <Redirect to="/"></Redirect>
+            <Redirect to={{ pathname: location.state?.from === "/profile" ? '/profile' : '/', state: { from: location } }}></Redirect>
             :
             children
         }
       >
       </Route>
     )
-  } else if (window.location.pathname === '/forgot-password') {
+  } else if (window.location.pathname === '/forgot-password' || window.location.pathname === '/reset-password') {
     return (
       <Route
         {...rest}
@@ -46,7 +49,14 @@ function ProtectedRoute({ children, ...rest }) {
           email !== '' && name !== '' ?
             <Redirect to="/"></Redirect>
             :
-            children
+
+            isForgotPasswordCodeSent ?
+              children
+              :
+              location.pathname === "/reset-password" ?
+                <Redirect to='/forgot-password' />
+                :
+                children
         }
       >
       </Route>
@@ -54,16 +64,15 @@ function ProtectedRoute({ children, ...rest }) {
     )
   }
 
+
   return (
     < Route
       {...rest}
       render={({ location }) => {
-        console.log(email, '---', name);
         return email !== '' && name !== '' ?
           children
           :
-          <Redirect to="/login"></Redirect>
-
+          <Redirect to={{ pathname: '/login', state: { from: location.pathname } }}></Redirect>
       }
 
       }

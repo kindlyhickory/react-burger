@@ -3,11 +3,14 @@ import styles from "./login.module.css";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_PASSWORD_CHANGE_PASSWORD_VISION, setPasswordForgotFormValue } from "../services/actions/resetPassword";
+import { resetPassword } from "../services/actions/user";
+import { useHistory, Link } from 'react-router-dom';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
   const { password, code } = useSelector(store => store.resetPassword.form);
   const { isPasswordHide } = useSelector(store => store.resetPassword);
+  const history = useHistory()
 
   const passwordRef = useRef(null);
 
@@ -60,14 +63,17 @@ function ResetPasswordPage() {
             size={'default'}
           />
         </div>
-        <Button type="primary" size="large">
-          Сохранить
+        <Button onClick={(e) => {
+          e.preventDefault();
+          dispatch(resetPassword(password, code, history));
+        }} type="primary" size="large">
+          Сбросить пароль
         </Button>
         <div className={`${styles.linkItem} mt-20 mb-4`}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
           </p>
-          <a className={styles.link} href="">Войти</a>
+          <Link className={styles.link} to="/login">Войти</Link>
         </div>
       </form>
     </div>

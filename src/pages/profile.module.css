@@ -20,10 +20,7 @@
   opacity: .4;
 }
 
-.profile__input div {
-  width: 480px;
-  text-align: right;
-}
+
 
 .profile__link {
   padding-top: 19px;
@@ -37,4 +34,16 @@
 
 .profile__linkItem {
   cursor: pointer;
+  transition: all .3s linear
+}
+
+.profile__linkItem:hover {
+  opacity: .4
+}
+
+.profile__buttonContainer {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-end;
 }

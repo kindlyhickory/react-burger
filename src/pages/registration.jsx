@@ -3,6 +3,7 @@ import styles from './login.module.css'
 import { makeRegistration, setUserRegistrationFormValue, USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION } from "../services/actions/registration";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 
 function RegistrationPage() {
@@ -80,7 +81,7 @@ function RegistrationPage() {
             <p className="text text_type_main-default text_color_inactive">
               Уже зарегистрированы?
             </p>
-            <a className={styles.link} href="">Войти</a>
+            <Link className={styles.link} to="/login">Войти</Link>
           </div>
         </form>
       </div>

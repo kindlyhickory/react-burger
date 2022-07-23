@@ -27,11 +27,13 @@ import { getCookie } from '../../utils/utils';
 function App() {
   const dispatch = useDispatch();
 
+  const { password } = useSelector(store => store.user.user)
+
   useEffect(() => {
     if (getCookie('refreshToken') && !getCookie('accessToken')) {
       dispatch(updateToken(getCookie('refreshToken')))
     }
-    dispatch(getUser())
+    dispatch(getUser(password))
   }, []);
 
 

@@ -3,6 +3,7 @@ import { config } from "../../utils/data";
 import { checkResponse, deleteCookie } from "../../utils/utils";
 import { REMOVE_USER, SAVE_USER } from "./user";
 import { setCookie } from "../../utils/utils";
+import { LOAD_USER_DATA } from "./profileEdit";
 
 export const USER_LOGIN_FORM_SET_VALUE = 'USER_LOGIN_FORM_SET_VALUE';
 export const USER_LOGIN_FORM_CHANGE_PASSWORD_VISION = 'USER_LOGIN_FORM_CHANGE_PASSWORD_VISION';
@@ -51,6 +52,12 @@ export function signIn(email, password) {
             name: res.user.name,
           }
         })
+        dispatch({
+          type: LOAD_USER_DATA,
+          email: res.user.email,
+          name: res.user.name,
+          password: password,
+        })
         let accessToken;
         let refreshToken;
         accessToken = res.accessToken.split('Bearer ')[1]
@@ -62,7 +69,6 @@ export function signIn(email, password) {
         if (refreshToken) {
           setCookie('refreshToken', refreshToken, { expires: 86400 })
         }
-        console.log(res);
       })
       .catch(error => {
         dispatch({
@@ -73,7 +79,7 @@ export function signIn(email, password) {
   }
 }
 
-export function signOut(refreshToken) {
+export function signOut(refreshToken, history) {
   return function (dispatch) {
     console.log(refreshToken);
     dispatch({
@@ -102,6 +108,7 @@ export function signOut(refreshToken) {
           })
           deleteCookie('refreshToken');
           deleteCookie('accessToken');
+          history.replace({ pathname: '/login' });
         }
       })
       .catch(error => {
