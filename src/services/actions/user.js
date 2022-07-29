@@ -10,6 +10,7 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const UPDATE_USER = 'UPDATE_USER';
 export const CHANGE_USER_LOAD = 'CHANGE_USER_LOAD';
 export const REMOVE_USER = 'REMOVE_USER';
+export const AUTH_CHECKED = 'AUTH_CHECKED';
 
 export const SEND_FORGOT_PASSWORD_CODE_REQUEST = 'SEND_FORGOT_PASSWORD_CODE_REQUEST';
 export const SEND_FORGOT_PASSWORD_CODE_FAILED = 'SEND_FORGOT_PASSWORD_CODE_FAILED';
@@ -62,6 +63,7 @@ export function updateUserData(name, email, password) {
         dispatch({ type: UPDATE_TOKEN_FAILED });
         console.log(error);
       })
+
   }
 }
 
@@ -193,6 +195,9 @@ export function getUser(password) {
           type: GET_USER_FAILED,
         });
         console.log(error);
+      })
+      .finally(()=> {
+        dispatch({type: AUTH_CHECKED});
       });
 
   }

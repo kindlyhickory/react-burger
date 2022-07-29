@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import appStyles from './app.module.css';
 import AppHeader from "../app-header/app-header"
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients, HIDE_MODAL_INGREDIENT } from '../../services/actions/ingredients';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { HIDE_ORDER_MODAL } from '../../services/actions';
 
 import ProtectedRoute from '../protected-route';
 
-import { BrowserRouter as Router, Route, Switch, Link, useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import HomePage from '../../pages/home';
 import LoginPage from '../../pages/login';
 import RegistrationPage from '../../pages/registration';
 import ForgotPasswordPage from '../../pages/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password';
 import ProfilePage from '../../pages/profile';
-import { getUser, updateToken } from '../../services/actions/user';
+import { AUTH_CHECKED, getUser, updateToken } from "../../services/actions/user";
 import { getCookie } from '../../utils/utils';
+import IngredientPage from "../../pages/ingredient-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,10 +29,22 @@ function App() {
 
   useEffect(() => {
     if (getCookie('refreshToken') && !getCookie('accessToken')) {
-      dispatch(updateToken(getCookie('refreshToken')))
+      dispatch(updateToken(getCookie("refreshToken")));
+      dispatch(getUser())
+      console.log(1)
+    } else if (getCookie('accessToken')) {
+      dispatch(getUser());
+    } else {
+      dispatch({type: AUTH_CHECKED});
     }
-    dispatch(getUser(password))
   }, []);
+
+  // useEffect(() => {
+  //   if (getCookie('refreshToken') && !getCookie('accessToken')) {
+  //     dispatch(updateToken(getCookie('refreshToken')))
+  //   }
+  //   dispatch(getUser(password))
+  // }, []);
 
 
   return (
@@ -62,9 +69,9 @@ function App() {
         <ProtectedRoute path='/profile' exact={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <Route path='/ingredients/:id'>
-          <p>NewPAGE</p>
-        </Route>
+        <ProtectedRoute path='/ingredients/:id'>
+          <IngredientPage></IngredientPage>
+        </ProtectedRoute>
       </Switch>
       {background &&
         <Route path='/ingredients/:id' children={<Modal title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>

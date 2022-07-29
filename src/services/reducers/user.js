@@ -1,4 +1,24 @@
-import { CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, REMOVE_USER, SAVE_USER, SEND_FORGOT_PASSWORD_CODE_FAILED, SEND_FORGOT_PASSWORD_CODE_REQUEST, SEND_FORGOT_PASSWORD_CODE_SUCCESS, SEND_RESET_PASSWORD_FAILED, SEND_RESET_PASSWORD_REQUEST, SEND_RESET_PASSWORD_SUCCESS, UPDATE_TOKEN_FAILED, UPDATE_TOKEN_REQUEST, UPDATE_TOKEN_SUCCESS, UPDATE_USER_DATA_FAILED, UPDATE_USER_DATA_REQUEST, UPDATE_USER_DATA_SUCCESS } from "../actions/user";
+import {
+  AUTH_CHECKED,
+  CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE,
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  REMOVE_USER,
+  SAVE_USER,
+  SEND_FORGOT_PASSWORD_CODE_FAILED,
+  SEND_FORGOT_PASSWORD_CODE_REQUEST,
+  SEND_FORGOT_PASSWORD_CODE_SUCCESS,
+  SEND_RESET_PASSWORD_FAILED,
+  SEND_RESET_PASSWORD_REQUEST,
+  SEND_RESET_PASSWORD_SUCCESS,
+  UPDATE_TOKEN_FAILED,
+  UPDATE_TOKEN_REQUEST,
+  UPDATE_TOKEN_SUCCESS,
+  UPDATE_USER_DATA_FAILED,
+  UPDATE_USER_DATA_REQUEST,
+  UPDATE_USER_DATA_SUCCESS
+} from "../actions/user";
 
 
 const initialState = {
@@ -15,6 +35,8 @@ const initialState = {
 
   updateInfromationRequest: false,
   updateInfromationFailed: false,
+
+  isAuthChecked: false,
 
   updateTokenRequest: false,
   updateTokenFailed: true,
@@ -33,6 +55,11 @@ const initialState = {
 
 export function userInformationReducer(state = initialState, action) {
   switch (action.type) {
+    case AUTH_CHECKED:
+      return {
+        ...state,
+        isAuthChecked: true,
+      }
     case SAVE_USER:
       return {
         ...state,
@@ -59,6 +86,7 @@ export function userInformationReducer(state = initialState, action) {
     case GET_USER_FAILED:
       return {
         ...state,
+        isUserLoaded: false,
         getInfromationFailed: true,
         getInfromationRequest: false,
       }
