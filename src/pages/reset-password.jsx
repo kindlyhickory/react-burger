@@ -1,55 +1,60 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./login.module.css";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_PASSWORD_CHANGE_PASSWORD_VISION, setPasswordForgotFormValue } from "../services/actions/resetPassword";
 import { resetPassword } from "../services/actions/user";
 import { useHistory, Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
   const { password, code } = useSelector(store => store.resetPassword.form);
   const { isPasswordHide } = useSelector(store => store.resetPassword);
-  const history = useHistory()
+  const history = useHistory();
+  const [isPasswordHiden, setPasswordHiden] = useState(true);
+
 
   const passwordRef = useRef(null);
 
-  const onIconClick = () => {
-    setTimeout(() => {
-      passwordRef.current.focus()
-    }, 0)
-
-    if (passwordRef.current.getAttribute('type') === 'password') {
-      passwordRef.current.setAttribute('type', 'undefined');
-    } else {
-      passwordRef.current.setAttribute('type', 'password');
-    }
-
-    dispatch({ type: RESET_PASSWORD_CHANGE_PASSWORD_VISION });
+  const changePasswordVision = () => {
+    setPasswordHiden(!isPasswordHiden);
   }
 
   const onFormChange = (e) => {
     dispatch(setPasswordForgotFormValue(e.target.name, e.target.value));
   }
 
+  function onSubmit() {
+    dispatch(resetPassword(password, code, history));
+  }
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <h2 className="text text_type_main-medium mb-6">
           Восстановление пароля
         </h2>
         <div className={`${styles.inputWrapper} mb-6`}>
           <Input
-            type={'password'}
+            type={isPasswordHiden ? 'password' : 'text'}
             placeholder={'Пароль'}
             onChange={e => onFormChange(e)}
             value={password}
-            onIconClick={onIconClick}
-            icon={isPasswordHide ? 'ShowIcon' : 'HideIcon'}
-            name={'password'}
-            ref={passwordRef}
+            onIconClick={changePasswordVision}
+            icon={isPasswordHiden ? 'ShowIcon' : 'HideIcon'}
+            {...register('password', {
+              onChange: e => onFormChange(e),
+              required: 'Укажите пароль',
+              minLength: {
+                value: 4,
+                message: 'Минимальная длина 4 символа'
+              }
+            })}
             size={'default'}
+            errorText={errors.password && errors.password.message}
+            error={errors.password ? true : false}
           />
         </div>
         <div className={`${styles.inputWrapper} mb-6`}>
@@ -58,15 +63,11 @@ function ResetPasswordPage() {
             placeholder={'Введите код из письма'}
             onChange={e => onFormChange(e)}
             value={code}
-            onIconClick={onIconClick}
             name={'code'}
             size={'default'}
           />
         </div>
-        <Button onClick={(e) => {
-          e.preventDefault();
-          dispatch(resetPassword(password, code, history));
-        }} type="primary" size="large">
+        <Button type="primary" size="large">
           Сбросить пароль
         </Button>
         <div className={`${styles.linkItem} mt-20 mb-4`}>

@@ -12,3 +12,11 @@
   display: flex;
   gap: 8px;
 }
+
+.link {
+  text-decoration: none;
+}
+
+.link:visited {
+  color: white
+}

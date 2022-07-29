@@ -1,5 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { CHANGE_ABLE_OF_EDIT_EMAIL, CHANGE_ABLE_OF_EDIT_NAME, CHANGE_ABLE_OF_EDIT_PASSWORD, CHANGE_ABLE_OF_INPUTS, LOAD_USER_DATA, RESET_USER_DATA, setUserEditFormValue, USER_EDIT_FORM_CHANGE_PASSWORD_VISION } from '../services/actions/profileEdit';
 import { getCookie } from '../utils/utils';
@@ -7,6 +7,7 @@ import styles from './profile.module.css';
 import { useHistory } from 'react-router-dom';
 import { signOut } from "../services/actions/login"
 import { getUser, updateUserData } from '../services/actions/user';
+import { useForm } from 'react-hook-form';
 
 
 function ProfilePage() {
@@ -29,6 +30,39 @@ function ProfilePage() {
   // }, []);
 
   const currentUser = useSelector(store => store.user.user);
+
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
+
+  const { ref: passRef, ...passwordRest } = register(
+    'password', {
+    onChange: e => onFormChange(e),
+    required: 'Укажите пароль',
+    minLength: {
+      value: 4,
+      message: 'Минимальная длина 4 символа'
+    }
+  })
+
+  const { ref: namingRef, ...nameRest } = register(
+    'name', {
+    onChange: e => onFormChange(e),
+    required: 'Укажите имя',
+    minLength: {
+      value: 2,
+      message: "Некорректное имя. Минимальная длина 2"
+    }
+
+  })
+  const { ref: mailRef, ...emailRest } = register(
+    'email', {
+    onChange: e => onFormChange(e),
+    required: 'Укажите email',
+    pattern: {
+      value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      message: "Некорректный email адрес"
+    }
+
+  })
 
 
   const passwordRef = useRef(null);
@@ -54,6 +88,12 @@ function ProfilePage() {
         break;
     }
 
+  }
+
+  function onSubmit() {
+    dispatch(updateUserData(name, email, password));
+    dispatch({ type: CHANGE_ABLE_OF_INPUTS });
+    // setIsDisable({ name: false, email: false, password: false });
   }
 
   const onFormChange = (e) => {
@@ -95,8 +135,8 @@ function ProfilePage() {
             изменить свои персональные данные
           </p>
         </div>
-        <div>
-          <form>
+        <div className={styles.wrapper}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={`${styles.profile__input} mb-6`}>
               <Input
                 type={'text'}
@@ -104,11 +144,16 @@ function ProfilePage() {
                 value={name}
                 name={'name'}
                 size={'default'}
-                onChange={(e) => { onFormChange(e) }}
-                ref={nameRef}
                 icon={isDisabled.name ? 'EditIcon' : "CloseIcon"}
+                {...nameRest}
+                ref={(e) => {
+                  namingRef(e)
+                  nameRef.current = e
+                }}
                 onIconClick={(e) => onIconClick(e, nameRef)}
                 disabled={isDisabled.name}
+                error={errors.name ? true : false}
+                errorText={errors.name?.message}
               />
             </div>
             <div className={`${styles.profile__input} mb-6`}>
@@ -118,11 +163,16 @@ function ProfilePage() {
                 value={email}
                 name={'email'}
                 size={'default'}
-                ref={emailRef}
-                onChange={(e) => { onFormChange(e) }}
                 icon={isDisabled.email ? 'EditIcon' : "CloseIcon"}
                 onIconClick={(e) => onIconClick(e, emailRef)}
+                {...emailRest}
+                ref={(e) => {
+                  mailRef(e)
+                  emailRef.current = e
+                }}
                 disabled={isDisabled.email}
+                error={errors.email ? true : false}
+                errorText={errors.email?.message}
               />
             </div>
             <div className={`${styles.profile__input} mb-6`}>
@@ -132,11 +182,16 @@ function ProfilePage() {
                 value={password}
                 name={'password'}
                 size={'default'}
-                onChange={(e) => { onFormChange(e) }}
-                ref={passwordRef}
                 icon={isDisabled.password ? 'EditIcon' : 'CloseIcon'}
                 onIconClick={(e) => onIconClick(e, passwordRef)}
+                {...passwordRest}
+                ref={(e) => {
+                  passRef(e)
+                  passwordRef.current = e
+                }}
                 disabled={isDisabled.password}
+                errorText={errors.password && errors.password.message}
+                error={errors.password ? true : false}
               />
             </div>
             <div className={`${styles.profile__buttonContainer}`}>
@@ -146,11 +201,7 @@ function ProfilePage() {
               }} type="secondary" size="medium">
                 Отмена
               </Button>
-              <Button onClick={(e) => {
-                e.preventDefault();
-                dispatch(updateUserData(name, email, password));
-                dispatch({ type: CHANGE_ABLE_OF_INPUTS });
-              }} type="primary" size="medium">
+              <Button type="primary" size="medium">
                 Сохранить
               </Button>
             </div>

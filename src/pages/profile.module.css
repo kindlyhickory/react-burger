@@ -20,7 +20,26 @@
   opacity: .4;
 }
 
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__input div div {
+  width: 480px;
+  text-align: right;
+}
+
+.profile__input div div div {
+  width: 24px;
+}
 
 .profile__link {
   padding-top: 19px;
@@ -42,8 +61,8 @@
 }
 
 .profile__buttonContainer {
+  margin-left: auto;
   display: flex;
   flex-direction: row;
-
   justify-content: flex-end;
 }

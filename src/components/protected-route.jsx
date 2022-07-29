@@ -14,18 +14,7 @@ function ProtectedRoute({ children, ...rest }) {
 
   const history = useHistory();
 
-
-
-  // useEffect(() => {
-  //   if (getCookie('refreshToken') && !getCookie('accessToken')) {
-  //     dispatch(updateToken(getCookie('refreshToken')))
-  //   }
-  //   dispatch(getUser())
-  // }, []);
-
-
   const { name, email } = useSelector(store => store.user.user);
-
 
 
   if (window.location.pathname === '/login' || window.location.pathname === '/register') {
@@ -63,6 +52,7 @@ function ProtectedRoute({ children, ...rest }) {
 
     )
   }
+
 
 
   return (

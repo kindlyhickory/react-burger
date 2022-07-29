@@ -46,7 +46,7 @@ function HomePage() {
           <OrderDetails></OrderDetails>
         </Modal>
       }
-      {currentViewedIngredient &&
+      {/* {currentViewedIngredient &&
         <Modal
           title="Детали ингредиента"
           onClose={() => {
@@ -56,7 +56,7 @@ function HomePage() {
           }}>
           <IngredientDetails></IngredientDetails>
         </Modal>
-      }
+      } */}
     </>
   );
 }

@@ -13,7 +13,7 @@ export const setUserRegistrationFormValue = (field, value) => ({
   value
 })
 
-export function makeRegistration(name, email, password) {
+export function makeRegistration(name, email, password, history) {
   return function (dispatch) {
     dispatch({
       type: USER_REGISTRATION_REQUEST
@@ -32,6 +32,9 @@ export function makeRegistration(name, email, password) {
         dispatch({
           type: USER_REGISTRATION_SUCCESS
         })
+        if (res.success) {
+          history.replace({ pathname: '/login' })
+        }
       })
       .catch((error) => {
         dispatch({

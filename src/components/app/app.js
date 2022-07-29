@@ -14,7 +14,7 @@ import { HIDE_ORDER_MODAL } from '../../services/actions';
 
 import ProtectedRoute from '../protected-route';
 
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, useLocation } from 'react-router-dom';
 import HomePage from '../../pages/home';
 import LoginPage from '../../pages/login';
 import RegistrationPage from '../../pages/registration';
@@ -26,6 +26,9 @@ import { getCookie } from '../../utils/utils';
 
 function App() {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const background = location.state?.background;
 
   const { password } = useSelector(store => store.user.user)
 
@@ -39,29 +42,36 @@ function App() {
 
   return (
     <div className={appStyles.app}>
-      <Router>
-        <AppHeader />
-        <Switch>
-          <Route path='/' exact={true}>
-            <HomePage />
-          </Route>
-          <ProtectedRoute path='/login' exact={true}>
-            <LoginPage />
-          </ProtectedRoute>
-          <ProtectedRoute path='/register' exact={true} >
-            <RegistrationPage />
-          </ProtectedRoute>
-          <ProtectedRoute path='/forgot-password' exact={true}>
-            <ForgotPasswordPage />
-          </ProtectedRoute>
-          <ProtectedRoute path='/reset-password' exact={true}>
-            <ResetPasswordPage />
-          </ProtectedRoute>
-          <ProtectedRoute path='/profile' exact={true}>
-            <ProfilePage />
-          </ProtectedRoute>
-        </Switch>
-      </Router>
+      <AppHeader />
+      <Switch location={background || location}>
+        <Route path='/' exact={true}>
+          <HomePage />
+        </Route>
+        <ProtectedRoute path='/login' exact={true}>
+          <LoginPage />
+        </ProtectedRoute>
+        <ProtectedRoute path='/register' exact={true} >
+          <RegistrationPage />
+        </ProtectedRoute>
+        <ProtectedRoute path='/forgot-password' exact={true}>
+          <ForgotPasswordPage />
+        </ProtectedRoute>
+        <ProtectedRoute path='/reset-password' exact={true}>
+          <ResetPasswordPage />
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile' exact={true}>
+          <ProfilePage />
+        </ProtectedRoute>
+        <Route path='/ingredients/:id'>
+          <p>NewPAGE</p>
+        </Route>
+      </Switch>
+      {background &&
+        <Route path='/ingredients/:id' children={<Modal title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
+
+        </Route>
+
+      }
     </div >
   );
 }

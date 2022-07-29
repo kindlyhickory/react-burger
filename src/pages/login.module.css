@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 88px);
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .form {
@@ -12,9 +12,13 @@
   align-items: center;
 }
 
-.inputWrapper div {
+.inputWrapper div div {
   width: 480px;
   text-align: right;
+}
+
+.inputWrapper div div div {
+  width: 24px;
 }
 
 .link {
