@@ -81,7 +81,7 @@ export function signIn(email, password) {
 
 export function signOut(refreshToken, history) {
   return function (dispatch) {
-    console.log(refreshToken);
+    // console.log(refreshToken);
     dispatch({
       type: USER_LOGOUT_REQUEST
     });

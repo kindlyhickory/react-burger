@@ -39,9 +39,6 @@ const Modal = ({ children, title, onClose }) => {
           <div className={`${styles.closeContainer_type_untitled}`}>
             <div className={styles.close}>
               <CloseIcon type="primary" onClick={() => {
-                title ?
-                  history.goBack()
-                  :
                   onClose()
               }} />
             </div>
@@ -60,7 +57,7 @@ const Modal = ({ children, title, onClose }) => {
 Modal.propTypes = {
   children: PropTypes.element,
   title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 export default Modal;

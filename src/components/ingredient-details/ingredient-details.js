@@ -12,9 +12,7 @@ const IngredientDetails = () => {
 
 
   const ingredient = ingredients.find(item => item._id === id);
-  console.log(ingredient);
-
-  // const ingredient = useSelector(store => store.ingredients.currentViewedIngredient);
+  // console.log(ingredient);
 
   return (
     ingredient ?

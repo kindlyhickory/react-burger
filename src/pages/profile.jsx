@@ -16,7 +16,7 @@ function ProfilePage() {
   const history = useHistory();
 
   const { name, email, password } = useSelector(store => store.editProfile.form);
-  console.log(name, email, password)
+  // console.log(name, email, password)
   const { isPasswordHide, isDisabled } = useSelector(store => store.editProfile);
 
 
@@ -73,7 +73,7 @@ function ProfilePage() {
     setTimeout(() => {
       ref.current.focus()
     }, 0)
-    console.log(ref.current.getAttribute("name"));
+    // console.log(ref.current.getAttribute("name"));
     switch (ref.current.getAttribute("name")) {
       case 'name':
         dispatch({ type: CHANGE_ABLE_OF_EDIT_NAME });

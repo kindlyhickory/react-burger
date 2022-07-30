@@ -8,7 +8,7 @@ import { getIngredients, HIDE_MODAL_INGREDIENT } from '../../services/actions/in
 
 import ProtectedRoute from '../protected-route';
 
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import HomePage from '../../pages/home';
 import LoginPage from '../../pages/login';
 import RegistrationPage from '../../pages/registration';
@@ -18,9 +18,11 @@ import ProfilePage from '../../pages/profile';
 import { AUTH_CHECKED, getUser, updateToken } from "../../services/actions/user";
 import { getCookie } from '../../utils/utils';
 import IngredientPage from "../../pages/ingredient-page";
+import { HIDE_ORDER_MODAL } from "../../services/actions";
 
 function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const location = useLocation();
   const background = location.state?.background;
@@ -31,7 +33,7 @@ function App() {
     if (getCookie('refreshToken') && !getCookie('accessToken')) {
       dispatch(updateToken(getCookie("refreshToken")));
       dispatch(getUser())
-      console.log(1)
+      // console.log(1)
     } else if (getCookie('accessToken')) {
       dispatch(getUser());
     } else {
@@ -69,12 +71,12 @@ function App() {
         <ProtectedRoute path='/profile' exact={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path='/ingredients/:id'>
+        <Route path='/ingredients/:id'>
           <IngredientPage></IngredientPage>
-        </ProtectedRoute>
+        </Route>
       </Switch>
       {background &&
-        <Route path='/ingredients/:id' children={<Modal title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
+        <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
 
         </Route>
 
