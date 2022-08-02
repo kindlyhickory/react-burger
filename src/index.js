@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { rootReducer } from './services/reducers';
+import { BrowserRouter as Router } from "react-router-dom";
 
 
 const composeEnhancers =
@@ -20,7 +21,10 @@ const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />,
+    <Router>
+      <App />
+
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

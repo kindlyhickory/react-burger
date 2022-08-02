@@ -9,6 +9,7 @@
 - CSS
 - JavaScript, ES6
 - React
+- Redux
 - Сборка проекта: Webpack
 
 ## Запуск:

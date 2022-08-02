@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import ingredientsCategoryStyles from "./ingredients-category.module.css"
 import { useSelector } from "react-redux";
 
-import { useDrag } from "react-dnd";
-
 const IngredientsCategory = React.forwardRef(({ title, titleId }, ref) => {
   const ingredients = useSelector(store => store.ingredients.ingredients.filter(ingredient => ingredient.type === titleId));
   return (

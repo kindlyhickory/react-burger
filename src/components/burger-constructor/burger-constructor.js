@@ -9,10 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR_LIST, REMOVE_BUN_FROM_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, UPDATE_CONSTRUCTOR_LIST } from "../../services/actions/ingredients";
 import BurgerItem from "../burger-item/burger-item";
+import { userInformationReducer } from "../../services/reducers/user";
+import { Redirect, Route, useHistory } from 'react-router-dom';
+import { getUser } from "../../services/actions/user";
 
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+
+  const { name, email } = useSelector(store => store.user.user);
+  const history = useHistory();
 
   const ingredientsInConstructor = useSelector(store => store.ingredients.ingredientsInConstructor);
   const data = useSelector(store => store.ingredients.ingredients);
@@ -107,7 +113,11 @@ const BurgerConstructor = () => {
           <CurrencyIcon type="primary" />
         </div>
         <Button disabled={bun ? false : true} type="primary" size="large" onClick={() => {
-          dispatch(makeOrder(ingredientsInConstructor.map(ingredient => ingredient._id)))
+          if (email === "" && name === "") {
+            history.replace({ pathname: '/login' });
+          } else {
+            dispatch(makeOrder(ingredientsInConstructor.map(ingredient => ingredient._id)))
+          }
         }}>
           {bun ? 'Нажми на меня' : "Добавьте булку для заказа"}
         </Button>
