@@ -10,6 +10,7 @@ import { getIngredients, HIDE_MODAL_INGREDIENT } from '../services/actions/ingre
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { HIDE_ORDER_MODAL } from '../services/actions';
+import { WS_CONNECTION_START } from "../services/actions/webSocket";
 
 function HomePage() {
   const modalOrderIsOpened = useSelector(store => store.order.modalOrderIsOpened);
@@ -22,6 +23,7 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch({type: WS_CONNECTION_START});
   }, [dispatch])
 
   return (

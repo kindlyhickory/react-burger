@@ -7,6 +7,7 @@ import { forgotPasswordReducer } from "./forgotPassword";
 import { resetPasswordReducer } from "./resetPassword";
 import { editUserReducer } from "./profileEdit";
 import { userInformationReducer } from "./user";
+import { wsReducer } from "./webSocket";
 
 const initialState = {
   currentOrder: {},
@@ -61,4 +62,5 @@ export const rootReducer = combineReducers({
   resetPassword: resetPasswordReducer,
   editProfile: editUserReducer,
   user: userInformationReducer,
+  ws: wsReducer,
 })
