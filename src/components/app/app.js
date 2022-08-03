@@ -19,6 +19,7 @@ import { AUTH_CHECKED, getUser, updateToken } from "../../services/actions/user"
 import { getCookie } from '../../utils/utils';
 import IngredientPage from "../../pages/ingredient-page";
 import { HIDE_ORDER_MODAL } from "../../services/actions";
+import OrderFeedPage from "../../pages/order-feed-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,9 @@ function App() {
     <div className={appStyles.app}>
       <AppHeader />
       <Switch location={background || location}>
+        <Route path='/feed' exact={true}>
+          <OrderFeedPage></OrderFeedPage>
+        </Route>
         <Route path='/' exact={true}>
           <HomePage />
         </Route>

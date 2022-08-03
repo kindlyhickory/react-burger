@@ -8,6 +8,9 @@ import { useHistory } from 'react-router-dom';
 import { signOut } from "../services/actions/login"
 import { getUser, updateUserData } from '../services/actions/user';
 import { useForm } from 'react-hook-form';
+import { getIngredients } from "../services/actions/ingredients";
+import { WS_CONNECTION_PROFILE_START } from "../services/actions/webSocketProfile";
+import { WS_CONNECTION_START } from "../services/actions/webSocket";
 
 
 function ProfilePage() {
@@ -18,6 +21,12 @@ function ProfilePage() {
   const { name, email, password } = useSelector(store => store.editProfile.form);
   // console.log(name, email, password)
   const { isPasswordHide, isDisabled } = useSelector(store => store.editProfile);
+
+  useEffect(() => {
+    const token = getCookie('accessToken');
+    console.log(token);
+    dispatch({type: WS_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${token}`});
+  }, [dispatch])
 
 
 

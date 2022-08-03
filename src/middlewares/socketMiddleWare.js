@@ -8,21 +8,20 @@ import {
 } from "../services/actions/webSocket";
 import { getCookie } from "../utils/utils";
 
-export const socketMiddleWare = (wsUrl, wsActions, auth) => {
+export const socketMiddleWare = (wsActions) => {
   return store => {
     let socket = null
+    let url = ''
     return next => action => {
 
-      const {dispatch, getState} = store;
+      const {dispatch} = store;
       const {type, payload} = action;
-      const token = auth ? getCookie('accessToken') : null;
+      // const token = auth ? getCookie('accessToken') : null;
       const {wsInit, onOpen, onError, onMessage, onClose, wsSendOrder } = wsActions;
 
       if (type === wsInit) {
-        socket = token ?
-          new WebSocket(`${wsUrl}?token=${token}`)
-          :
-          new WebSocket(`${wsUrl}`);
+        url = payload;
+        socket = new WebSocket(url);
       }
       if (socket) {
         socket.onopen = event => {
@@ -38,7 +37,7 @@ export const socketMiddleWare = (wsUrl, wsActions, auth) => {
           console.log(event);
           const {data} = event;
           const parsedData = JSON.parse(data);
-          const { success, ...rest} = parsedData
+          const { success, ...rest } = parsedData
           dispatch({type: onMessage, payload: rest});
         }
         socket.onclose = event => {

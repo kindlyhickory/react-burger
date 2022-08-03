@@ -1,9 +1,13 @@
 import React from "react";
+import OrderItem from "../order-item/orderItem";
+import styles from './order-feed.module.css'
 
-function orderFeed() {
+function OrderFeed() {
   return (
-    <div>
-
+    <div className={`${styles.ordersList}`}>
+      <OrderItem></OrderItem>
     </div>
   )
 }
+
+export default OrderFeed;

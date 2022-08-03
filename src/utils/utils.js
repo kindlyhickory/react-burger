@@ -6,6 +6,20 @@ export function checkResponse(res) {
   return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}`)
 }
 
+export function parseDate(date) {
+  const orderDate = new Date(`${date}`);
+  const today = new Date();
+  const differenceInDays = Math.ceil((today.getTime() - orderDate.getTime()) / (60 * 60 * 1000 * 24))
+  const ago = differenceInDays === 0
+    ? 'Сегодня'
+    : differenceInDays === 1 ?
+      'Вчера'
+      : differenceInDays > 1 ?
+        `${differenceInDays} дней назад`
+        : null
+  return `${ago}, ${orderDate.getHours()}:${orderDate.getMinutes()} i-GMT+${orderDate.getTimezoneOffset()/-60}`
+}
+
 export function setCookie(name, value, props) {
   props = props || {};
   let exp = props.expires;

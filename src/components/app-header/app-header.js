@@ -22,7 +22,7 @@ const AppHeader = () => {
             </li>
             <li className={`${headerStyles.list__item} pl-5 pr-5 mt-4 mb-4 pt-4 pb-4`}>
               <MenuIcon type={location.pathname === '/not-existed-page' ? 'primary' : 'secondary'} />
-              <NavLink exact to='' className={`${headerStyles.list__link} text text_type_main-default ml-2`}>Лента заказов</NavLink>
+              <NavLink exact to='/feed' className={`${headerStyles.list__link} text text_type_main-default ml-2`}>Лента заказов</NavLink>
             </li>
           </ul>
         </nav>

@@ -11,10 +11,10 @@ const initialState = {
   orders: [],
   error: undefined,
   total: 0,
-  totalToday: 0,
+  totalToday: 0
 }
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducerProfile = (state = initialState, action) => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
