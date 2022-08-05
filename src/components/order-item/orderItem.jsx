@@ -5,10 +5,15 @@ import styles from './order-item.module.css'
 import { getIngredients } from "../../services/actions/ingredients";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router-dom";
+import { MAX_INGREDIENTS } from "../../utils/constants";
 
 function OrdersItem({ order }) {
 
   const location = useLocation()
+
+  const ingredientsToDraw = order.ingredients.slice(0, MAX_INGREDIENTS);
+  const orderIngredientsCount = order.ingredients.length;
+  const count = orderIngredientsCount - MAX_INGREDIENTS;
 
 
   const allIngredients = useSelector(store => store.ingredients.ingredients)
@@ -30,9 +35,15 @@ function OrdersItem({ order }) {
         </h3>
         <div className={`${styles.totalIngredientPrice} mt-6`}>
           <div className={`${styles.icons}`}>
-            {order.ingredients.map((item, index) => {
+            {ingredientsToDraw.map((item, index) => {
               return (
                 <div key={index} className={`${styles.icon}`}>
+                  {index === 5 && <>
+                    <div className={`${styles.icon__overlay}`}>
+                    </div>
+                    <span className={`${styles.hiddenIngredientsCount} text text_type_digits-default`}>+{count}</span>
+                  </>
+                  }
                   <img className={`${styles.icon__image}`} src={allIngredients.find((el, index) => {
                     return el._id === item
                   })?.image_mobile} alt="" />

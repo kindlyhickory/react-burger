@@ -6,6 +6,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/utils";
 import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from "../../services/actions/webSocket";
+import { MAX_INGREDIENTS } from "../../utils/constants";
 
 function OrderFeed({type}) {
   const dispatch = useDispatch();
@@ -23,9 +24,6 @@ function OrderFeed({type}) {
 
 
   const { orders } = useSelector(store => store.ws);
-
-
-
 
   const location = useLocation();
 

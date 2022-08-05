@@ -12,13 +12,8 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 
 const Modal = ({ children, title, onClose}) => {
 
-  const history = useHistory();
-  const { id } = useParams();
-  let name = title;
 
   const location = useLocation();
-
-  console.log(location)
 
 
   function handleEsc(e) {
@@ -38,14 +33,14 @@ const Modal = ({ children, title, onClose}) => {
     <>
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
-          {location.state?.background === '/' ?
-            title &&
-            <h3 className="text text_type_main-large">
-              {title}
+          {title &&
+            location.state?.or?.number ?
+            <h3 className="text text_type_digits-default">
+              #{ location.state?.or?.number}
             </h3>
             :
-            <h3 className="text text_type_digits-default">
-              #{location.state.or.number}
+            <h3 className="text text_type_main-large">
+              {title}
             </h3>
           }
           <div className={`${styles.closeContainer_type_untitled}`}>

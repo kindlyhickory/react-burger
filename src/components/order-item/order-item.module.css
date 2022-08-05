@@ -13,7 +13,21 @@
     color: white;
 }
 
+.icon__overlay {
+    background: #1C1C21;
+    opacity: .6;
+    position: absolute;
+    border-radius: 100px;
+    width: 60px;
+    height: 60px;
+}
+
+.hiddenIngredientsCount {
+    position: absolute;
+}
+
 .icon {
+    position: relative;
     border-radius: 100px;
     width: 60px;
     height: 60px;

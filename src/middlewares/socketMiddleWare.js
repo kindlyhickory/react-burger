@@ -19,7 +19,7 @@ export const socketMiddleWare = (wsActions) => {
       const {dispatch} = store;
       const {type, payload} = action;
       // const token = auth ? getCookie('accessToken') : null;
-      const {wsInit, onOpen, onError, onMessage, onClose, wsSendOrder } = wsActions;
+      const {wsInit, onOpen, onError, onMessage, onClose, wsSendOrder, wsClose } = wsActions;
 
       if (type === wsInit) {
         url = payload;
@@ -47,11 +47,11 @@ export const socketMiddleWare = (wsActions) => {
         socket.onclose = event => {
           dispatch({type: onClose, payload: event})
         }
-        if (type === WS_SEND_ORDER) {
+        if (type === wsSendOrder) {
             const order = payload;
             socket.send(JSON.stringify(order));
         }
-        if (type === WS_CONNECTION_CLOSE) {
+        if (type === wsClose) {
           socket.close(1000, 'socket closed');
           // console.log(socket);
         }
