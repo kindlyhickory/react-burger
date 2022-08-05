@@ -20,6 +20,8 @@ import { getCookie } from '../../utils/utils';
 import IngredientPage from "../../pages/ingredient-page";
 import { HIDE_ORDER_MODAL } from "../../services/actions";
 import OrderFeedPage from "../../pages/order-feed-page";
+import OrderInfo from "../order-info/order-info";
+import OrderPage from "../../pages/order-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,14 +77,33 @@ function App() {
         <ProtectedRoute path='/profile' exact={true}>
           <ProfilePage />
         </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders' exact={true}>
+          <ProfilePage/>
+        </ProtectedRoute>
         <Route path='/ingredients/:id'>
           <IngredientPage></IngredientPage>
         </Route>
+        <Route path='/feed/:id' exact={true}>
+          <OrderPage type={'feed'}/>
+        </Route>
+        <ProtectedRoute path='/profile/orders/:id' exact={true}>
+          <OrderPage type={'profile'} />
+        </ProtectedRoute>
+
+
       </Switch>
       {background &&
-        <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
+        <>
+          <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
 
-        </Route>
+          </Route>
+          <Route path='/feed/:id' children={<Modal onClose={()=> history.goBack()} title={' '}><OrderInfo/></Modal>}>
+
+          </Route>
+          <ProtectedRoute path='/profile/orders/:id' children={<Modal onClose={()=> history.goBack()} title={' '}><OrderInfo/></Modal>}>
+
+          </ProtectedRoute>
+        </>
 
       }
     </div >

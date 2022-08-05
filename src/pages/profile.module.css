@@ -23,7 +23,6 @@
 .wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .form {
@@ -53,9 +52,15 @@
 
 .profile__linkItem {
   cursor: pointer;
-  transition: all .3s linear
+  transition: all .3s linear;
+  text-decoration: none;
+  color: #8585AD;
 }
 
+
+.profile__linkItem_active {
+  color: #f2f2f3;
+}
 .profile__linkItem:hover {
   opacity: .4
 }

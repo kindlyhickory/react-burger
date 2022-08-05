@@ -1,5 +1,6 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import {
+  WS_CONNECTION_CLOSE,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
@@ -7,11 +8,12 @@ import {
   WS_GET_ORDER, WS_SEND_ORDER
 } from "../services/actions/webSocket";
 import { getCookie } from "../utils/utils";
+import { connect } from "react-redux";
 
 export const socketMiddleWare = (wsActions) => {
   return store => {
     let socket = null
-    let url = ''
+    let url = '';
     return next => action => {
 
       const {dispatch} = store;
@@ -22,10 +24,12 @@ export const socketMiddleWare = (wsActions) => {
       if (type === wsInit) {
         url = payload;
         socket = new WebSocket(url);
+
       }
       if (socket) {
         socket.onopen = event => {
-          console.log(event);
+          // console.log(socket);
+          // console.log(event);
           dispatch({type: onOpen, payload: event});
         }
 
@@ -34,7 +38,7 @@ export const socketMiddleWare = (wsActions) => {
           dispatch({type: onError, payload: event});
         }
         socket.onmessage = event => {
-          console.log(event);
+          // console.log(event);
           const {data} = event;
           const parsedData = JSON.parse(data);
           const { success, ...rest } = parsedData
@@ -47,6 +51,11 @@ export const socketMiddleWare = (wsActions) => {
             const order = payload;
             socket.send(JSON.stringify(order));
         }
+        if (type === WS_CONNECTION_CLOSE) {
+          socket.close(1000, 'socket closed');
+          // console.log(socket);
+        }
+
       }
       next(action);
     }

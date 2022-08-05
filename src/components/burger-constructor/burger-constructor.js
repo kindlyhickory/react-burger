@@ -116,7 +116,14 @@ const BurgerConstructor = () => {
           if (email === "" && name === "") {
             history.replace({ pathname: '/login' });
           } else {
-            dispatch(makeOrder(ingredientsInConstructor.map(ingredient => ingredient._id)))
+            const ingredientsId = ingredientsInConstructor.map(ingredient => {
+              // console.log(ingredient._id);
+              return ingredient._id
+            })
+            ingredientsId.push(bun._id);
+            ingredientsId.push(bun._id);
+            // console.log(ingredientsId);
+            dispatch(makeOrder(ingredientsId))
           }
         }}>
           {bun ? 'Нажми на меня' : "Добавьте булку для заказа"}

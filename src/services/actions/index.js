@@ -1,5 +1,5 @@
 import { config } from "../../utils/data";
-import { checkResponse } from "../../utils/utils";
+import { checkResponse, getCookie } from "../../utils/utils";
 import { CLEAR_CONSTRUCTOR_LIST } from "./ingredients";
 
 export const MAKE_ORDER_REQUEST = "MAKE_ORDER_REQUEST";
@@ -18,13 +18,16 @@ export function makeOrder(ingredients) {
     })
     fetch(`${config.baseUrl}/orders`, {
       method: "POST",
-      headers: config.headers,
+      headers: {
+        ...config.headers,
+        Authorization: 'Bearer '+ getCookie('accessToken')},
       body: JSON.stringify({
         ingredients: [...ingredients]
       })
     })
       .then(checkResponse)
       .then((res) => {
+        console.log(res);
         dispatch({
           type: MAKE_ORDER_SUCCESS,
           currentOrder: res,

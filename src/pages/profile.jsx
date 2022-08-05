@@ -4,14 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CHANGE_ABLE_OF_EDIT_EMAIL, CHANGE_ABLE_OF_EDIT_NAME, CHANGE_ABLE_OF_EDIT_PASSWORD, CHANGE_ABLE_OF_INPUTS, LOAD_USER_DATA, RESET_USER_DATA, setUserEditFormValue, USER_EDIT_FORM_CHANGE_PASSWORD_VISION } from '../services/actions/profileEdit';
 import { getCookie } from '../utils/utils';
 import styles from './profile.module.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
 import { signOut } from "../services/actions/login"
 import { getUser, updateUserData } from '../services/actions/user';
 import { useForm } from 'react-hook-form';
 import { getIngredients } from "../services/actions/ingredients";
 import { WS_CONNECTION_PROFILE_START } from "../services/actions/webSocketProfile";
-import { WS_CONNECTION_START } from "../services/actions/webSocket";
-
+import { WS_CONNECTION_CLOSE, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../services/actions/webSocket";
+import ProfileMenu from "../components/profile-menu/profile-menu";
+import React from "react";
+import OrderFeed from "../components/order-feed/order-feed";
 
 function ProfilePage() {
 
@@ -22,11 +24,14 @@ function ProfilePage() {
   // console.log(name, email, password)
   const { isPasswordHide, isDisabled } = useSelector(store => store.editProfile);
 
-  useEffect(() => {
-    const token = getCookie('accessToken');
-    console.log(token);
-    dispatch({type: WS_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${token}`});
-  }, [dispatch])
+  // useEffect(() => {
+  //   const token = getCookie('accessToken');
+  //   // console.log(token);
+  //   dispatch({type: WS_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${token}`});
+  //   return () => {
+  //     dispatch({type: WS_CONNECTION_CLOSE});
+  //   }
+  // }, [dispatch])
 
 
 
@@ -113,109 +118,93 @@ function ProfilePage() {
     dispatch({ type: LOAD_USER_DATA, email: currentUser.email, name: currentUser.name, startedValues: { ...currentUser } });
   }, [dispatch])
 
+  const location = useLocation();
 
 
 
   return (
-    <div className={`${styles.profile} pt-30`}>
+
+
+    <div className={`${styles.profile}`}>
+
       <div className={`${styles.profile__container}`}>
-        <div className={`${styles.profile__menuContainer} mr-15`}>
-          <ul className={`${styles.profile__menu} mb-20`}>
-            <li className={styles.profile__link}>
-              <a className={`${styles.profile__linkItem} text text_type_main-medium text_color_active`}>
-                Профиль
-              </a>
-            </li>
-            <li className={styles.profile__link}>
-              <a className={`${styles.profile__linkItem} text text_type_main-medium text_color_inactive`}>
-                История
-              </a>
-            </li>
-            <li className={styles.profile__link}>
-              <a onClick={() => {
-                dispatch(signOut(getCookie('refreshToken'), history));
-              }} className={`${styles.profile__linkItem} text text_type_main-medium text_color_inactive`}>
-                Выход
-              </a>
-            </li>
-          </ul>
-          <p className={`${styles.profile__caption} text text_type_main-default text_color_inactive`}>
-            В этом разделе вы можете
-            изменить свои персональные данные
-          </p>
-        </div>
-        <div className={styles.wrapper}>
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <div className={`${styles.profile__input} mb-6`}>
-              <Input
-                type={'text'}
-                placeholder={'Имя'}
-                value={name}
-                name={'name'}
-                size={'default'}
-                icon={isDisabled.name ? 'EditIcon' : "CloseIcon"}
-                {...nameRest}
-                ref={(e) => {
-                  namingRef(e)
-                  nameRef.current = e
-                }}
-                onIconClick={(e) => onIconClick(e, nameRef)}
-                disabled={isDisabled.name}
-                error={errors.name ? true : false}
-                errorText={errors.name?.message}
-              />
-            </div>
-            <div className={`${styles.profile__input} mb-6`}>
-              <Input
-                type={'email'}
-                placeholder={'E-mail'}
-                value={email}
-                name={'email'}
-                size={'default'}
-                icon={isDisabled.email ? 'EditIcon' : "CloseIcon"}
-                onIconClick={(e) => onIconClick(e, emailRef)}
-                {...emailRest}
-                ref={(e) => {
-                  mailRef(e)
-                  emailRef.current = e
-                }}
-                disabled={isDisabled.email}
-                error={errors.email ? true : false}
-                errorText={errors.email?.message}
-              />
-            </div>
-            <div className={`${styles.profile__input} mb-6`}>
-              <Input
-                type={'password'}
-                placeholder={'Пароль'}
-                value={password}
-                name={'password'}
-                size={'default'}
-                icon={isDisabled.password ? 'EditIcon' : 'CloseIcon'}
-                onIconClick={(e) => onIconClick(e, passwordRef)}
-                {...passwordRest}
-                ref={(e) => {
-                  passRef(e)
-                  passwordRef.current = e
-                }}
-                disabled={isDisabled.password}
-                errorText={errors.password && errors.password.message}
-                error={errors.password ? true : false}
-              />
-            </div>
-            <div className={`${styles.profile__buttonContainer}`}>
-              <Button onClick={(e) => {
-                e.preventDefault();
-                dispatch({ type: RESET_USER_DATA })
-              }} type="secondary" size="medium">
-                Отмена
-              </Button>
-              <Button type="primary" size="medium">
-                Сохранить
-              </Button>
-            </div>
-          </form>
-        </div>
+        <ProfileMenu></ProfileMenu>
+        {location.pathname === "/profile" ?
+          <div className={`${styles.wrapper} pt-30  `}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+              <div className={`${styles.profile__input} mb-6`}>
+                <Input
+                  type={'text'}
+                  placeholder={'Имя'}
+                  value={name}
+                  name={'name'}
+                  size={'default'}
+                  icon={isDisabled.name ? 'EditIcon' : "CloseIcon"}
+                  {...nameRest}
+                  ref={(e) => {
+                    namingRef(e)
+                    nameRef.current = e
+                  }}
+                  onIconClick={(e) => onIconClick(e, nameRef)}
+                  disabled={isDisabled.name}
+                  error={errors.name ? true : false}
+                  errorText={errors.name?.message}
+                />
+              </div>
+              <div className={`${styles.profile__input} mb-6`}>
+                <Input
+                  type={'email'}
+                  placeholder={'E-mail'}
+                  value={email}
+                  name={'email'}
+                  size={'default'}
+                  icon={isDisabled.email ? 'EditIcon' : "CloseIcon"}
+                  onIconClick={(e) => onIconClick(e, emailRef)}
+                  {...emailRest}
+                  ref={(e) => {
+                    mailRef(e)
+                    emailRef.current = e
+                  }}
+                  disabled={isDisabled.email}
+                  error={errors.email ? true : false}
+                  errorText={errors.email?.message}
+                />
+              </div>
+              <div className={`${styles.profile__input} mb-6`}>
+                <Input
+                  type={'password'}
+                  placeholder={'Пароль'}
+                  value={password}
+                  name={'password'}
+                  size={'default'}
+                  icon={isDisabled.password ? 'EditIcon' : 'CloseIcon'}
+                  onIconClick={(e) => onIconClick(e, passwordRef)}
+                  {...passwordRest}
+                  ref={(e) => {
+                    passRef(e)
+                    passwordRef.current = e
+                  }}
+                  disabled={isDisabled.password}
+                  errorText={errors.password && errors.password.message}
+                  error={errors.password ? true : false}
+                />
+              </div>
+              <div className={`${styles.profile__buttonContainer}`}>
+                <Button onClick={(e) => {
+                  e.preventDefault();
+                  dispatch({ type: RESET_USER_DATA })
+                }} type="secondary" size="medium">
+                  Отмена
+                </Button>
+                <Button type="primary" size="medium">
+                  Сохранить
+                </Button>
+              </div>
+            </form>
+          </div>
+          :
+          <OrderFeed type={'profile'}/>
+        }
       </div>
     </div>
   )

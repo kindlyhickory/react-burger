@@ -8,16 +8,22 @@ export function checkResponse(res) {
 
 export function parseDate(date) {
   const orderDate = new Date(`${date}`);
+  const copiedDate = new Date(`${date}`);
+  orderDate.setHours(0,0,0,0);
   const today = new Date();
-  const differenceInDays = Math.ceil((today.getTime() - orderDate.getTime()) / (60 * 60 * 1000 * 24))
-  const ago = differenceInDays === 0
+  today.setHours(0,0,0,0);
+  const hours = copiedDate.getHours() < 10 ? '0' + copiedDate.getHours() : copiedDate.getHours()
+  const minutes = copiedDate.getMinutes() < 10 ? '0' + copiedDate.getMinutes() : copiedDate.getMinutes();
+  const differenceInDays = Math.ceil(Math.abs((today.getTime() - orderDate.getTime()) / (60 * 60 * 1000 * 24)));
+  const ago = differenceInDays < 1
     ? 'Сегодня'
     : differenceInDays === 1 ?
       'Вчера'
       : differenceInDays > 1 ?
         `${differenceInDays} дней назад`
         : null
-  return `${ago}, ${orderDate.getHours()}:${orderDate.getMinutes()} i-GMT+${orderDate.getTimezoneOffset()/-60}`
+  // console.log(differenceInDays);
+  return `${ago}, ${hours}:${minutes} i-GMT+${copiedDate.getTimezoneOffset()/-60}`
 }
 
 export function setCookie(name, value, props) {

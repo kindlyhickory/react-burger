@@ -7,12 +7,19 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { HIDE_MODAL_INGREDIENT } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/index";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 
-const Modal = ({ children, title, onClose }) => {
+const Modal = ({ children, title, onClose}) => {
 
   const history = useHistory();
+  const { id } = useParams();
+  let name = title;
+
+  const location = useLocation();
+
+  console.log(location)
+
 
   function handleEsc(e) {
     if (e.key === "Escape") {
@@ -31,9 +38,14 @@ const Modal = ({ children, title, onClose }) => {
     <>
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
-          {title &&
+          {location.state?.background === '/' ?
+            title &&
             <h3 className="text text_type_main-large">
               {title}
+            </h3>
+            :
+            <h3 className="text text_type_digits-default">
+              #{location.state.or.number}
             </h3>
           }
           <div className={`${styles.closeContainer_type_untitled}`}>
