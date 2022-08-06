@@ -29,6 +29,8 @@ function App() {
 
   const location = useLocation();
   const background = location.state?.background;
+  const order = location.state?.orderItem;
+
 
   const { password } = useSelector(store => store.user.user)
 
@@ -94,10 +96,10 @@ function App() {
       </Switch>
       {background &&
         <>
-          <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
+          <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} titleStyles='text text_type_main-large' title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
 
           </Route>
-          <Route path='/feed/:id' children={<Modal onClose={()=> history.goBack()} title={' '}><OrderInfo/></Modal>}>
+          <Route path='/feed/:id' children={<Modal onClose={()=> history.goBack()} titleStyles='text text_type_digits-default' title={`${order ? `#${order.number}` : ' '}`}><OrderInfo/></Modal>}>
 
           </Route>
           <ProtectedRoute path='/profile/orders/:id' children={<Modal onClose={()=> history.goBack()} title={' '}><OrderInfo/></Modal>}>

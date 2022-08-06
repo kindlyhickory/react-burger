@@ -20,7 +20,7 @@ function OrdersItem({ order }) {
 
   return (
     allIngredients.length !== 0   ?
-    <Link className={styles.link} to={{pathname: location.pathname === '/feed' ? `/feed/${order._id}` : `/profile/orders/${order._id}`, state: { background: location, or: order }}}>
+    <Link className={styles.link} to={{pathname: location.pathname === '/feed' ? `/feed/${order._id}` : `/profile/orders/${order._id}`, state: { background: location, orderItem: order }}}>
       <div className={`${styles.item} pl-6 pr-6 pt-6 pb-6`}>
         <div className={`${styles.title}`}>
           <h2 className="text text_type_digits-default">

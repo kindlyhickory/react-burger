@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 
 
-const Modal = ({ children, title, onClose}) => {
+const Modal = ({ children, title, onClose, titleStyles}) => {
 
 
   const location = useLocation();
@@ -31,12 +31,7 @@ const Modal = ({ children, title, onClose}) => {
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
           {title &&
-            location.state?.or?.number ?
-            <h3 className="text text_type_digits-default">
-              #{ location.state?.or?.number}
-            </h3>
-            :
-            <h3 className="text text_type_main-large">
+            <h3 className={titleStyles}>
               {title}
             </h3>
           }
