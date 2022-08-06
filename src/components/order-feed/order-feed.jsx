@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/utils";
 import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from "../../services/actions/webSocket";
 import { MAX_INGREDIENTS } from "../../utils/constants";
+import { config } from "../../utils/data";
+import Loader from "../loader/loader";
 
 function OrderFeed({type}) {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ function OrderFeed({type}) {
     if (type === 'profile') {
       const token = getCookie('accessToken');
       if (!token) return
-      dispatch({type: WS_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${token}`});
+      dispatch({type: WS_CONNECTION_START, payload: `${config.wsSocketUrl}?token=${token}`});
     }
     return () => {
       dispatch({type: WS_CONNECTION_CLOSE});
@@ -47,7 +49,9 @@ function OrderFeed({type}) {
       </div>
     </div>
     :
-      <p>loading</p>
+      <div className={`ml-30 mt-30`}>
+        <Loader text={`Загрузка заказов...`}></Loader>
+      </div>
     )
 
 }

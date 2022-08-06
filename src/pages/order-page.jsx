@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../services/actions/ingredients";
 import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from "../services/actions/webSocket";
+import { config } from "../utils/data";
 
 function OrderPage({type}) {
   const { id } = useParams();
@@ -20,10 +21,10 @@ function OrderPage({type}) {
     if (type === 'profile') {
       const token = getCookie('accessToken');
       if (!token) return
-      dispatch({type: WS_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${token}`});
+      dispatch({type: WS_CONNECTION_START, payload: `${config.wsSocketUrl}?token=${token}`});
     }
     else if (type === 'feed') {
-      dispatch({type: WS_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all' })
+      dispatch({type: WS_CONNECTION_START, payload: `${config.wsSocketUrl}/all` })
     }
     return () => {
       dispatch({type: WS_CONNECTION_CLOSE});

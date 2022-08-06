@@ -12,6 +12,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { HIDE_ORDER_MODAL } from '../services/actions';
 import { WS_CONNECTION_START } from "../services/actions/webSocket";
 import { WS_CONNECTION_PROFILE_START } from "../services/actions/webSocketProfile";
+import Loader from "../components/loader/loader";
 
 function HomePage() {
   const modalOrderIsOpened = useSelector(store => store.order.modalOrderIsOpened);

@@ -5,12 +5,14 @@ import OrderWork from "../components/order-work/order-work";
 import { useDispatch, useSelector } from "react-redux";
 import { WS_CONNECTION_CLOSE, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../services/actions/webSocket";
 import { getIngredients } from "../services/actions/ingredients";
+import { config } from "../utils/data";
+import Loader from "../components/loader/loader";
 
 function OrderFeedPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({type: WS_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all'})
+    dispatch({type: WS_CONNECTION_START, payload: `${config.wsSocketUrl}/all`})
     return () => {
       dispatch({type: WS_CONNECTION_CLOSE});
     }
@@ -24,7 +26,10 @@ function OrderFeedPage() {
       <OrderWork></OrderWork>
     </main>
       :
-      <p>loading</p>
+      <div className={`mt-30`}>
+        <Loader text={`Загрузка ленты заказов`}></Loader>
+      </div>
+
   )
 }
 

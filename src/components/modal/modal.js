@@ -4,10 +4,7 @@ import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import { HIDE_MODAL_INGREDIENT } from "../../services/actions/ingredients";
-import { HIDE_ORDER_MODAL } from "../../services/actions/index";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 const Modal = ({ children, title, onClose}) => {
