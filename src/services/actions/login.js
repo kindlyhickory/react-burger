@@ -106,6 +106,7 @@ export function signOut(refreshToken, history) {
           dispatch({
             type: REMOVE_USER
           })
+          console.log(123);
           deleteCookie('refreshToken');
           deleteCookie('accessToken');
           history.replace({ pathname: '/login' });

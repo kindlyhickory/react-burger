@@ -4,15 +4,14 @@ import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import { HIDE_MODAL_INGREDIENT } from "../../services/actions/ingredients";
-import { HIDE_ORDER_MODAL } from "../../services/actions/index";
-import { useHistory, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
-const Modal = ({ children, title, onClose }) => {
+const Modal = ({ children, title, onClose, titleStyles}) => {
 
-  const history = useHistory();
+
+  const location = useLocation();
+
 
   function handleEsc(e) {
     if (e.key === "Escape") {
@@ -32,7 +31,7 @@ const Modal = ({ children, title, onClose }) => {
       <div className={`${styles.modal} pt-15 pl-10 pr-10 pb-15`}>
         <div className={`${title ? styles.closeContainer_type_titled : styles.closeContainer_type_untitled}`}>
           {title &&
-            <h3 className="text text_type_main-large">
+            <h3 className={titleStyles}>
               {title}
             </h3>
           }

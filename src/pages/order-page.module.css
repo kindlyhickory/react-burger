@@ -1,0 +1,54 @@
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+    margin: 117px auto 0;
+}
+.date {
+    color: #8585AD;
+}
+.status {
+    color: #00CCCC;
+}
+
+.orderId {
+    padding: 25px 0;
+    text-align: center;
+}
+
+.ingredients {
+    width: 100%;
+    max-height: 312px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 48px;
+}
+
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.priceContainer {
+    text-align: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+}

@@ -1,0 +1,46 @@
+.ordersList {
+    width: 600px;
+    height: 560px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ordersListProfile {
+    width: 860px;
+    height: 560px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ordersListProfile::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ordersListProfile::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ordersListProfile::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+
+
+
+.ordersList::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ordersList::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ordersList::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}

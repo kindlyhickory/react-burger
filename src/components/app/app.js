@@ -19,6 +19,9 @@ import { AUTH_CHECKED, getUser, updateToken } from "../../services/actions/user"
 import { getCookie } from '../../utils/utils';
 import IngredientPage from "../../pages/ingredient-page";
 import { HIDE_ORDER_MODAL } from "../../services/actions";
+import OrderFeedPage from "../../pages/order-feed-page";
+import OrderInfo from "../order-info/order-info";
+import OrderPage from "../../pages/order-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +29,8 @@ function App() {
 
   const location = useLocation();
   const background = location.state?.background;
+  const order = location.state?.orderItem;
+
 
   const { password } = useSelector(store => store.user.user)
 
@@ -53,6 +58,9 @@ function App() {
     <div className={appStyles.app}>
       <AppHeader />
       <Switch location={background || location}>
+        <Route path='/feed' exact={true}>
+          <OrderFeedPage></OrderFeedPage>
+        </Route>
         <Route path='/' exact={true}>
           <HomePage />
         </Route>
@@ -71,14 +79,33 @@ function App() {
         <ProtectedRoute path='/profile' exact={true}>
           <ProfilePage />
         </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders' exact={true}>
+          <ProfilePage/>
+        </ProtectedRoute>
         <Route path='/ingredients/:id'>
           <IngredientPage></IngredientPage>
         </Route>
+        <Route path='/feed/:id' exact={true}>
+          <OrderPage type={'feed'}/>
+        </Route>
+        <ProtectedRoute path='/profile/orders/:id' exact={true}>
+          <OrderPage type={'profile'} />
+        </ProtectedRoute>
+
+
       </Switch>
       {background &&
-        <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
+        <>
+          <Route path='/ingredients/:id' children={<Modal onClose={() => history.goBack()} titleStyles='text text_type_main-large' title='Детали ингредиента'><IngredientDetails></IngredientDetails></Modal>}>
 
-        </Route>
+          </Route>
+          <Route path='/feed/:id' children={<Modal onClose={()=> history.goBack()} titleStyles='text text_type_digits-default' title={`${order ? `#${order.number}` : ' '}`}><OrderInfo/></Modal>}>
+
+          </Route>
+          <ProtectedRoute path='/profile/orders/:id' children={<Modal onClose={()=> history.goBack()} title={' '}><OrderInfo/></Modal>}>
+
+          </ProtectedRoute>
+        </>
 
       }
     </div >

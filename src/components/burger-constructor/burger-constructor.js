@@ -12,6 +12,7 @@ import BurgerItem from "../burger-item/burger-item";
 import { userInformationReducer } from "../../services/reducers/user";
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import { getUser } from "../../services/actions/user";
+import Loader from "../loader/loader";
 
 
 const BurgerConstructor = () => {
@@ -23,6 +24,9 @@ const BurgerConstructor = () => {
   const ingredientsInConstructor = useSelector(store => store.ingredients.ingredientsInConstructor);
   const data = useSelector(store => store.ingredients.ingredients);
   const bun = useSelector(store => store.ingredients.bunInConstructor);
+  const {makeOrderRequest} = useSelector(store => store.order);
+
+
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(ingredient) {
@@ -54,54 +58,57 @@ const BurgerConstructor = () => {
 
   return (
     <div className={`${burgerConstructorStyles.burgerConstructor} mt-25 pl-4 pr-4`}>
-      <div ref={dropTarget} className={`${isHover ? burgerConstructorStyles.listHover : ''} ${burgerConstructorStyles.ingredientsContainer}`}>
-        {bun &&
-          <div className="pl-8">
-            <ConstructorElement
-              type="top"
-              handleClose={() => {
-                dispatch({
-                  type: REMOVE_BUN_FROM_CONSTRUCTOR,
-                })
-              }}
-              isLocked={true}
-              text={`${bun.name} (верх)`}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </div>
-        }
-        {data.length !== 0 &&
-          <div className={`${burgerConstructorStyles.list}`}>
-            {
-              ingredientsInConstructor.map((element, index) => (
-                <BurgerItem
-                  key={element.id}
-                  item={element}
-                  index={index}
-                  moveItem={moveItem}
-                />
-              ))
-            }
-          </div>
-        }
-        {bun &&
-          <div className="pl-8 mb-10">
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image}
-              handleClose={() => {
-                dispatch({
-                  type: REMOVE_BUN_FROM_CONSTRUCTOR,
-                })
-              }}
-            />
-          </div>
-        }
-      </div>
+      { makeOrderRequest ? <Loader text={'Заказ оформляется...'}></Loader> :
+        <div ref={dropTarget} className={`${isHover ? burgerConstructorStyles.listHover : ''} ${burgerConstructorStyles.ingredientsContainer}`}>
+          {bun &&
+            <div className="pl-8">
+              <ConstructorElement
+                type="top"
+                handleClose={() => {
+                  dispatch({
+                    type: REMOVE_BUN_FROM_CONSTRUCTOR,
+                  })
+                }}
+                isLocked={true}
+                text={`${bun.name} (верх)`}
+                price={bun.price}
+                thumbnail={bun.image}
+              />
+            </div>
+          }
+          {data.length !== 0 &&
+            <div className={`${burgerConstructorStyles.list}`}>
+              {
+                ingredientsInConstructor.map((element, index) => (
+                  <BurgerItem
+                    key={element.id}
+                    item={element}
+                    index={index}
+                    moveItem={moveItem}
+                  />
+                ))
+              }
+            </div>
+          }
+          {bun &&
+            <div className="pl-8 mb-10">
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={`${bun.name} (низ)`}
+                price={bun.price}
+                thumbnail={bun.image}
+                handleClose={() => {
+                  dispatch({
+                    type: REMOVE_BUN_FROM_CONSTRUCTOR,
+                  })
+                }}
+              />
+            </div>
+          }
+        </div>
+      }
+
       <div className={burgerConstructorStyles.order}>
         <div className={burgerConstructorStyles.price}>
           <p className="text text_type_digits-medium">{
@@ -116,14 +123,19 @@ const BurgerConstructor = () => {
           if (email === "" && name === "") {
             history.replace({ pathname: '/login' });
           } else {
-            dispatch(makeOrder(ingredientsInConstructor.map(ingredient => ingredient._id)))
+            const ingredientsId = ingredientsInConstructor.map(ingredient => {
+              // console.log(ingredient._id);
+              return ingredient._id
+            })
+            ingredientsId.push(bun._id);
+            ingredientsId.push(bun._id);
+            dispatch(makeOrder(ingredientsId))
           }
         }}>
           {bun ? 'Нажми на меня' : "Добавьте булку для заказа"}
         </Button>
       </div>
     </div>
-
 
   )
 
