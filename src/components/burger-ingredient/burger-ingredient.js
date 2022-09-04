@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import burgerIngredientStyles from "./burger-ingredient.module.css"
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { SHOW_MODAL_INGREDIENT } from "../../services/actions/ingredients";
@@ -8,6 +8,7 @@ import { useDrag } from "react-dnd";
 import { nanoid } from "nanoid";
 import { ingredientType } from "../../utils/types";
 import { Link, useLocation } from "react-router-dom";
+import { TIngredient } from "../../types";
 
 const BurgerIngredient = ({ ingredient }) => {
   const location = useLocation();
@@ -15,6 +16,8 @@ const BurgerIngredient = ({ ingredient }) => {
   const ingredients = useSelector(store => (
     store.ingredients.ingredientsInConstructor.filter(item => item._id === ingredient._id)
   ))
+
+  console.log(ingredient);
 
   const bun = useSelector(store => (
     store.ingredients.bunInConstructor

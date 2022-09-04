@@ -1,0 +1,1 @@
+export const MAX_INGREDIENTS: number = 6;

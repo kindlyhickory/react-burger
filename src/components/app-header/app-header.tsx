@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { FC, useRef } from "react";
 import { Logo, BurgerIcon, ProfileIcon, MenuIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./header.module.css";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
 
   const location = useLocation();
   const history = useHistory();
