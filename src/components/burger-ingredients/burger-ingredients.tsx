@@ -1,29 +1,29 @@
-import React, { createRef, useEffect, useRef, useCallback } from "react";
+import React, { createRef, useEffect, useRef, useCallback, FC } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import PropTypes from 'prop-types'
 import { ingredientType } from "../../utils/types";
 
-const BurgerIngredients = () => {
+const BurgerIngredients:FC = () => {
   const [current, setCurrent] = React.useState('bun');
 
-  const tabRef = useRef(null);
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const tabRef = useRef<HTMLDivElement>(null);
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
-    tabRef.current.addEventListener('scroll', () => {
+    tabRef.current!.addEventListener('scroll', () => {
 
-      if ((tabRef.current.scrollTop > bunRef.current.offsetTop) && (tabRef.current.scrollTop < bunRef.current.offsetTop + bunRef.current.offsetHeight)) {
+      if ((tabRef.current!.scrollTop > bunRef.current!.offsetTop) && (tabRef.current!.scrollTop < bunRef.current!.offsetTop + bunRef.current!.offsetHeight)) {
         setCurrent('bun');
       }
-      if ((tabRef.current.scrollTop > mainRef.current.offsetTop) && (tabRef.current.scrollTop < mainRef.current.offsetTop + mainRef.current.offsetHeight)) {
+      if ((tabRef.current!.scrollTop > mainRef.current!.offsetTop) && (tabRef.current!.scrollTop < mainRef.current!.offsetTop + mainRef.current!.offsetHeight)) {
         setCurrent('main');
       }
-      if ((tabRef.current.scrollTop > sauceRef.current.offsetTop) && (tabRef.current.scrollTop < sauceRef.current.offsetTop + sauceRef.current.offsetHeight)) {
+      if ((tabRef.current!.scrollTop > sauceRef.current!.offsetTop) && (tabRef.current!.scrollTop < sauceRef.current!.offsetTop + sauceRef.current!.offsetHeight)) {
         setCurrent('sauce');
       }
     })
@@ -31,9 +31,9 @@ const BurgerIngredients = () => {
   }, [])
 
 
-  const scroll = (string) => {
+  const scroll = (string: string) => {
     setCurrent(string);
-    document.getElementById(string).scrollIntoView({
+    document.getElementById(string)!.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     })

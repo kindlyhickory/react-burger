@@ -4,26 +4,73 @@ import { checkResponse, deleteCookie } from "../../utils/utils";
 import { REMOVE_USER, SAVE_USER } from "./user";
 import { setCookie } from "../../utils/utils";
 import { LOAD_USER_DATA } from "./profileEdit";
+import { ISetUserForgotFormValue } from "./forgotPassword";
+import { AppDispatch, AppThunk } from "../../types";
 
-export const USER_LOGIN_FORM_SET_VALUE = 'USER_LOGIN_FORM_SET_VALUE';
-export const USER_LOGIN_FORM_CHANGE_PASSWORD_VISION = 'USER_LOGIN_FORM_CHANGE_PASSWORD_VISION';
-export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
-export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
-export const USER_LOGIN_FAILED = 'USER_LOGIN_FAILED';
+export const USER_LOGIN_FORM_SET_VALUE: 'USER_LOGIN_FORM_SET_VALUE'= 'USER_LOGIN_FORM_SET_VALUE';
+export const USER_LOGIN_FORM_CHANGE_PASSWORD_VISION:'USER_LOGIN_FORM_CHANGE_PASSWORD_VISION' = 'USER_LOGIN_FORM_CHANGE_PASSWORD_VISION';
+export const USER_LOGIN_REQUEST:'USER_LOGIN_REQUEST' = 'USER_LOGIN_REQUEST';
+export const USER_LOGIN_SUCCESS:'USER_LOGIN_SUCCESS' = 'USER_LOGIN_SUCCESS';
+export const USER_LOGIN_FAILED:'USER_LOGIN_FAILED' = 'USER_LOGIN_FAILED';
 
-export const USER_LOGOUT_REQUEST = 'USER_LOGOUT_REQUEST';
-export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
-export const USER_LOGOUT_FAILED = 'USER_LOGOUT_FAILED';
+export const USER_LOGOUT_REQUEST:'USER_LOGOUT_REQUEST' = 'USER_LOGOUT_REQUEST';
+export const USER_LOGOUT_SUCCESS:'USER_LOGOUT_SUCCESS' = 'USER_LOGOUT_SUCCESS';
+export const USER_LOGOUT_FAILED:'USER_LOGOUT_FAILED' = 'USER_LOGOUT_FAILED';
 
 
-export const setUserLoginFormValue = (field, value) => ({
+export interface IUserLogoutFailed {
+  type: typeof USER_LOGOUT_FAILED
+}
+
+export interface IUserLogoutSuccess {
+  type: typeof USER_LOGOUT_SUCCESS
+}
+
+export interface IUserLogoutRequest {
+  type: typeof USER_LOGOUT_REQUEST
+}
+
+export interface IUserLoginFailed {
+  type: typeof USER_LOGIN_FAILED
+}
+
+export interface IUserLoginSuccess {
+  type: typeof USER_LOGIN_SUCCESS
+}
+
+export interface IUserLoginRequest {
+  type: typeof USER_LOGIN_REQUEST
+}
+
+export interface IUserLoginChangePasswordVision {
+  type: typeof USER_LOGIN_FORM_CHANGE_PASSWORD_VISION
+}
+
+export interface ISetUserLoginFormValue {
+  type: typeof USER_LOGIN_FORM_SET_VALUE;
+  field: string;
+  value: string
+}
+
+export const setUserLoginFormValue = (field: string, value: string): ISetUserLoginFormValue => ({
   type: USER_LOGIN_FORM_SET_VALUE,
   field,
   value
 })
 
-export function signIn(email, password) {
-  return function (dispatch) {
+export type TLogActions =
+  | ISetUserLoginFormValue
+  | IUserLoginChangePasswordVision
+  | IUserLoginRequest
+  | IUserLoginSuccess
+  | IUserLoginFailed
+  | IUserLogoutRequest
+  | IUserLogoutSuccess
+  | IUserLogoutFailed
+
+
+export const signIn: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: USER_LOGIN_REQUEST
     })
@@ -50,6 +97,7 @@ export function signIn(email, password) {
           user: {
             email: res.user.email,
             name: res.user.name,
+            password
           }
         })
         dispatch({
@@ -57,6 +105,7 @@ export function signIn(email, password) {
           email: res.user.email,
           name: res.user.name,
           password: password,
+          startedValues: {}
         })
         let accessToken;
         let refreshToken;
@@ -79,8 +128,8 @@ export function signIn(email, password) {
   }
 }
 
-export function signOut(refreshToken, history) {
-  return function (dispatch) {
+export function signOut(refreshToken: string, history: any) {
+  return function (dispatch:any) {
     // console.log(refreshToken);
     dispatch({
       type: USER_LOGOUT_REQUEST

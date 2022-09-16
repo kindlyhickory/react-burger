@@ -3,9 +3,16 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from 'prop-types';
 
 import ingredientsCategoryStyles from "./ingredients-category.module.css"
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks";
+// import { useSelector } from "react-redux";
 
-const IngredientsCategory = React.forwardRef(({ title, titleId }, ref) => {
+export interface IngredientsCategory {
+  title: string;
+  titleId: string;
+}
+
+
+const IngredientsCategory = React.forwardRef<HTMLDivElement, IngredientsCategory>(({ title, titleId }, ref) => {
   const ingredients = useSelector(store => store.ingredients.ingredients.filter(ingredient => ingredient.type === titleId));
   return (
     <div ref={ref} className={`pt-10`}>
@@ -18,11 +25,6 @@ const IngredientsCategory = React.forwardRef(({ title, titleId }, ref) => {
     </div>
   )
 })
-
-IngredientsCategory.propTypes = {
-  title: PropTypes.string.isRequired,
-  titleId: PropTypes.string.isRequired,
-}
 
 
 export default IngredientsCategory;

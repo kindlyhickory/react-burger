@@ -1,17 +1,20 @@
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useRef, useCallback } from "react";
 import burgerConstructorStyles from "./burger-constructor.module.css";
-import { makeOrder, SHOW_ORDER_MODAL } from "../../services/actions/index";
-import { useDispatch, useSelector } from "react-redux";
+import { makeOrder, SHOW_ORDER_MODAL } from "../../services/actions";
+// import { useDispatch, useSelector } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR_LIST, REMOVE_BUN_FROM_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, UPDATE_CONSTRUCTOR_LIST } from "../../services/actions/ingredients";
 import BurgerItem from "../burger-item/burger-item";
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import Loader from "../loader/loader";
+
 import { FC } from "react";
+import { useDispatch, useSelector } from "../../hooks";
+import { TIngredient } from "../../types";
 
 
-const BurgerConstructor = () => {
+const BurgerConstructor:FC = () => {
   const dispatch = useDispatch();
 
   const { name, email } = useSelector(store => store.user.user);
@@ -25,7 +28,7 @@ const BurgerConstructor = () => {
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(ingredient) {
+    drop(ingredient: TIngredient) {
       if (ingredient.type !== 'bun') {
         dispatch({
           type: ADD_INGREDIENT_TO_CONSTRUCTOR,
@@ -123,8 +126,8 @@ const BurgerConstructor = () => {
               // console.log(ingredient._id);
               return ingredient._id
             })
-            ingredientsId.push(bun._id);
-            ingredientsId.push(bun._id);
+            ingredientsId.push(bun!._id);
+            ingredientsId.push(bun!._id);
             dispatch(makeOrder(ingredientsId))
           }
         }}>

@@ -1,6 +1,29 @@
-import { USER_LOGIN_FORM_SET_VALUE, setUserLoginFormValue, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILED, USER_LOGOUT_SUCCESS, USER_LOGOUT_REQUEST, USER_LOGOUT_FAILED } from "../actions/login";
+import {
+  USER_LOGIN_FORM_SET_VALUE,
+  setUserLoginFormValue,
+  USER_LOGIN_FORM_CHANGE_PASSWORD_VISION,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAILED,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_REQUEST,
+  USER_LOGOUT_FAILED,
+  TLogActions
+} from "../actions/login";
 
-const initialState = {
+type TLoginState = {
+  form: {
+    email: string,
+    password: string
+  };
+  isPasswordHide: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+}
+
+const initialState: TLoginState = {
   form: {
     email: '',
     password: '',
@@ -12,7 +35,7 @@ const initialState = {
   logoutFailed: false,
 }
 
-export const userLoginReducer = (state = initialState, action) => {
+export const userLoginReducer = (state = initialState, action: TLogActions) => {
   switch (action.type) {
     case USER_LOGIN_FORM_SET_VALUE:
       return {

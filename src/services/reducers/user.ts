@@ -11,7 +11,7 @@ import {
   SEND_FORGOT_PASSWORD_CODE_SUCCESS,
   SEND_RESET_PASSWORD_FAILED,
   SEND_RESET_PASSWORD_REQUEST,
-  SEND_RESET_PASSWORD_SUCCESS,
+  SEND_RESET_PASSWORD_SUCCESS, TUserActions,
   UPDATE_TOKEN_FAILED,
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
@@ -20,8 +20,40 @@ import {
   UPDATE_USER_DATA_SUCCESS
 } from "../actions/user";
 
+type TUserState = {
+  user: {
+    email: string,
+    name: string,
+  },
 
-const initialState = {
+  isUserLoaded: boolean,
+
+
+  getInfromationRequest: boolean,
+  getInfromationFailed: boolean,
+
+  updateInfromationRequest: boolean,
+  updateInfromationFailed: boolean,
+
+  isAuthChecked: boolean,
+
+  updateTokenRequest: boolean,
+  updateTokenFailed: boolean,
+
+  forgotPasswordCodeRequest: boolean,
+  forgotPasswordCodeFailed: boolean,
+
+  forgotPasswordEmailRequest: boolean,
+  forgotPasswordEmailFailed: boolean,
+
+  resetPasswordRequest: boolean,
+  resetPasswordFailed: boolean,
+
+  isForgotPasswordCodeSent: boolean,
+}
+
+
+const initialState: TUserState = {
   user: {
     email: '',
     name: '',
@@ -53,7 +85,7 @@ const initialState = {
   isForgotPasswordCodeSent: false,
 }
 
-export function userInformationReducer(state = initialState, action) {
+export function userInformationReducer(state = initialState, action: TUserActions) {
   switch (action.type) {
     case AUTH_CHECKED:
       return {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { FC, useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-item.module.css"
@@ -6,12 +6,19 @@ import { useDispatch } from "react-redux";
 import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions/ingredients";
 import PropTypes from 'prop-types';
 import { ingredientType } from "../../utils/types";
+import { TIngredient } from "../../types";
 
-const BurgerItem = ({ item, index, moveItem }) => {
+interface IBurgerItemProps {
+  item: TIngredient;
+  index: number;
+  moveItem: object;
+}
+
+const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
 
   const dispatch = useDispatch()
   const id = item._id;
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
     accept: 'item',
     collect(monitor) {

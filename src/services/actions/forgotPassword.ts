@@ -2,10 +2,14 @@ export const FORGOT_PASSWORD_SET_FORM: 'FORGOT_PASSWORD_SET_FORM' = 'FORGOT_PASS
 
 
 export interface ISetUserForgotFormValue {
-  readonly type: typeof FORGOT_PASSWORD_SET_FORM;
-  readonly field: string;
-  readonly value: string;
+  type: typeof FORGOT_PASSWORD_SET_FORM;
+  field: string;
+  value: string;
 }
+
+export type TUserForgotForm =
+  | ISetUserForgotFormValue
+
 
 
 export const setUserForgotFormValue = (field: string, value: string): ISetUserForgotFormValue => ({

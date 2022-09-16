@@ -1,6 +1,13 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients";
-import { HIDE_ORDER_MODAL, MAKE_ORDER_FAILED, MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, SHOW_ORDER_MODAL, UPDATE_ORDER_LIST } from "../actions";
+import {
+  HIDE_ORDER_MODAL,
+  MAKE_ORDER_FAILED,
+  MAKE_ORDER_REQUEST,
+  MAKE_ORDER_SUCCESS,
+  SHOW_ORDER_MODAL,
+  TMakeOrderActions,
+} from "../actions";
 import { userLoginReducer } from "./login";
 import { userRegistrationReducer } from "./registration";
 import { forgotPasswordReducer } from "./forgotPassword";
@@ -8,15 +15,24 @@ import { resetPasswordReducer } from "./resetPassword";
 import { editUserReducer } from "./profileEdit";
 import { userInformationReducer } from "./user";
 import { wsReducer } from "./webSocket";
+import { TOrder } from "../../types";
 
-const initialState = {
+
+type TOrderState = {
+  currentOrder: TOrder | object, //TOrder
+  modalOrderIsOpened: boolean,
+  makeOrderRequest: boolean,
+  makeOrderFailed: boolean
+}
+
+const initialState: TOrderState = {
   currentOrder: {},
   modalOrderIsOpened: false,
   makeOrderRequest: false,
   makeOrderFailed: false
 }
 
-const orderReducer = (state = initialState, action) => {
+const orderReducer = (state = initialState, action: TMakeOrderActions) => {
   switch (action.type) {
     case SHOW_ORDER_MODAL:
       return {

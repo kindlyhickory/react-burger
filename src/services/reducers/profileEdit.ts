@@ -1,7 +1,37 @@
-import { CHANGE_ABLE_OF_EDIT_EMAIL, CHANGE_ABLE_OF_EDIT_NAME, CHANGE_ABLE_OF_EDIT_PASSWORD, CHANGE_ABLE_OF_INPUTS, LOAD_USER_DATA, RESET_USER_DATA, USER_EDIT_FORM_CHANGE_PASSWORD_VISION, USER_EDIT_FORM_SET_VALUE } from "../actions/profileEdit"
+import {
+  CHANGE_ABLE_OF_EDIT_EMAIL,
+  CHANGE_ABLE_OF_EDIT_NAME,
+  CHANGE_ABLE_OF_EDIT_PASSWORD,
+  CHANGE_ABLE_OF_INPUTS,
+  LOAD_USER_DATA,
+  RESET_USER_DATA,
+  TProfileEditActions,
+  USER_EDIT_FORM_CHANGE_PASSWORD_VISION,
+  USER_EDIT_FORM_SET_VALUE
+} from "../actions/profileEdit";
 import { userInformationReducer } from "./user"
 
-const initialState = {
+type TProfileEditState = {
+  form: {
+    name: string,
+    email: string,
+    password: string,
+    startedValues: {
+      email?: string;
+      name?: string;
+    },
+  };
+  isPasswordHide: boolean;
+  editRequest: boolean;
+  editFailed: boolean;
+  isDisabled: {
+    password: boolean,
+    name: boolean,
+    email: boolean,
+  }
+}
+
+const initialState: TProfileEditState = {
   form: {
     name: '',
     email: '',
@@ -20,7 +50,7 @@ const initialState = {
   }
 }
 
-export const editUserReducer = (state = initialState, action) => {
+export const editUserReducer = (state = initialState, action: TProfileEditActions) => {
   switch (action.type) {
     case USER_EDIT_FORM_SET_VALUE:
       return {

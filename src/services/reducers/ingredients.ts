@@ -9,10 +9,20 @@ import {
   ADD_BUN_TO_CONSTRUCTOR,
   REMOVE_BUN_FROM_CONSTRUCTOR,
   UPDATE_CONSTRUCTOR_LIST,
-  CLEAR_CONSTRUCTOR_LIST
+  CLEAR_CONSTRUCTOR_LIST, TIngredientsActions
 } from "../actions/ingredients";
+import { TIngredient } from "../../types";
 
-const initialState = {
+type TIngredientsState = {
+  ingredients: ReadonlyArray<TIngredient>;
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+  ingredientsInConstructor: ReadonlyArray<TIngredient & {id: string}>;
+  bunInConstructor: TIngredient | null;
+  currentViewedIngredient: null | TIngredient;
+}
+
+const initialState: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
@@ -23,7 +33,7 @@ const initialState = {
   currentViewedIngredient: null,
 }
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

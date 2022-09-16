@@ -1,20 +1,31 @@
 import {
+  IWsActions, TWsActions,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS, WS_GET_ORDER
 } from "../actions/webSocket";
+import { TOrder } from "../../types";
+
+type TWebSocketState = {
+  wsConnected: boolean;
+  orders: ReadonlyArray<TOrder>;
+  error: undefined | object;
+  total: number;
+  totalToday: number;
+
+}
 
 
-const initialState = {
+const initialState: TWebSocketState = {
   wsConnected: false,
   orders: [],
   error: undefined,
   total: 0,
-  totalToday: 0
+  totalToday: 0,
 }
 
-export const wsReducerProfile = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsActions) => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
