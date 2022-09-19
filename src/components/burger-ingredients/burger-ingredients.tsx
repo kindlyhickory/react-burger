@@ -1,10 +1,12 @@
-import React, { createRef, useEffect, useRef, useCallback, FC } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {
+  createRef, useEffect, useRef, useCallback, FC,
+} from 'react';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import IngredientsCategory from "../ingredients-category/ingredients-category";
-import PropTypes from 'prop-types'
-import { ingredientType } from "../../utils/types";
+import IngredientsCategory from '../ingredients-category/ingredients-category';
 
+// eslint-disable-next-line react/function-component-definition
 const BurgerIngredients:FC = () => {
   const [current, setCurrent] = React.useState('bun');
 
@@ -13,31 +15,30 @@ const BurgerIngredients:FC = () => {
   const sauceRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
 
-
   useEffect(() => {
     tabRef.current!.addEventListener('scroll', () => {
-
+      // eslint-disable-next-line max-len
       if ((tabRef.current!.scrollTop > bunRef.current!.offsetTop) && (tabRef.current!.scrollTop < bunRef.current!.offsetTop + bunRef.current!.offsetHeight)) {
         setCurrent('bun');
       }
+      // eslint-disable-next-line max-len
       if ((tabRef.current!.scrollTop > mainRef.current!.offsetTop) && (tabRef.current!.scrollTop < mainRef.current!.offsetTop + mainRef.current!.offsetHeight)) {
         setCurrent('main');
       }
+      // eslint-disable-next-line max-len
       if ((tabRef.current!.scrollTop > sauceRef.current!.offsetTop) && (tabRef.current!.scrollTop < sauceRef.current!.offsetTop + sauceRef.current!.offsetHeight)) {
         setCurrent('sauce');
       }
-    })
-
-  }, [])
-
+    });
+  }, []);
 
   const scroll = (string: string) => {
     setCurrent(string);
     document.getElementById(string)!.scrollIntoView({
       behavior: 'smooth',
-      block: 'start'
-    })
-  }
+      block: 'start',
+    });
+  };
 
   return (
     <section className={`${burgerIngredientsStyles.burgerIngredients} pt-10`}>
@@ -56,12 +57,12 @@ const BurgerIngredients:FC = () => {
         </Tab>
       </div>
       <div ref={tabRef} className={`${burgerIngredientsStyles.ingredientsCategory}`}>
-        <IngredientsCategory ref={bunRef} title={'Булки'} titleId={'bun'}></IngredientsCategory>
-        <IngredientsCategory ref={sauceRef} title={'Соусы'} titleId={'sauce'}></IngredientsCategory>
-        <IngredientsCategory ref={mainRef} title={'Начинки'} titleId={'main'}></IngredientsCategory>
+        <IngredientsCategory ref={bunRef} title="Булки" titleId="bun" />
+        <IngredientsCategory ref={sauceRef} title="Соусы" titleId="sauce" />
+        <IngredientsCategory ref={mainRef} title="Начинки" titleId="main" />
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default BurgerIngredients;

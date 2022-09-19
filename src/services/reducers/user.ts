@@ -17,8 +17,8 @@ import {
   UPDATE_TOKEN_SUCCESS,
   UPDATE_USER_DATA_FAILED,
   UPDATE_USER_DATA_REQUEST,
-  UPDATE_USER_DATA_SUCCESS
-} from "../actions/user";
+  UPDATE_USER_DATA_SUCCESS,
+} from '../actions/user';
 
 type TUserState = {
   user: {
@@ -27,7 +27,6 @@ type TUserState = {
   },
 
   isUserLoaded: boolean,
-
 
   getInfromationRequest: boolean,
   getInfromationFailed: boolean,
@@ -52,7 +51,6 @@ type TUserState = {
   isForgotPasswordCodeSent: boolean,
 }
 
-
 const initialState: TUserState = {
   user: {
     email: '',
@@ -60,7 +58,6 @@ const initialState: TUserState = {
   },
 
   isUserLoaded: false,
-
 
   getInfromationRequest: false,
   getInfromationFailed: false,
@@ -83,7 +80,7 @@ const initialState: TUserState = {
   resetPasswordFailed: false,
 
   isForgotPasswordCodeSent: false,
-}
+};
 
 export function userInformationReducer(state = initialState, action: TUserActions) {
   switch (action.type) {
@@ -91,7 +88,7 @@ export function userInformationReducer(state = initialState, action: TUserAction
       return {
         ...state,
         isAuthChecked: true,
-      }
+      };
     case SAVE_USER:
       return {
         ...state,
@@ -99,29 +96,29 @@ export function userInformationReducer(state = initialState, action: TUserAction
           ...state.user,
           email: action.user.email,
           name: action.user.name,
-          password: action.user.password
-        }
-      }
+          password: action.user.password,
+        },
+      };
     case GET_USER_REQUEST:
       return {
         ...state,
         getInfromationRequest: true,
         getInfromationFailed: false,
-      }
+      };
     case GET_USER_SUCCESS:
       return {
         ...state,
         isUserLoaded: true,
         getInfromationRequest: false,
         getInfromationFailed: false,
-      }
+      };
     case GET_USER_FAILED:
       return {
         ...state,
         isUserLoaded: false,
         getInfromationFailed: true,
         getInfromationRequest: false,
-      }
+      };
     case REMOVE_USER: {
       return {
         ...state,
@@ -130,76 +127,76 @@ export function userInformationReducer(state = initialState, action: TUserAction
           name: '',
         },
         isUserLoaded: false,
-      }
+      };
     }
     case UPDATE_TOKEN_REQUEST: {
       return {
         ...state,
         updateTokenRequest: true,
         updateTokenFailed: false,
-      }
+      };
     }
     case UPDATE_TOKEN_FAILED: {
       return {
         ...state,
         updateTokenFailed: true,
         updateTokenRequest: false,
-      }
+      };
     }
     case UPDATE_TOKEN_SUCCESS: {
       return {
         ...state,
         updateTokenFailed: false,
         updateTokenRequest: false,
-      }
+      };
     }
     case SEND_FORGOT_PASSWORD_CODE_REQUEST: {
       return {
         ...state,
         forgotPasswordCodeRequest: true,
-        forgotPasswordCodeFailed: false
-      }
+        forgotPasswordCodeFailed: false,
+      };
     }
     case SEND_FORGOT_PASSWORD_CODE_FAILED: {
       return {
         ...state,
         forgotPasswordCodeFailed: true,
         forgotPasswordCodeRequest: false,
-      }
+      };
     }
     case SEND_FORGOT_PASSWORD_CODE_SUCCESS: {
       return {
         ...state,
         forgotPasswordCodeFailed: false,
         forgotPasswordCodeRequest: false,
-      }
+      };
     }
     case CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE: {
       return {
         ...state,
-        isForgotPasswordCodeSent: !state.isForgotPasswordCodeSent
-      }
+        isForgotPasswordCodeSent: !state.isForgotPasswordCodeSent,
+      };
     }
     case SEND_RESET_PASSWORD_REQUEST: {
       return {
         ...state,
         resetPasswordRequest: true,
         resetPasswordFailed: false,
-      }
+      };
     }
     case SEND_RESET_PASSWORD_SUCCESS: {
       return {
         ...state,
         resetPasswordRequest: false,
         resetPasswordFailed: false,
-      }
+      };
     }
     case SEND_RESET_PASSWORD_FAILED: {
       return {
         ...state,
         resetPasswordRequest: false,
         resetPasswordFailed: true,
-      }
+      };
     }
 
     case UPDATE_USER_DATA_REQUEST: {
@@ -207,14 +204,14 @@ export function userInformationReducer(state = initialState, action: TUserAction
         ...state,
         updateInfromationRequest: true,
         updateInfromationFailed: false,
-      }
+      };
     }
     case UPDATE_USER_DATA_FAILED: {
       return {
         ...state,
         updateInfromationRequest: false,
         updateInfromationFailed: true,
-      }
+      };
     }
     case UPDATE_USER_DATA_SUCCESS: {
       return {
@@ -224,10 +221,10 @@ export function userInformationReducer(state = initialState, action: TUserAction
         user: {
           email: action.email,
           name: action.name,
-        }
-      }
+        },
+      };
     }
     default:
-      return state
+      return state;
   }
 }

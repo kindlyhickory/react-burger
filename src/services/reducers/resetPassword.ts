@@ -1,8 +1,8 @@
 import {
   RESET_PASSWORD_CHANGE_PASSWORD_VISION,
   RESET_PASSWORD_SET_FORM,
-  TResetPasswordActions
-} from "../actions/resetPassword";
+  TResetPasswordActions,
+} from '../actions/resetPassword';
 
 type TResetPasswordState = {
   form: {
@@ -17,14 +17,14 @@ type TResetPasswordState = {
 const initialState: TResetPasswordState = {
   form: {
     password: '',
-    code: ''
+    code: '',
   },
   isPasswordHide: true,
   resetPasswordRequest: false,
   resetPasswordFailed: false,
-}
+};
 
-export const resetPasswordReducer = (state = initialState, action: TResetPasswordActions) => {
+export const resetPasswordReducer = (action: TResetPasswordActions, state = initialState) => {
   switch (action.type) {
     case RESET_PASSWORD_SET_FORM:
       return {
@@ -32,16 +32,14 @@ export const resetPasswordReducer = (state = initialState, action: TResetPasswor
         form: {
           ...state.form,
           [action.field]: action.value,
-        }
-      }
+        },
+      };
     case RESET_PASSWORD_CHANGE_PASSWORD_VISION:
       return {
         ...state,
         isPasswordHide: !state.isPasswordHide,
-      }
+      };
     default:
-      return state
-
+      return state;
   }
-
-}
+};

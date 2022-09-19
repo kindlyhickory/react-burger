@@ -7,9 +7,9 @@ import {
   RESET_USER_DATA,
   TProfileEditActions,
   USER_EDIT_FORM_CHANGE_PASSWORD_VISION,
-  USER_EDIT_FORM_SET_VALUE
-} from "../actions/profileEdit";
-import { userInformationReducer } from "./user"
+  USER_EDIT_FORM_SET_VALUE,
+} from '../actions/profileEdit';
+import { userInformationReducer } from './user';
 
 type TProfileEditState = {
   form: {
@@ -38,7 +38,7 @@ const initialState: TProfileEditState = {
     password: '',
     startedValues: {
 
-    }
+    },
   },
   isPasswordHide: true,
   editRequest: false,
@@ -47,8 +47,8 @@ const initialState: TProfileEditState = {
     password: true,
     name: true,
     email: true,
-  }
-}
+  },
+};
 
 export const editUserReducer = (state = initialState, action: TProfileEditActions) => {
   switch (action.type) {
@@ -57,22 +57,22 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
         ...state,
         form: {
           ...state.form,
-          [action.field]: action.value
-        }
-      }
+          [action.field]: action.value,
+        },
+      };
     case USER_EDIT_FORM_CHANGE_PASSWORD_VISION:
       return {
         ...state,
         isPasswordHide: !state.isPasswordHide,
-      }
+      };
     case CHANGE_ABLE_OF_EDIT_EMAIL: {
       return {
         ...state,
         isDisabled: {
           ...state.isDisabled,
           email: !state.isDisabled.email,
-        }
-      }
+        },
+      };
     }
     case CHANGE_ABLE_OF_EDIT_NAME: {
       return {
@@ -80,8 +80,8 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
         isDisabled: {
           ...state.isDisabled,
           name: !state.isDisabled.name,
-        }
-      }
+        },
+      };
     }
     case CHANGE_ABLE_OF_EDIT_PASSWORD: {
       return {
@@ -89,8 +89,8 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
         isDisabled: {
           ...state.isDisabled,
           password: !state.isDisabled.password,
-        }
-      }
+        },
+      };
     }
     case CHANGE_ABLE_OF_INPUTS: {
       return {
@@ -99,8 +99,8 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
           password: true,
           email: true,
           name: true,
-        }
-      }
+        },
+      };
     }
     case LOAD_USER_DATA: {
       return {
@@ -109,9 +109,9 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
           ...state.form,
           email: action.email,
           name: action.name,
-          startedValues: { ...action.startedValues }
-        }
-      }
+          startedValues: { ...action.startedValues },
+        },
+      };
     }
     case RESET_USER_DATA: {
       return {
@@ -120,11 +120,11 @@ export const editUserReducer = (state = initialState, action: TProfileEditAction
           ...state.form,
           email: state.form.startedValues.email,
           name: state.form.startedValues.name,
-          password: ''
-        }
-      }
+          password: '',
+        },
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};

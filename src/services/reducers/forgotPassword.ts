@@ -1,5 +1,4 @@
-import { FORGOT_PASSWORD_SET_FORM, TUserForgotForm } from "../actions/forgotPassword";
-
+import { FORGOT_PASSWORD_SET_FORM, TUserForgotForm } from '../actions/forgotPassword';
 
 type TForgotPasswordState = {
   form: { email: string },
@@ -9,10 +8,10 @@ type TForgotPasswordState = {
 
 const initialState: TForgotPasswordState = {
   form: {
-    email: ""
+    email: '',
   },
   forgotPasswordRequest: false,
-  forgotPasswordFailed: false
+  forgotPasswordFailed: false,
 };
 
 export const forgotPasswordReducer = (state = initialState, action: TUserForgotForm) => {
@@ -22,8 +21,8 @@ export const forgotPasswordReducer = (state = initialState, action: TUserForgotF
         ...state,
         form: {
           ...state.form,
-          [action.field]: action.value
-        }
+          [action.field]: action.value,
+        },
       };
 
     default:

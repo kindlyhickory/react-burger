@@ -1,22 +1,26 @@
-import React, { FC, useRef } from "react";
-import { useDrop, useDrag } from "react-dnd";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./burger-item.module.css"
-import { useDispatch } from "react-redux";
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions/ingredients";
+import React, { FC, useRef } from 'react';
+import { useDrop, useDrag, DropTargetMonitor } from 'react-dnd';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ingredientType } from "../../utils/types";
-import { TIngredient } from "../../types";
+import styles from './burger-item.module.css';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/ingredients';
+import { TIngredient } from '../../types';
 
 interface IBurgerItemProps {
   item: TIngredient;
   index: number;
-  moveItem: object;
+  moveItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
-const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
+type TDragItem = {
+  index: number
+}
 
-  const dispatch = useDispatch()
+// eslint-disable-next-line react/function-component-definition
+const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-underscore-dangle
   const id = item._id;
   const ref = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
@@ -26,7 +30,7 @@ const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(el, monitor) {
+    hover(el:TDragItem | any, monitor:DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -39,12 +43,11 @@ const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
       const clientOffset = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -55,14 +58,13 @@ const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
       }
       moveItem(dragIndex, hoverIndex);
 
+      // eslint-disable-next-line no-param-reassign
       el.index = hoverIndex;
     },
   });
   const [{ isDrag }, drag] = useDrag({
     type: 'item',
-    item: () => {
-      return { id, index };
-    },
+    item: () => ({ id, index }),
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
@@ -82,17 +84,11 @@ const BurgerItem:FC<IBurgerItemProps> = ({ item, index, moveItem }) => {
           dispatch({
             type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
             ingredient: item,
-          })
+          });
         }}
       />
     </div>
-  )
-}
-
-BurgerItem.propTypes = {
-  item: ingredientType.isRequired,
-  index: PropTypes.number.isRequired,
-  moveItem: PropTypes.func.isRequired
-}
+  );
+};
 
 export default BurgerItem;

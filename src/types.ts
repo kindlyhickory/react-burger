@@ -1,15 +1,17 @@
-import { store } from "./index";
-import { Action, ActionCreator, compose, Dispatch } from "redux";
-import { TUserForgotForm } from "./services/actions/forgotPassword";
-import { TMakeOrderActions } from "./services/actions";
-import { TIngredientsActions } from "./services/actions/ingredients";
-import { TLogActions } from "./services/actions/login";
-import { TProfileEditActions } from "./services/actions/profileEdit";
-import { TRegistrationActions } from "./services/actions/registration";
-import { TResetPasswordActions } from "./services/actions/resetPassword";
-import { TUserActions } from "./services/actions/user";
-import { TWsActions } from "./services/actions/webSocket";
-import { ThunkAction } from "redux-thunk";
+import {
+  Action, ActionCreator, Dispatch,
+} from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import store from './index';
+import { TUserForgotForm } from './services/actions/forgotPassword';
+import { TMakeOrderActions } from './services/actions';
+import { TIngredientsActions } from './services/actions/ingredients';
+import { TLogActions } from './services/actions/login';
+import { TProfileEditActions } from './services/actions/profileEdit';
+import { TRegistrationActions } from './services/actions/registration';
+import { TResetPasswordActions } from './services/actions/resetPassword';
+import { TUserActions } from './services/actions/user';
+import { TWsActions } from './services/actions/webSocket';
 
 export type TIngredient = {
   id: string;
@@ -22,7 +24,9 @@ export type TIngredient = {
   calories: number;
   price: number;
   image: string;
+  // eslint-disable-next-line camelcase
   image_mobile: string;
+  // eslint-disable-next-line camelcase
   image_large: string;
   __v?: number;
 }
@@ -36,7 +40,6 @@ export type TOrder = {
   updatedAt: string;
   _id: string;
 }
-
 
 export type RootState = ReturnType<typeof store.getState>
 

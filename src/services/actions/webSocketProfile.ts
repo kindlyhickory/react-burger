@@ -21,11 +21,11 @@ export interface IWsConnectionProfileClosed {
   type: typeof WS_CONNECTION_PROFILE_CLOSED
 }
 
-export interface  IGetOrderProfile {
+export interface IGetOrderProfile {
   type: typeof WS_GET_ORDER_PROFILE
 }
 
-export interface  ISendOrderProfile {
+export interface ISendOrderProfile {
   type: typeof WS_SEND_ORDER_PROFILE
 }
 
@@ -36,8 +36,6 @@ export type TWsProfileActions =
   | IWsConnectionProfileError
   | IWsConnectionProfileSuccess
   | IWsConnectionProfileStart
-
-
 
 export interface IWsActionsProfile {
   wsInit: typeof WS_CONNECTION_PROFILE_START;
@@ -57,4 +55,4 @@ export const wsActionsProfile = {
   onClose: WS_CONNECTION_PROFILE_CLOSED,
   onError: WS_CONNECTION_PROFILE_ERROR,
   onMessage: WS_GET_ORDER_PROFILE,
-}
+};

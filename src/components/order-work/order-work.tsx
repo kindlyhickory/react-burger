@@ -1,10 +1,10 @@
-import React from "react";
-import styles from './order-work.module.css'
-import { useSelector } from "react-redux";
+import React, { FC } from 'react';
+import styles from './order-work.module.css';
+import { useSelector } from '../../hooks';
 
-function OrderWork() {
-
-  const { orders, total, totalToday } = useSelector(store => store.ws)
+// eslint-disable-next-line react/function-component-definition
+const OrderWork:FC = () => {
+  const { orders, total, totalToday } = useSelector((store) => store.ws);
   // console.log(orders);
   return (
     <div className={`${styles.orderWork}`}>
@@ -14,6 +14,7 @@ function OrderWork() {
             Готовы
           </p>
           <ul className={`${styles.ready__orders}`}>
+            {/* eslint-disable-next-line react/no-array-index-key */}
             {orders.map((el, index) => el.status === 'done' && <li className={`text text_type_digits-default mb-2 ${styles.list__item}`} key={index}>{el.number}</li>)}
           </ul>
         </div>
@@ -22,6 +23,7 @@ function OrderWork() {
             В работе
           </p>
           <ul className={`${styles.inProgress__orders}`}>
+            {/* eslint-disable-next-line react/no-array-index-key */}
             {orders.map((el, index) => el.status === 'pending' && <li className={`text text_type_digits-default ${styles.list__item}`} key={index}>{el.number}</li>)}
           </ul>
         </div>
@@ -36,7 +38,7 @@ function OrderWork() {
       </p>
       <p className={`${styles.total} text text_type_digits-large mb-15`}>{totalToday}</p>
     </div>
-  )
-}
+  );
+};
 
 export default OrderWork;

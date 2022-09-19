@@ -1,9 +1,8 @@
-import { func } from "prop-types";
-import { config } from "../../utils/data";
-import { checkResponse, setCookie } from "../../utils/utils";
+import { func } from 'prop-types';
+import { config } from '../../utils/data';
+import { checkResponse, setCookie, getCookie } from '../../utils/utils';
 
-import { getCookie } from "../../utils/utils";
-import { AppDispatch, AppThunk } from "../../types";
+import { AppDispatch, AppThunk } from '../../types';
 
 export const GET_USER_REQUEST:'GET_USER_REQUEST' = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS:'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
@@ -92,7 +91,6 @@ export interface IChangeStatusSendingForgotPasswordMessage {
   type: typeof CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE
 }
 
-
 export interface IUpdateAccessToken {
   type: typeof UPDATE_USER_ACCESS_TOKEN
 }
@@ -162,37 +160,34 @@ export type TUserActions =
   | IUpdateAccessToken
   | IUpdateUserDataRequest
 
-export const updateUserData: AppThunk =(name: string, email: string, password: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({ type: UPDATE_USER_DATA_REQUEST })
-    fetch(`${config.baseUrl}/auth/user`, {
-      method: 'PATCH',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        ...config.headers,
-        Authorization: 'Bearer ' + getCookie('accessToken')
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-      })
+export const updateUserData: AppThunk = (name: string, email: string, password: string) => function (dispatch: AppDispatch) {
+  dispatch({ type: UPDATE_USER_DATA_REQUEST });
+  fetch(`${config.baseUrl}/auth/user`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      ...config.headers,
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+    }),
+  })
+    .then(checkResponse)
+    .then((res) => {
+      dispatch({ type: UPDATE_USER_DATA_SUCCESS, name: res.user.name, email: res.user.email });
     })
-      .then(checkResponse)
-      .then(res => {
-        dispatch({ type: UPDATE_USER_DATA_SUCCESS, name: res.user.name, email: res.user.email });
-      })
-      .catch(error => {
-        dispatch({ type: UPDATE_TOKEN_FAILED });
-        console.log(error);
-      })
-
-  }
-}
+    .catch((error) => {
+      dispatch({ type: UPDATE_TOKEN_FAILED });
+      console.log(error);
+    });
+};
 
 export function resetPassword(password: string, code: string, history: any) {
   return function (dispatch: any) {
@@ -206,29 +201,28 @@ export function resetPassword(password: string, code: string, history: any) {
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({
-        password: password,
+        password,
         token: code,
-      })
+      }),
     })
       .then(checkResponse)
-      .then(res => {
+      .then((res) => {
         dispatch({ type: SEND_RESET_PASSWORD_SUCCESS });
         dispatch({ type: CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE });
         if (res.success) {
           history.replace({ pathname: '/login' });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({ type: SEND_RESET_PASSWORD_FAILED });
         console.log(error);
-      })
-  }
-
+      });
+  };
 }
 
 export function sendForgotPasswordCode(email: string, history: any) {
   return function (dispatch: any) {
-    dispatch({ type: SEND_FORGOT_PASSWORD_CODE_REQUEST })
+    dispatch({ type: SEND_FORGOT_PASSWORD_CODE_REQUEST });
     fetch(`${config.baseUrl}/password-reset`, {
       method: 'POST',
       mode: 'cors',
@@ -238,28 +232,27 @@ export function sendForgotPasswordCode(email: string, history: any) {
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({
-        email: email
-      })
-    }
-    )
+        email,
+      }),
+    })
       .then(checkResponse)
-      .then(res => {
+      .then((res) => {
         dispatch({ type: SEND_FORGOT_PASSWORD_CODE_SUCCESS });
-        dispatch({ type: CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE })
+        dispatch({ type: CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE });
         if (res.success) {
-          history.replace({ pathname: '/reset-password' })
+          history.replace({ pathname: '/reset-password' });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({ type: SEND_FORGOT_PASSWORD_CODE_FAILED });
         console.log(error);
-      })
-  }
+      });
+  };
 }
 
 export function updateToken(refreshToken:string) {
   return function (dispatch: any) {
-    dispatch({ type: UPDATE_TOKEN_REQUEST })
+    dispatch({ type: UPDATE_TOKEN_REQUEST });
     fetch(`${config.baseUrl}/auth/token`, {
       method: 'POST',
       mode: 'cors',
@@ -269,22 +262,21 @@ export function updateToken(refreshToken:string) {
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({
-        token: refreshToken
-      })
+        token: refreshToken,
+      }),
     })
       .then(checkResponse)
-      .then(res => {
-        dispatch({ type: UPDATE_TOKEN_SUCCESS })
+      .then((res) => {
+        dispatch({ type: UPDATE_TOKEN_SUCCESS });
         setCookie('accessToken', res.accessToken.split('Bearer ')[1], { expires: 1200 });
         setCookie('refreshToken', res.refreshToken, { expires: 1200 });
       })
-      .catch(error => {
-        dispatch({ type: UPDATE_TOKEN_FAILED })
+      .catch((error) => {
+        dispatch({ type: UPDATE_TOKEN_FAILED });
         console.log(error);
-      })
-  }
+      });
+  };
 }
-
 
 export function getUser(password: string) {
   return function (dispatch: any) {
@@ -298,34 +290,32 @@ export function getUser(password: string) {
       credentials: 'same-origin',
       headers: {
         ...config.headers,
-        Authorization: 'Bearer ' + getCookie('accessToken')
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
       .then(checkResponse)
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: SAVE_USER,
           user: {
             email: res.user.email,
             name: res.user.name,
-          }
-        })
+          },
+        });
         dispatch({
-          type: GET_USER_SUCCESS
-        })
-
+          type: GET_USER_SUCCESS,
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: GET_USER_FAILED,
         });
         console.log(error);
       })
-      .finally(()=> {
-        dispatch({type: AUTH_CHECKED});
+      .finally(() => {
+        dispatch({ type: AUTH_CHECKED });
       });
-
-  }
+  };
 }

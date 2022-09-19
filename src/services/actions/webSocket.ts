@@ -1,4 +1,4 @@
-import { TOrder } from "../../types";
+import { TOrder } from '../../types';
 
 export const WS_CONNECTION_START:'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS:'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
@@ -69,4 +69,4 @@ export const wsActions: IWsActions = {
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_GET_ORDER,
-}
+};

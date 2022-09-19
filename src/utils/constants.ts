@@ -1,1 +1,1 @@
-export const MAX_INGREDIENTS: number = 6;
+export const MAX_INGREDIENTS = 6;
