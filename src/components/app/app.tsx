@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Route, Switch, useHistory, useLocation,
 } from 'react-router-dom';
@@ -7,7 +6,6 @@ import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { getIngredients, HIDE_MODAL_INGREDIENT } from '../../services/actions/ingredients';
 
 import ProtectedRoute from '../protected-route';
 
@@ -20,20 +18,19 @@ import ProfilePage from '../../pages/profile';
 import { AUTH_CHECKED, getUser, updateToken } from '../../services/actions/user';
 import { getCookie } from '../../utils/utils';
 import IngredientPage from '../../pages/ingredient-page';
-import { HIDE_ORDER_MODAL } from '../../services/actions';
 import OrderFeedPage from '../../pages/order-feed-page';
 import OrderInfo from '../order-info/order-info';
 import OrderPage from '../../pages/order-page';
+import { TIngredient, TOrder } from '../../types';
+import { useDispatch } from '../../hooks';
 
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const location = useLocation();
+  const location = useLocation<{background: string, orderItem: TOrder}>();
   const background = location.state?.background;
   const order = location.state?.orderItem;
-
-  const { password } = useSelector((store) => store.user.user);
 
   useEffect(() => {
     if (getCookie('refreshToken') && !getCookie('accessToken')) {
@@ -57,6 +54,8 @@ function App() {
   return (
     <div className={appStyles.app}>
       <AppHeader />
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */ }
       <Switch location={background || location}>
         <Route path="/feed" exact>
           <OrderFeedPage />
@@ -101,7 +100,7 @@ function App() {
           {/* eslint-disable-next-line react/no-children-prop */}
           <Route path="/feed/:id" children={<Modal onClose={() => history.goBack()} titleStyles="text text_type_digits-default" title={`${order ? `#${order.number}` : ' '}`}><OrderInfo /></Modal>} />
           {/* eslint-disable-next-line react/no-children-prop */}
-          <ProtectedRoute path="/profile/orders/:id" children={<Modal onClose={() => history.goBack()} title={' '}><OrderInfo /></Modal>} />
+          <ProtectedRoute exact path="/profile/orders/:id" children={<Modal onClose={() => history.goBack()} title={' '}><OrderInfo /></Modal>} />
         </>
         )}
     </div>

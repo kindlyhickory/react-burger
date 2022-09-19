@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import appStyles from '../components/app/app.module.css';
@@ -12,12 +12,9 @@ import { useDispatch, useSelector } from '../hooks';
 
 function HomePage() {
   const modalOrderIsOpened = useSelector((store) => store.order.modalOrderIsOpened);
-  const currentViewedIngredient = useSelector((store) => store.ingredients.currentViewedIngredient);
 
   const dispatch = useDispatch();
   const data = useSelector((store) => store.ingredients.ingredients);
-
-
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -29,24 +26,28 @@ function HomePage() {
     <>
       <main className={appStyles.main}>
         {
-          data!.length ?
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-            :
-            null}
+          data!.length
+            ? (
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </DndProvider>
+)
+            : null
+}
       </main>
-      {modalOrderIsOpened &&
+      {modalOrderIsOpened
+        && (
         <Modal
           onClose={() => {
             dispatch({
               type: HIDE_ORDER_MODAL,
-            })
-          }}>
-          <OrderDetails></OrderDetails>
+            });
+          }}
+        >
+          <OrderDetails />
         </Modal>
-      }
+        )}
       {/* {currentViewedIngredient &&
         <Modal
           title="Детали ингредиента"

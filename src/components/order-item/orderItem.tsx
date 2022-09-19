@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 // eslint-disable-next-line import/extensions
 import { parseDate } from '../../utils/utils';
 import styles from './order-item.module.css';
-import { getIngredients } from '../../services/actions/ingredients';
 import { MAX_INGREDIENTS } from '../../utils/constants';
 import { TOrder } from '../../types';
 import { useSelector } from '../../hooks';

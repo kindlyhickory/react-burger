@@ -1,16 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import styles from "./login.module.css";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { RESET_PASSWORD_CHANGE_PASSWORD_VISION, setPasswordForgotFormValue } from "../services/actions/resetPassword";
 import { resetPassword } from "../services/actions/user";
 import { useHistory, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "../hooks";
 
-function ResetPasswordPage() {
+// eslint-disable-next-line react/function-component-definition
+const ResetPasswordPage:FC = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
-  const { password, code } = useSelector(store => store.resetPassword.form);
+  const { password, code } = useSelector((store) => store.resetPassword['form']);
   const { isPasswordHide } = useSelector(store => store.resetPassword);
   const history = useHistory();
   const [isPasswordHiden, setPasswordHiden] = useState(true);
@@ -22,7 +23,7 @@ function ResetPasswordPage() {
     setPasswordHiden(!isPasswordHiden);
   }
 
-  const onFormChange = (e) => {
+  const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setPasswordForgotFormValue(e.target.name, e.target.value));
   }
 
@@ -30,6 +31,8 @@ function ResetPasswordPage() {
     dispatch(resetPassword(password, code, history));
   }
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div className={styles.wrapper}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -37,10 +40,10 @@ function ResetPasswordPage() {
           Восстановление пароля
         </h2>
         <div className={`${styles.inputWrapper} mb-6`}>
+          {/*@ts-ignore*/}
           <Input
             type={isPasswordHiden ? 'password' : 'text'}
             placeholder={'Пароль'}
-            onChange={e => onFormChange(e)}
             value={password}
             onIconClick={changePasswordVision}
             icon={isPasswordHiden ? 'ShowIcon' : 'HideIcon'}
@@ -53,11 +56,11 @@ function ResetPasswordPage() {
               }
             })}
             size={'default'}
-            errorText={errors.password && errors.password.message}
             error={errors.password ? true : false}
           />
         </div>
         <div className={`${styles.inputWrapper} mb-6`}>
+          {/*@ts-ignore*/}
           <Input
             type={'text'}
             placeholder={'Введите код из письма'}

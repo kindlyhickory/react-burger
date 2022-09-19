@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import {
   Logo, BurgerIcon, ProfileIcon, MenuIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,7 +10,6 @@ import headerStyles from './header.module.css';
 // eslint-disable-next-line react/function-component-definition
 const AppHeader: FC = () => {
   const location = useLocation();
-  const history = useHistory();
 
   return (
     <header className={headerStyles.header}>

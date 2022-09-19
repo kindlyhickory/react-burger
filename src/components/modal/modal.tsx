@@ -1,23 +1,20 @@
 import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 
 type TModal = {
-  title: string
+  title?: string
   onClose: () => void
-  titleStyles: string
+  titleStyles?: string
 }
 
 const Modal:FC<TModal> = ({
   children, title, onClose, titleStyles,
 }) => {
-  const location = useLocation();
-
   function handleEsc(e: { key: string; }) {
     if (e.key === 'Escape') {
       onClose();

@@ -35,6 +35,7 @@ const initialState: TLoginState = {
   logoutFailed: false,
 };
 
+// eslint-disable-next-line default-param-last
 export const userLoginReducer = (state = initialState, action: TLogActions) => {
   switch (action.type) {
     case USER_LOGIN_FORM_SET_VALUE:

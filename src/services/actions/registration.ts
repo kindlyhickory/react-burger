@@ -1,12 +1,12 @@
 import { config } from '../../utils/data';
 import { checkResponse } from '../../utils/utils';
-import { AppDispatch, AppThunk } from '../../types';
+import { AppDispatch, AppThunk, TUserLog } from '../../types';
 
-export const USER_REGISTRATION_FORM_SET_VALUE:'USER_REGISTRATION_FORM_SET_VALUE' = 'USER_REGISTRATION_FORM_SET_VALUE';
-export const USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION:'USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION' = 'USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION';
-export const USER_REGISTRATION_REQUEST:'USER_REGISTRATION_REQUEST' = 'USER_REGISTRATION_REQUEST';
-export const USER_REGISTRATION_SUCCESS:'USER_REGISTRATION_SUCCESS' = 'USER_REGISTRATION_SUCCESS';
-export const USER_REGISTRATION_FAILED:'USER_REGISTRATION_FAILED' = 'USER_REGISTRATION_FAILED';
+export const USER_REGISTRATION_FORM_SET_VALUE = 'USER_REGISTRATION_FORM_SET_VALUE' as const;
+export const USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION = 'USER_REGISTRATION_FORM_CHANGE_PASSWORD_VISION' as const;
+export const USER_REGISTRATION_REQUEST = 'USER_REGISTRATION_REQUEST' as const;
+export const USER_REGISTRATION_SUCCESS = 'USER_REGISTRATION_SUCCESS' as const;
+export const USER_REGISTRATION_FAILED = 'USER_REGISTRATION_FAILED' as const;
 
 export interface IUserRegistrationFailed {
   type: typeof USER_REGISTRATION_FAILED
@@ -29,6 +29,7 @@ export interface ISetUserRegistrationFormValue {
   field: string;
   value: string;
 }
+// eslint-disable-next-line max-len
 export const setUserRegistrationFormValue = (field: string, value: string):ISetUserRegistrationFormValue => ({
   type: USER_REGISTRATION_FORM_SET_VALUE,
   field,
@@ -56,7 +57,7 @@ export const makeRegistration: AppThunk = (name: string, email: string, password
       password,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TUserLog>(res))
     .then((res) => {
       dispatch({
         type: USER_REGISTRATION_SUCCESS,

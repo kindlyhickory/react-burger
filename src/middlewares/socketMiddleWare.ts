@@ -1,19 +1,10 @@
-import { Middleware, MiddlewareAPI } from 'redux';
-import { connect } from 'react-redux';
-import {
-  WS_CONNECTION_CLOSE,
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_ORDER, WS_SEND_ORDER,
-} from '../services/actions/webSocket';
-import { getCookie } from '../utils/utils';
+import { IWsActions } from '../services/actions/webSocket';
+import { AppDispatch } from '../types';
 
-export const socketMiddleWare = (wsActions) => (store) => {
-  let socket = null;
+export const socketMiddleWare = (wsActions: IWsActions) => (store: { dispatch: AppDispatch; }) => {
+  let socket: WebSocket | null = null;
   let url = '';
-  return (next) => (action) => {
+  return (next: (arg0: any) => void) => (action: {type: string, payload: string}) => {
     const { dispatch } = store;
     const { type, payload } = action;
     // const token = auth ? getCookie('accessToken') : null;

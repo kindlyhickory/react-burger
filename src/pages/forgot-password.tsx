@@ -28,6 +28,13 @@ const ForgotPasswordPage:FC = () => {
           Восстановление пароля
         </h2>
         <div className={`${styles.inputWrapper} mb-6`}>
+          {/* Делаю ts-ignore на каждый инпут из библиотеки Яндекса, потому что прокидывая,
+           в инпут дополнительные поля, которые идут от register, ts ругается, что эти пропсы
+            не типизированы как нужно. А я не могу типизировать библиотеку Яндекса,
+             чтобы это всё заработало
+            */}
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <Input
             type="email"
             placeholder="Укажите e-mail"

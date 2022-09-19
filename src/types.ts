@@ -41,6 +41,28 @@ export type TOrder = {
   _id: string;
 }
 
+export type TUser = {
+  user: {
+    email: string,
+    name: string,
+  }
+  accessToken: string,
+  refreshToken: string,
+}
+
+export type TUserLog = {
+  success: boolean,
+}
+
+export type TResponseIngredients = {
+  data: Array<TIngredient>
+}
+
+export type TSetCookieProps = {
+  expires?: number | string;
+  path?: string;
+} & { [extraParams: string]: string | number | boolean; }
+
 export type RootState = ReturnType<typeof store.getState>
 
 export type TApplicationActions = TUserForgotForm

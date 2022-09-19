@@ -29,6 +29,7 @@ const initialState: TRegistrationState = {
   registrationFailed: false,
 };
 
+// eslint-disable-next-line default-param-last
 export const userRegistrationReducer = (state = initialState, action: TRegistrationActions) => {
   switch (action.type) {
     case USER_REGISTRATION_FORM_SET_VALUE:

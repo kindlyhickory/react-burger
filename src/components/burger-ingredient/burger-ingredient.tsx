@@ -1,13 +1,12 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-// import { useDispatch, useSelector } from "react-redux";
+
 import { useDrag } from 'react-dnd';
 import { nanoid } from 'nanoid';
 import { Link, useLocation } from 'react-router-dom';
 import burgerIngredientStyles from './burger-ingredient.module.css';
 import { TIngredient } from '../../types';
-import { useDispatch, useSelector } from '../../hooks';
+import { useSelector } from '../../hooks';
 
 interface IBurgerIngredientProps {
   ingredient: TIngredient
@@ -16,7 +15,6 @@ interface IBurgerIngredientProps {
 // eslint-disable-next-line react/function-component-definition
 const BurgerIngredient: FC<IBurgerIngredientProps> = ({ ingredient }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const ingredients = useSelector((store) => (
     // eslint-disable-next-line no-underscore-dangle
     store.ingredients.ingredientsInConstructor.filter((item) => item._id === ingredient._id)

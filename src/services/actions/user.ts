@@ -1,39 +1,40 @@
-import { func } from 'prop-types';
 import { config } from '../../utils/data';
 import { checkResponse, setCookie, getCookie } from '../../utils/utils';
 
-import { AppDispatch, AppThunk } from '../../types';
+import {
+  AppDispatch, AppThunk, TUser, TUserLog,
+} from '../../types';
 
-export const GET_USER_REQUEST:'GET_USER_REQUEST' = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS:'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED:'GET_USER_FAILED' = 'GET_USER_FAILED';
-export const UPDATE_USER:'UPDATE_USER' = 'UPDATE_USER';
-export const CHANGE_USER_LOAD:'CHANGE_USER_LOAD' = 'CHANGE_USER_LOAD';
-export const REMOVE_USER:'REMOVE_USER' = 'REMOVE_USER';
-export const AUTH_CHECKED:'AUTH_CHECKED' = 'AUTH_CHECKED';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST' as const;
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS' as const;
+export const GET_USER_FAILED = 'GET_USER_FAILED' as const;
+export const UPDATE_USER = 'UPDATE_USER' as const;
+export const CHANGE_USER_LOAD = 'CHANGE_USER_LOAD' as const;
+export const REMOVE_USER = 'REMOVE_USER' as const;
+export const AUTH_CHECKED = 'AUTH_CHECKED' as const;
 
-export const SEND_FORGOT_PASSWORD_CODE_REQUEST:'SEND_FORGOT_PASSWORD_CODE_REQUEST' = 'SEND_FORGOT_PASSWORD_CODE_REQUEST';
-export const SEND_FORGOT_PASSWORD_CODE_FAILED:'SEND_FORGOT_PASSWORD_CODE_FAILED' = 'SEND_FORGOT_PASSWORD_CODE_FAILED';
-export const SEND_FORGOT_PASSWORD_CODE_SUCCESS:'SEND_FORGOT_PASSWORD_CODE_SUCCESS' = 'SEND_FORGOT_PASSWORD_CODE_SUCCESS';
+export const SEND_FORGOT_PASSWORD_CODE_REQUEST = 'SEND_FORGOT_PASSWORD_CODE_REQUEST' as const;
+export const SEND_FORGOT_PASSWORD_CODE_FAILED = 'SEND_FORGOT_PASSWORD_CODE_FAILED' as const;
+export const SEND_FORGOT_PASSWORD_CODE_SUCCESS = 'SEND_FORGOT_PASSWORD_CODE_SUCCESS' as const;
 
-export const SEND_RESET_PASSWORD_REQUEST:'SEND_RESET_PASSWORD_REQUEST' = 'SEND_RESET_PASSWORD_REQUEST';
-export const SEND_RESET_PASSWORD_FAILED:'SEND_RESET_PASSWORD_FAILED' = 'SEND_RESET_PASSWORD_FAILED';
-export const SEND_RESET_PASSWORD_SUCCESS:'SEND_RESET_PASSWORD_SUCCESS' = 'SEND_RESET_PASSWORD_SUCCESS';
+export const SEND_RESET_PASSWORD_REQUEST = 'SEND_RESET_PASSWORD_REQUEST' as const;
+export const SEND_RESET_PASSWORD_FAILED = 'SEND_RESET_PASSWORD_FAILED' as const;
+export const SEND_RESET_PASSWORD_SUCCESS = 'SEND_RESET_PASSWORD_SUCCESS' as const;
 
-export const CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE:'CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE' = 'CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE';
+export const CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE = 'CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE' as const;
 
-export const UPDATE_USER_ACCESS_TOKEN:'UPDATE_USER_ACCESS_TOKEN' = 'UPDATE_USER_ACCESS_TOKEN';
-export const UPDATE_TOKEN_REQUEST:'UPDATE_TOKEN_REQUEST' = 'UPDATE_TOKEN_REQUEST';
-export const UPDATE_TOKEN_SUCCESS:'UPDATE_TOKEN_SUCCESS' = 'UPDATE_TOKEN_SUCCESS';
-export const UPDATE_TOKEN_FAILED:'UPDATE_TOKEN_FAILED' = 'UPDATE_TOKEN_FAILED';
+export const UPDATE_USER_ACCESS_TOKEN = 'UPDATE_USER_ACCESS_TOKEN' as const;
+export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST' as const;
+export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS' as const;
+export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED' as const;
 
-export const UPDATE_USER_DATA_REQUEST:'UPDATE_USER_DATA_REQUEST' = 'UPDATE_USER_DATA_REQUEST';
-export const UPDATE_USER_DATA_FAILED:'UPDATE_USER_DATA_FAILED' = 'UPDATE_USER_DATA_FAILED';
-export const UPDATE_USER_DATA_SUCCESS:'UPDATE_USER_DATA_SUCCESS' = 'UPDATE_USER_DATA_SUCCESS';
+export const UPDATE_USER_DATA_REQUEST = 'UPDATE_USER_DATA_REQUEST' as const;
+export const UPDATE_USER_DATA_FAILED = 'UPDATE_USER_DATA_FAILED' as const;
+export const UPDATE_USER_DATA_SUCCESS = 'UPDATE_USER_DATA_SUCCESS' as const;
 
-export const SET_USER_LOADED:'SET_USER_LOADED' = 'SET_USER_LOADED';
+export const SET_USER_LOADED = 'SET_USER_LOADED' as const;
 
-export const SAVE_USER:'SAVE_USER' = 'SAVE_USER';
+export const SAVE_USER = 'SAVE_USER' as const;
 
 export interface IGetUserRequest {
   type: typeof GET_USER_REQUEST
@@ -160,6 +161,7 @@ export type TUserActions =
   | IUpdateAccessToken
   | IUpdateUserDataRequest
 
+// eslint-disable-next-line max-len
 export const updateUserData: AppThunk = (name: string, email: string, password: string) => function (dispatch: AppDispatch) {
   dispatch({ type: UPDATE_USER_DATA_REQUEST });
   fetch(`${config.baseUrl}/auth/user`, {
@@ -179,7 +181,7 @@ export const updateUserData: AppThunk = (name: string, email: string, password: 
       password,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TUser>(res))
     .then((res) => {
       dispatch({ type: UPDATE_USER_DATA_SUCCESS, name: res.user.name, email: res.user.email });
     })
@@ -205,7 +207,7 @@ export function resetPassword(password: string, code: string, history: any) {
         token: code,
       }),
     })
-      .then(checkResponse)
+      .then((res) => checkResponse<TUserLog>(res))
       .then((res) => {
         dispatch({ type: SEND_RESET_PASSWORD_SUCCESS });
         dispatch({ type: CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE });
@@ -221,7 +223,7 @@ export function resetPassword(password: string, code: string, history: any) {
 }
 
 export function sendForgotPasswordCode(email: string, history: any) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: SEND_FORGOT_PASSWORD_CODE_REQUEST });
     fetch(`${config.baseUrl}/password-reset`, {
       method: 'POST',
@@ -235,7 +237,7 @@ export function sendForgotPasswordCode(email: string, history: any) {
         email,
       }),
     })
-      .then(checkResponse)
+      .then((res) => checkResponse<TUserLog>(res))
       .then((res) => {
         dispatch({ type: SEND_FORGOT_PASSWORD_CODE_SUCCESS });
         dispatch({ type: CHANGE_STATUS_SENDING_FORGOT_PASSWORD_MESSAGE });
@@ -250,7 +252,7 @@ export function sendForgotPasswordCode(email: string, history: any) {
   };
 }
 
-export function updateToken(refreshToken:string) {
+export function updateToken(refreshToken: string | undefined) {
   return function (dispatch: any) {
     dispatch({ type: UPDATE_TOKEN_REQUEST });
     fetch(`${config.baseUrl}/auth/token`, {
@@ -265,7 +267,7 @@ export function updateToken(refreshToken:string) {
         token: refreshToken,
       }),
     })
-      .then(checkResponse)
+      .then((res) => checkResponse<TUser>(res))
       .then((res) => {
         dispatch({ type: UPDATE_TOKEN_SUCCESS });
         setCookie('accessToken', res.accessToken.split('Bearer ')[1], { expires: 1200 });
@@ -278,7 +280,7 @@ export function updateToken(refreshToken:string) {
   };
 }
 
-export function getUser(password: string) {
+export function getUser() {
   return function (dispatch: any) {
     dispatch({
       type: GET_USER_REQUEST,
@@ -295,7 +297,7 @@ export function getUser(password: string) {
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
-      .then(checkResponse)
+      .then((res) => checkResponse<TUser>(res))
       .then((res) => {
         dispatch({
           type: SAVE_USER,

@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { rootReducer } from './services/reducers';
-import App from './components/app/app.js';
-import { socketMiddleWare } from './middlewares/socketMiddleWare.js';
+import App from './components/app/app';
+import { socketMiddleWare } from './middlewares/socketMiddleWare';
 import { wsActions } from './services/actions/webSocket';
 
 declare global {

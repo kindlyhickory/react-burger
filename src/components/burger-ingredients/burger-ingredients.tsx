@@ -1,8 +1,5 @@
-import React, {
-  createRef, useEffect, useRef, useCallback, FC,
-} from 'react';
+import React, { useEffect, useRef, FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 

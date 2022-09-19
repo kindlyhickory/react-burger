@@ -1,13 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import styles from './ingredient-details.module.css';
-import { useSelector } from '../../hooks';
+import styles from '../components/ingredient-details/ingredient-details.module.css';
+import { getIngredients } from '../services/actions/ingredients';
+import { useDispatch, useSelector } from '../hooks';
 
 // eslint-disable-next-line react/function-component-definition
-const IngredientDetails:FC = () => {
+const IngredientPage:FC = () => {
   const { id } = useParams<{id: string}>();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const { ingredients } = useSelector((store) => store.ingredients);
+  // console.log(ingredients, ingredientsRequest);
 
   // eslint-disable-next-line no-underscore-dangle
   const ingredient = ingredients!.find((item) => item._id === id);
@@ -15,9 +21,9 @@ const IngredientDetails:FC = () => {
 
   return (
     ingredient
-
       ? (
-        <div className={`${styles.ingredient}`}>
+        <div className={`${styles.ingredient} mt-30`}>
+          <h2 className="text text_type_main-large">Детали ингредиента</h2>
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <img className="mb-4" src={ingredient.image_large} />
           <p className="text text_type_main-medium mb-8">
@@ -56,13 +62,11 @@ const IngredientDetails:FC = () => {
                 {ingredient.carbohydrates}
               </p>
             </div>
-
           </div>
         </div>
       )
       : null
-
   );
 };
 
-export default IngredientDetails;
+export default IngredientPage;

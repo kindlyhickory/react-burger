@@ -1,14 +1,16 @@
 import { config } from '../../utils/data';
 import { checkResponse, getCookie } from '../../utils/utils';
 import { CLEAR_CONSTRUCTOR_LIST } from './ingredients';
-import { AppDispatch, AppThunk, TOrder } from '../../types';
+import {
+  AppDispatch, AppThunk, TIngredient, TOrder,
+} from '../../types';
 
-export const MAKE_ORDER_REQUEST: 'MAKE_ORDER_REQUEST' = 'MAKE_ORDER_REQUEST';
-export const MAKE_ORDER_SUCCESS:'MAKE_ORDER_SUCCESS' = 'MAKE_ORDER_SUCCESS';
-export const MAKE_ORDER_FAILED: 'MAKE_ORDER_FAILED' = 'MAKE_ORDER_FAILED';
+export const MAKE_ORDER_REQUEST = 'MAKE_ORDER_REQUEST' as const;
+export const MAKE_ORDER_SUCCESS = 'MAKE_ORDER_SUCCESS' as const;
+export const MAKE_ORDER_FAILED = 'MAKE_ORDER_FAILED' as const;
 
-export const HIDE_ORDER_MODAL: 'HIDE_ORDER_MODAL' = 'HIDE_ORDER_MODAL';
-export const SHOW_ORDER_MODAL: 'SHOW_ORDER_MODAL' = 'SHOW_ORDER_MODAL';
+export const HIDE_ORDER_MODAL = 'HIDE_ORDER_MODAL' as const;
+export const SHOW_ORDER_MODAL = 'SHOW_ORDER_MODAL' as const;
 
 export interface IMakeOrderRequest {
   type: typeof MAKE_ORDER_REQUEST,
@@ -39,7 +41,8 @@ export type TMakeOrderActions =
   | IShowOrderModal
   | IHideOrderModal
 
-export const makeOrder: AppThunk = (ingredients: any) => function (dispatch: AppDispatch) {
+// eslint-disable-next-line max-len
+export const makeOrder: AppThunk = (ingredients: Array<TIngredient>) => function (dispatch: AppDispatch) {
   dispatch({
     type: MAKE_ORDER_REQUEST,
   });
@@ -53,9 +56,8 @@ export const makeOrder: AppThunk = (ingredients: any) => function (dispatch: App
       ingredients: [...ingredients],
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TOrder>(res))
     .then((res) => {
-      console.log(res);
       dispatch({
         type: MAKE_ORDER_SUCCESS,
         currentOrder: res,

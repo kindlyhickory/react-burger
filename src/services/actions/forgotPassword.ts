@@ -1,4 +1,4 @@
-export const FORGOT_PASSWORD_SET_FORM: 'FORGOT_PASSWORD_SET_FORM' = 'FORGOT_PASSWORD_SET_FORM';
+export const FORGOT_PASSWORD_SET_FORM = 'FORGOT_PASSWORD_SET_FORM' as const;
 
 export interface ISetUserForgotFormValue {
   type: typeof FORGOT_PASSWORD_SET_FORM;

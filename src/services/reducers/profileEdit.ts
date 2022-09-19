@@ -9,7 +9,6 @@ import {
   USER_EDIT_FORM_CHANGE_PASSWORD_VISION,
   USER_EDIT_FORM_SET_VALUE,
 } from '../actions/profileEdit';
-import { userInformationReducer } from './user';
 
 type TProfileEditState = {
   form: {
@@ -50,6 +49,7 @@ const initialState: TProfileEditState = {
   },
 };
 
+// eslint-disable-next-line default-param-last
 export const editUserReducer = (state = initialState, action: TProfileEditActions) => {
   switch (action.type) {
     case USER_EDIT_FORM_SET_VALUE:

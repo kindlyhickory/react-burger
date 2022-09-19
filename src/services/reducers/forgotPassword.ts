@@ -14,6 +14,7 @@ const initialState: TForgotPasswordState = {
   forgotPasswordFailed: false,
 };
 
+// eslint-disable-next-line default-param-last
 export const forgotPasswordReducer = (state = initialState, action: TUserForgotForm) => {
   switch (action.type) {
     case FORGOT_PASSWORD_SET_FORM:

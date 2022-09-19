@@ -11,7 +11,8 @@ import {
   ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_BUN_FROM_CONSTRUCTOR, UPDATE_CONSTRUCTOR_LIST,
 } from '../../services/actions/ingredients';
 import BurgerItem from '../burger-item/burger-item';
-import Loader from '../loader/loader.js';
+// eslint-disable-next-line import/extensions
+import Loader from '../loader/loader';
 
 import { useDispatch, useSelector } from '../../hooks';
 import { TIngredient } from '../../types';
@@ -78,7 +79,7 @@ const BurgerConstructor:FC = () => {
               />
             </div>
             )}
-            {data.length !== 0
+            {data?.length !== 0
             && (
             <div className={`${burgerConstructorStyles.list}`}>
               {

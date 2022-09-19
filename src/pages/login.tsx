@@ -1,31 +1,25 @@
-import React, { useRef, useState } from "react";
-import styles from "./login.module.css";
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserLoginFormValue, signIn, USER_LOGIN_FORM_CHANGE_PASSWORD_VISION } from "../services/actions/login";
-import { useHistory, Redirect, Link } from 'react-router-dom';
-import { useForm } from "react-hook-form";
-import { observe } from "react-intersection-observer";
-
+import React, { useState } from 'react';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Redirect, Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { setUserLoginFormValue, signIn } from '../services/actions/login';
+import styles from './login.module.css';
+import { useDispatch, useSelector } from '../hooks';
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { email, password } = useSelector(store => store.login.form);
+  const { email, password } = useSelector((store) => store.login.form);
   const [isPasswordHiden, setPasswordHiden] = useState(true);
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
-  const user = useSelector(store => store.user.user);
-
-  const passwordRef = useRef(null);
-  const emailRef = useRef(null);
-
+  const user = useSelector((store) => store.user.user);
   const changePasswordVision = () => {
     setPasswordHiden(!isPasswordHiden);
-  }
+  };
 
-  const onFormChange = (e) => {
+  const onFormChange = (e: { target: { name: string; value: string; }; }) => {
     dispatch(setUserLoginFormValue(e.target.name, e.target.value));
-  }
+  };
 
   function onSubmit() {
     dispatch(signIn(email, password));
@@ -33,8 +27,8 @@ function LoginPage() {
 
   if (user.email !== '' && user.name !== '') {
     return (
-      <Redirect to={state?.from || '/'}></Redirect>
-    )
+      <Redirect to="/" />
+    );
   }
 
   return (
@@ -44,43 +38,48 @@ function LoginPage() {
           Вход
         </h2>
         <div className={`${styles.inputWrapper} mb-6`}>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <Input
-            type={'email'}
-            placeholder={'E-mail'}
-            value={email}
-            name={'email'}
+            type="email"
+            placeholder="E-mail"
+            /* eslint-disable-next-line react/jsx-props-no-spreading */
             {...register('email', {
-              onChange: e => onFormChange(e),
+              onChange: (e) => onFormChange(e),
               required: 'Укажите email',
               pattern: {
                 value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                message: "Некорректный email адрес"
-              }
+                message: 'Некорректный email адрес',
+              },
 
             })}
-            error={errors.email ? true : false}
-            errorText={errors.email?.message}
-            size={'default'}
+            value={email}
+            name="email"
+            /* eslint-disable-next-line react/jsx-props-no-spreading */
+            error={!!errors.email}
+            size="default"
           />
         </div>
         <div className={`${styles.inputWrapper} mb-6`}>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <Input
             type={isPasswordHiden ? 'password' : 'text'}
-            placeholder={'Пароль'}
+            placeholder="Пароль"
             value={password}
             onIconClick={changePasswordVision}
             icon={isPasswordHiden ? 'ShowIcon' : 'HideIcon'}
+            /* eslint-disable-next-line react/jsx-props-no-spreading */
             {...register('password', {
-              onChange: e => onFormChange(e),
+              onChange: (e) => onFormChange(e),
               required: 'Укажите пароль',
               minLength: {
                 value: 4,
-                message: 'Минимальная длина 4 символа'
-              }
+                message: 'Минимальная длина 4 символа',
+              },
             })}
-            errorText={errors.password && errors.password.message}
-            error={errors.password ? true : false}
-            size={'default'}
+            error={!!errors.password}
+            size="default"
           />
         </div>
         <Button type="primary" size="large">
@@ -100,7 +99,9 @@ function LoginPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 export default LoginPage;
+
+export {};

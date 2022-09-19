@@ -1,22 +1,24 @@
 import { config } from '../../utils/data';
 import { checkResponse } from '../../utils/utils';
-import { AppDispatch, AppThunk, TIngredient } from '../../types';
+import {
+  AppDispatch, AppThunk, TIngredient, TResponseIngredients,
+} from '../../types';
 
-export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED: 'GET_INGREDIENTS_FAILED' = 'GET_INGREDIENTS_FAILED';
+export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST' as const;
+export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS' as const;
+export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED' as const;
 
-export const ADD_INGREDIENT_TO_CONSTRUCTOR: 'ADD_INGREDIENT_TO_CONSTRUCTOR' = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
-export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR: 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR' = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR';
+export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR' as const;
+export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR' as const;
 
-export const SHOW_MODAL_INGREDIENT: 'SHOW_MODAL_INGREDIENT' = 'SHOW_MODAL_INGREDIENT';
-export const HIDE_MODAL_INGREDIENT: 'HIDE_MODAL_INGREDIENT' = 'HIDE_MODAL_INGREDIENT';
-export const ADD_BUN_TO_CONSTRUCTOR:'ADD_BUN_TO_CONSTRUCTOR' = 'ADD_BUN_TO_CONSTRUCTOR';
-export const REMOVE_BUN_FROM_CONSTRUCTOR:'REMOVE_BUN_FROM_CONSTRUCTOR' = 'REMOVE_BUN_FROM_CONSTRUCTOR';
+export const SHOW_MODAL_INGREDIENT = 'SHOW_MODAL_INGREDIENT' as const;
+export const HIDE_MODAL_INGREDIENT = 'HIDE_MODAL_INGREDIENT' as const;
+export const ADD_BUN_TO_CONSTRUCTOR = 'ADD_BUN_TO_CONSTRUCTOR' as const;
+export const REMOVE_BUN_FROM_CONSTRUCTOR = 'REMOVE_BUN_FROM_CONSTRUCTOR' as const;
 
-export const UPDATE_CONSTRUCTOR_LIST:'UPDATE_CONSTRUCTOR_LIST' = 'UPDATE_CONSTRUCTOR_LIST';
+export const UPDATE_CONSTRUCTOR_LIST = 'UPDATE_CONSTRUCTOR_LIST' as const;
 
-export const CLEAR_CONSTRUCTOR_LIST:'CLEAR_CONSTRUCTOR_LIST' = 'CLEAR_CONSTRUCTOR_LIST';
+export const CLEAR_CONSTRUCTOR_LIST = 'CLEAR_CONSTRUCTOR_LIST' as const;
 
 export interface IAddIngredientToConstructor {
   type: typeof ADD_INGREDIENT_TO_CONSTRUCTOR;
@@ -78,12 +80,13 @@ export type TIngredientsActions =
   | IUpdateConstructorList
   | IAddIngredientToConstructor
 
+// eslint-disable-next-line func-names
 export const getIngredients: AppThunk = () => function (dispatch: AppDispatch) {
   dispatch({
     type: GET_INGREDIENTS_REQUEST,
   });
   fetch(`${config.baseUrl}/ingredients`)
-    .then(checkResponse)
+    .then((res) => checkResponse<TResponseIngredients>(res))
     .then((res) => dispatch({
       type: GET_INGREDIENTS_SUCCESS,
       ingredients: res.data,
@@ -92,6 +95,7 @@ export const getIngredients: AppThunk = () => function (dispatch: AppDispatch) {
       dispatch({
         type: GET_INGREDIENTS_FAILED,
       });
+      // eslint-disable-next-line no-console
       console.log(error);
     });
 };
