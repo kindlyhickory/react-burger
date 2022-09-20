@@ -1,16 +1,15 @@
 import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from '../components/ingredient-details/ingredient-details.module.css';
-import { getIngredients } from '../services/actions/ingredients';
 import { useDispatch, useSelector } from '../hooks';
 
 // eslint-disable-next-line react/function-component-definition
 const IngredientPage:FC = () => {
   const { id } = useParams<{id: string}>();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getIngredients());
+  // }, [dispatch]);
 
   const { ingredients } = useSelector((store) => store.ingredients);
   // console.log(ingredients, ingredientsRequest);

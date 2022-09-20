@@ -191,8 +191,8 @@ export const updateUserData: AppThunk = (name: string, email: string, password: 
     });
 };
 
-export function resetPassword(password: string, code: string, history: any) {
-  return function (dispatch: any) {
+export const resetPassword:AppThunk = (password: string, code: string, history: any) => {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: SEND_RESET_PASSWORD_REQUEST });
     fetch(`${config.baseUrl}/password-reset/reset`, {
       method: 'POST',
@@ -253,7 +253,7 @@ export function sendForgotPasswordCode(email: string, history: any) {
 }
 
 export function updateToken(refreshToken: string | undefined) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: UPDATE_TOKEN_REQUEST });
     fetch(`${config.baseUrl}/auth/token`, {
       method: 'POST',
@@ -281,7 +281,7 @@ export function updateToken(refreshToken: string | undefined) {
 }
 
 export function getUser() {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_USER_REQUEST,
     });
@@ -304,6 +304,7 @@ export function getUser() {
           user: {
             email: res.user.email,
             name: res.user.name,
+            password: ''
           },
         });
         dispatch({

@@ -1,10 +1,12 @@
+import { Middleware, MiddlewareAPI } from 'redux';
 import { IWsActions } from '../services/actions/webSocket';
-import { AppDispatch } from '../types';
+import { AppDispatch, RootState } from '../types';
 
-export const socketMiddleWare = (wsActions: IWsActions) => (store: { dispatch: AppDispatch; }) => {
+// eslint-disable-next-line max-len
+export const socketMiddleWare = (wsActions: IWsActions): Middleware => (store: MiddlewareAPI<AppDispatch, RootState>) => {
   let socket: WebSocket | null = null;
   let url = '';
-  return (next: (arg0: any) => void) => (action: {type: string, payload: string}) => {
+  return (next) => (action: {type: string, payload: string}) => {
     const { dispatch } = store;
     const { type, payload } = action;
     // const token = auth ? getCookie('accessToken') : null;

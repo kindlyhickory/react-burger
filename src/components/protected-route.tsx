@@ -1,16 +1,11 @@
 import React, { FC } from 'react';
 import {
-  Redirect, Route, useLocation,
+  Redirect, Route, RouteProps, useLocation,
 } from 'react-router-dom';
 import { useSelector } from '../hooks';
 
-type TProtectedRoute = {
-  path: string
-  exact: boolean
-}
-
 // eslint-disable-next-line react/function-component-definition
-const ProtectedRoute:FC<TProtectedRoute> = ({ children, ...rest }) => {
+const ProtectedRoute:FC<RouteProps & {children: React.ReactNode}> = ({ children, ...rest }) => {
   const { isForgotPasswordCodeSent, isAuthChecked } = useSelector((store) => store.user);
   const locations = useLocation();
   const { name, email } = useSelector((store) => store.user.user);

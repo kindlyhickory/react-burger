@@ -15,7 +15,7 @@ type TModal = {
 const Modal:FC<TModal> = ({
   children, title, onClose, titleStyles,
 }) => {
-  function handleEsc(e: { key: string; }) {
+  function handleEsc(e: KeyboardEvent) {
     if (e.key === 'Escape') {
       onClose();
     }

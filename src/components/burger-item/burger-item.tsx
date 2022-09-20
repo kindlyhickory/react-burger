@@ -1,10 +1,10 @@
 import React, { FC, useRef } from 'react';
 import { useDrop, useDrag, DropTargetMonitor } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import styles from './burger-item.module.css';
 import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/ingredients';
 import { TIngredient } from '../../types';
+import { useDispatch } from '../../hooks';
 
 interface IBurgerItemProps {
   item: TIngredient;

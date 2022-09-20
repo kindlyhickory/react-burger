@@ -33,9 +33,9 @@ const OrderFeed:FC<{ type:string }> = ({ type }) => {
   const location = useLocation();
 
   // console.log( orders );
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getIngredients());
+  // }, [dispatch]);
   return (
     orders.length !== 0
       ? (

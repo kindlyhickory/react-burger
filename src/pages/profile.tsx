@@ -1,5 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef } from "react";
 // eslint-disable-next-line max-len
 import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -99,7 +99,7 @@ const ProfilePage:FC = () => {
     // setIsDisable({ name: false, email: false, password: false });
   }
 
-  const onFormChange = (e: { target: { name: string; value: string; }; }) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setUserEditFormValue(e.target.name, e.target.value));
   };
 

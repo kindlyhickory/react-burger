@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Redirect, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,7 @@ function LoginPage() {
     setPasswordHiden(!isPasswordHiden);
   };
 
-  const onFormChange = (e: { target: { name: string; value: string; }; }) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setUserLoginFormValue(e.target.name, e.target.value));
   };
 

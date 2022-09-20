@@ -21,12 +21,17 @@ import IngredientPage from '../../pages/ingredient-page';
 import OrderFeedPage from '../../pages/order-feed-page';
 import OrderInfo from '../order-info/order-info';
 import OrderPage from '../../pages/order-page';
-import { TIngredient, TOrder } from '../../types';
+import { TOrder } from '../../types';
 import { useDispatch } from '../../hooks';
+import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   const location = useLocation<{background: string, orderItem: TOrder}>();
   const background = location.state?.background;
